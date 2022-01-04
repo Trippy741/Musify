@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.LoginPage.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="checkBoxStyle" parent="Theme.LoginPage.NoActionBar">
+        <item name="colorAccent">@color/purple</item>
+        <item name="colorControlNormal">@color/dark_grey</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="purpleInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/purple</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="colorOnSurface">@color/purple</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/purple</item>
+        <item name="colorAccent">@color/purple</item>
+        <item name="android:strokeColor">@color/purple</item>
+    </style>
+
+    <style name="CustomDialogAnims">
+
+        <item name="android:windowEnterAnimation">@anim/slide_from_bottom_to_center</item>
+        <item name="android:windowExitAnimation">@anim/slide_from_center_to_top</item>
+
+    </style>
+
+</resources>

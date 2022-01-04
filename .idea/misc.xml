@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/custom_button_1.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/custom_button_2.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_1.xml" value="0.4296875" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_2.xml" value="0.4296875" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_3.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_1.xml" value="0.29375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_2.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_list.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_list.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/grey_sphere.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_abouticon.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_dot_icon.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_googlevectorlogo.xml" value="0.5598958333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_home.xml" value="0.5640625" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_launcher_background.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_likedsongsicon.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_profile_icon.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_profileicon.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_settingsicon.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_lighter.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_stroke.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_create_custom_profile.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_login_page.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/bottom_song_playing.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/currentsong_bottombar.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_completed.xml" value="0.4640625" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_failed_dialog.xml" value="0.47146739130434784" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_instructions_dialog.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_message_dialog.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_about.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_home.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likeSongs.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likesongs.xml" value="0.38125" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_message.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_profile.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_reportbugs.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_search.xml" value="0.41510416666666666" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_settings.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/layout_listitem.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/nav_header.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/report_custom_dialog.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/song_options_menu.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_song_playing.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/currentsong_bottombar.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/drawer_menu.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/song_options_menu.xml" value="0.3359375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

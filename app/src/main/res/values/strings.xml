@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Musify</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="loginIntroQuote">Just One \nMore Step...</string>
+    <string name="signupIntroQuote">Join us... \nNow!</string>
+    <string name="greetingIntroQuote">Welcome to the family!</string>
+</resources>

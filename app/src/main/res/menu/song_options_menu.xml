@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item android:id="@+id/favButton" android:tooltipText="Unfavorite"
+        android:title="Unfavorite"
+        android:icon="@drawable/ic_likedborder"></item>
+
+    <item android:id="@+id/ReportButton" android:tooltipText="Report"
+        android:title="Report"
+        android:icon="@drawable/ic_report_button"></item>
+
+    <item android:id="@+id/ShareButton" android:tooltipText="Share"
+        android:title="Share"
+        android:icon="@drawable/ic_share_button"></item>
+
+</menu>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:id="@+id/parent_layout"
+    android:background="@drawable/shadow"
+
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp">
+
+    <ImageView
+        android:id="@+id/ImageListItem"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shadow"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/item_SongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ImageListItem"
+        android:text="This is a list Item!"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/subItem_bandName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="This is a sub list Item!"
+        android:layout_toRightOf="@+id/ImageListItem"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="55dp"
+        android:textColor="#9c9998"/>
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="40dp">
+
+        <ImageView
+            android:id="@+id/likeSong"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_likedborder"
+            app:tint="@color/purple" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/songOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="25dp"
+        android:text="&#8942;"
+        android:textAppearance="?android:textAppearanceLarge" />
+
+</RelativeLayout>

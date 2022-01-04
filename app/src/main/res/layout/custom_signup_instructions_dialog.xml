@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent_black">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shadow_stroke"
+        android:layout_margin="30dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Psst hey kid...\nWanna make an account?"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textColor="@color/purple"
+                    android:textSize="40dp"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Here's a few tips to get you started:"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textColor="@color/purple"
+                    android:textSize="10dp"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="  Creating a display name is optional, but highly recommended \n  unless your friends can speak robot"
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/purple"
+                        android:textSize="10dp"
+                        android:drawableLeft="@drawable/ic_dot_icon"
+                        android:drawableTint="@color/purple_dim"
+                        android:background="@drawable/shadow_lighter"/>
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="  Make sure to use your actual Email address! (Upon completion \n  of this registration step, in order to continue the sign-up process \n  a verification mail will be sent)"
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/purple"
+                        android:textSize="10dp"
+                        android:drawableLeft="@drawable/ic_dot_icon"
+                        android:drawableTint="@color/purple_dim"
+                        android:background="@drawable/shadow_lighter"/>
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="  Make sure to choose a strong password containing atleast 6 \n  characters: 1 special (#@$%, etc...), 1 UPPERCASE and atleast 1 \n  digit."
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/purple"
+                        android:textSize="10dp"
+                        android:drawableLeft="@drawable/ic_dot_icon"
+                        android:drawableTint="@color/purple_dim"
+                        android:background="@drawable/shadow_lighter"/>
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="  We at Musify™ take security VERY seriously, and so we will \n  NEVER ask you for your account details, so please \n  never reveal them to ANYONE including any websites or apps \n  that are managed by a third party organization (such as mail/\n  username and password)"
+                        android:fontFamily="@font/raleway_bold"
+                        android:textColor="@color/purple"
+                        android:textSize="10dp"
+                        android:drawableLeft="@drawable/ic_dot_icon"
+                        android:drawableTint="@color/purple_dim"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/shadow_lighter"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/signup_instructions_confirm_button"
+                    android:layout_marginTop="95dp"
+                    android:layout_width="260dp"
+                    android:layout_height="70dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="OK, I GET IT JUST LET ME REGISTER ALREADY"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
