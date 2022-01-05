@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
         bottomNavMenu.setOnNavigationItemSelectedListener(navListener);
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                //new CurrentSongPlayingFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new CurrentSongPlayingFragment()).commit();
     }
     private void ClickListeners()
     {
@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.d("Nav","Clicked");
+        Toast.makeText(MainActivity.this, "clicked!", Toast.LENGTH_SHORT).show();
 
         switch (item.getItemId()) {
             case R.id.nav_profile:
-                Log.d("Nav","Clicked 1");
+                Toast.makeText(MainActivity.this, "clicked Favorites!", Toast.LENGTH_SHORT).show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
@@ -196,20 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
-    }
-
-    public void showLoginPage() {
-        Intent loginIntent = new Intent(MainActivity.this, LoginPage.class);
-        startActivity(loginIntent);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        finish();
-    }
-
-    public void showSignupPage() {
-        Intent signupIntent = new Intent(MainActivity.this, sign_up.class);
-        startActivity(signupIntent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        finish();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
