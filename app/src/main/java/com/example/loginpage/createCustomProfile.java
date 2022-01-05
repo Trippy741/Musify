@@ -1,5 +1,6 @@
 package com.example.loginpage;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,10 +24,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 
 public class createCustomProfile extends AppCompatActivity {
     private Context context;
     private ImageView profilePicImg;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,8 @@ public class createCustomProfile extends AppCompatActivity {
         context = this;
 
         profilePicImg = findViewById(R.id.signup_profilePic_CircleImageView);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         clickListeners();
         animateGradient();
@@ -85,6 +96,22 @@ public class createCustomProfile extends AppCompatActivity {
         {
             Uri imageURI = data.getData();
             profilePicImg.setImageURI(imageURI);
+            uploadImageToFirebase(imageURI);
         }
+    }
+    private void uploadImageToFirebase(Uri imageURI)
+    {
+        StorageReference fireref = storageReference.child("profile.jpg");
+        fireref.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(context, "Profile Updated!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
