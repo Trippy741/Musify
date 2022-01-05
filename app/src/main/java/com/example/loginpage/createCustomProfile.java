@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -35,6 +36,14 @@ public class createCustomProfile extends AppCompatActivity {
 
         context = this;
 
+        profilePicImg = findViewById(R.id.signup_profilePic_CircleImageView);
+
+        clickListeners();
+        animateGradient();
+    }
+
+    private void clickListeners()
+    {
         TextView skipText = findViewById(R.id.signup_skip_textView);
         skipText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,8 +55,13 @@ public class createCustomProfile extends AppCompatActivity {
         });
 
         Button setProfileButton = findViewById(R.id.signup_setProfilePic_button);
-
-        animateGradient();
+        setProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent,1000);
+            }
+        });
     }
     @Override
     public void onBackPressed() {
@@ -67,10 +81,10 @@ public class createCustomProfile extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100)
+        if(requestCode == 1000)
         {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            profilePicImg.setImageBitmap(bitmap);
+            Uri imageURI = data.getData();
+            profilePicImg.setImageURI(imageURI);
         }
     }
 }
