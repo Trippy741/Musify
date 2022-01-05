@@ -15,19 +15,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawer;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_main);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -105,14 +108,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //Log.d("banan", user.getEmail());
 
         if(user != null)
         {
-            //updateProfileUI(user);
+            updateProfileUI();
         }
         else
         {
@@ -134,30 +137,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         d.show();
     }
-    public void updateProfileUI(FirebaseUser user)
+    public void updateProfileUI()
     {
-        TextView profileName = findViewById(R.id.profileName);
-        TextView profileEmail = findViewById(R.id.emailName);
-        ImageView profilePic = findViewById(R.id.profilePic);
+       TextView profileName = findViewById(R.id.drawerMenu_displayName);
+        TextView profileEmail = findViewById(R.id.drawerMenu_emailAddress);
+        ImageView profilePic = findViewById(R.id.drawerMenu_profilePic);
 
-        String displayName = user.getDisplayName().toString();
-        String email = user.getDisplayName().toString();
-        String profilePicUri = String.valueOf(user.getPhotoUrl());
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String displayName = user.getDisplayName();
+        String email = user.getEmail();
+        String profilePicUri = String.valueOf(user.getPhotoUrl());*/
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String displayName = "";
+        String email = "";
+        Uri profilePicUri = Uri.EMPTY;
+
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
+
+                // UID specific to the provider
+                String uid = profile.getUid();
+
+                // Name, email address, and profile photo Url
+                displayName = profile.getDisplayName();
+                email = profile.getEmail();
+                profilePicUri = profile.getPhotoUrl();
+                Toast.makeText(MainActivity.this, email, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        View headerContainer = navigationView.getHeaderView(0); // This returns the container layout from your navigation drawer header layout file (e.g., the parent RelativeLayout/LinearLayout in your my_nav_drawer_header.xml file)
 
 
-
-        if(displayName.toString() != "")
+        if(displayName != "")
         {
-            Log.d("FIREBASE",displayName.toString());
+            Log.d("FIREBASE",displayName);
             profileName.setText(displayName);
         }
-        if(email.toString() != "")
+        if(email != "")
         {
-            profileEmail.setText(user.getEmail().toString());
+            TextView emailText = headerContainer.findViewById(R.id.drawerMenu_emailAddress);
+            emailText.setText(email);
         }
-        if(profilePicUri != "")
+        if(profilePicUri != Uri.EMPTY)
         {
-            Picasso.with(this).load(Uri.parse(profilePicUri));
+            ImageView profileImage = headerContainer.findViewById(R.id.drawerMenu_profilePic);
+            profileImage.setImageURI(profilePicUri);
         }
     }
     @Override

@@ -2,30 +2,21 @@ package com.example.loginpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.animation.PathInterpolatorCompat;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Interpolator;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.PathInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -158,26 +149,34 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         }
         else if(view.getId() == R.id.loginButton)
         {
-            TextInputEditText emailET = findViewById(R.id.emailEditText);
-            TextInputEditText passwordET = findViewById(R.id.passwordEditText);
+            TextInputLayout emailTIL = findViewById(R.id.emailEditText);
+            TextInputLayout passwordTIL = findViewById(R.id.passwordEditText);
 
-            Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(emailET.getText().toString()).matches();
+            String email_string = emailTIL.getEditText().getEditableText().toString();
+            String password_string = passwordTIL.getEditText().getEditableText().toString();
 
-            if(emailET.getText().toString() == "")
+            email_string = email_string.replaceAll("\\s", "");
+            password_string = password_string.replaceAll("\\s", "");
+
+            Toast.makeText(context, email_string, Toast.LENGTH_SHORT).show();
+
+            Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(email_string).matches();
+
+            if(email_string == "")
             {
-
+                emailTIL.setError("*This is a required field!");
             }
-            if(passwordET.getText().toString() == "")
+            if(password_string == "")
             {
-
+                emailTIL.setError("*This is a required field!");
             }
             if(isCorrectlyFormatted == false)
             {
-
+                emailTIL.setError("Email address incorrectly formatted!");
             }
             else
             {
-                mAuth.signInWithEmailAndPassword(emailET.getText().toString(), passwordET.getText().toString())
+                mAuth.signInWithEmailAndPassword(email_string, password_string.toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

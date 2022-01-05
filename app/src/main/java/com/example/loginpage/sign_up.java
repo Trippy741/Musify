@@ -1,32 +1,18 @@
 package com.example.loginpage;
 
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.animation.PathInterpolatorCompat;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,12 +25,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.net.Socket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class sign_up extends AppCompatActivity {
 
@@ -96,7 +78,7 @@ public class sign_up extends AppCompatActivity {
         });
 
         gradientAnimation();
-        passwordTextListeners();
+        textListeners();
         showIntroDialog();
 
     }
@@ -128,15 +110,13 @@ public class sign_up extends AppCompatActivity {
         animationDrawable1.setExitFadeDuration(4000);
         animationDrawable1.start();
     }
-    private void passwordTextListeners()
+    private void textListeners()
     {
         TextInputLayout emailTIL = findViewById(R.id.signup_password_TextInputLayout);
         TextInputLayout passwordTIL = findViewById(R.id.signup_password_TextInputLayout);
         TextInputLayout confirmPasswordTIL = findViewById(R.id.signup_confirmPassword_TextInputLayout);
 
         emailTIL.getEditText().addTextChangedListener(new TextWatcher() {
-
-            String string = emailTIL.getEditText().getText().toString();
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -150,9 +130,10 @@ public class sign_up extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(string.contains("@") != true)
+                Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(editable.toString()).matches();
+                if(isCorrectlyFormatted != true)
                 {
-                    emailTIL.setError("Invalid Address!");
+                    emailTIL.setError("Invalid email Address!");
                 }
             }
         });

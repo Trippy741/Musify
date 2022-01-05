@@ -9,12 +9,12 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePic"
+        android:id="@+id/drawerMenu_profilePic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher_round" />
     <TextView
-        android:id="@+id/profileName"
+        android:id="@+id/drawerMenu_displayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -23,7 +23,7 @@
         android:textColor="@color/purple"
         />
     <TextView
-        android:id="@+id/emailName"
+        android:id="@+id/drawerMenu_emailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="gmail@gmail.com"
