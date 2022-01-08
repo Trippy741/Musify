@@ -10,19 +10,6 @@
     tools:openDrawer="start"
     android:background="@color/darkest_grey">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        android:backgroundTint="@color/dark_grey"
-        app:itemIconTint="@color/purple"
-        app:itemTextColor="@color/purple"
-        app:menu="@menu/drawer_menu" />
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:backgroundTint="@color/dark_grey"
+            app:backgroundTint="@color/darkest_grey"
             app:itemIconTint="@color/purple"
             app:itemTextColor="@color/purple"
             app:menu="@menu/bottom_nav_menu" />
@@ -63,8 +50,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/purple"
             android:elevation="4dp"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -72,6 +59,17 @@
             android:id="@+id/fragment_container"/>
 
     </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:itemIconTint="@color/purple"
+        app:itemTextColor="@color/purple"
+        app:headerLayout="@layout/nav_header"
+        android:background="@drawable/gradient_accent_purple"
+        app:menu="@menu/drawer_menu"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

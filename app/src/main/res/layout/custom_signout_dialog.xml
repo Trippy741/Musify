@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent_black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_stroke"
+        android:orientation="vertical"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+
+            android:text="Are you sure you want to Sign out of your Musify account?"
+            android:fontFamily="@font/raleway_bold"
+            android:textColor="@color/purple"
+            android:textSize="40sp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/signout_yes_button"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+
+
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/custom_button_1"
+                android:backgroundTint="@color/purple"
+
+                android:layout_gravity="center_vertical"
+
+                android:text="Yes" />
+
+            <Button
+                android:id="@+id/signout_no_button"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+
+
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/custom_button_1"
+                android:backgroundTint="@color/purple"
+
+                android:layout_gravity="center_vertical"
+
+                android:text="No" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

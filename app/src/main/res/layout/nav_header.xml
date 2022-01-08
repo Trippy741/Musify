@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/light_grey"
     android:gravity="bottom"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -13,21 +13,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher_round" />
+
     <TextView
         android:id="@+id/drawerMenu_displayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="Profile Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:fontFamily="@font/raleway_bold"
         android:textColor="@color/purple"
-        />
+        android:paddingTop="8dp"
+        android:text="Display Name"
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/drawerMenu_emailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="gmail@gmail.com"
-        android:textColor="@color/purple_lightgrey"
-        />
+        android:fontFamily="@font/raleway_medium"
+        android:textColor="@color/purple_dim"
+        android:paddingTop="8dp"
+        android:text="Email" />
 
 </LinearLayout>

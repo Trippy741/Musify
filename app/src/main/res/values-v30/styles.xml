@@ -24,10 +24,17 @@
         <item name="android:strokeColor">@color/purple</item>
     </style>
 
-    <style name="CustomDialogAnims">
+    <style name="CustomDialogAnims_slide">
 
         <item name="android:windowEnterAnimation">@anim/slide_from_bottom_to_center</item>
         <item name="android:windowExitAnimation">@anim/slide_from_center_to_top</item>
+
+    </style>
+
+    <style name="CustomDialogAnims_fade">
+
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+        <item name="android:windowExitAnimation">@anim/fadeout</item>
 
     </style>
 

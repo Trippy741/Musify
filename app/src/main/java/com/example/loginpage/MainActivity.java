@@ -15,103 +15,63 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
-import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
     private Toolbar toolbar;
+    private DrawerLayout drawer;
     private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
         super.onCreate(savedInstanceState);
 
 
         setContentView(R.layout.activity_main);
 
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
         bottomNavMenu.setOnNavigationItemSelectedListener(navListener);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new CurrentSongPlayingFragment()).commit();
-    }
-    private void ClickListeners()
-    {
-
     }
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Toast.makeText(MainActivity.this, "clicked!", Toast.LENGTH_SHORT).show();
-
-        switch (item.getItemId()) {
-            case R.id.nav_profile:
-                Toast.makeText(MainActivity.this, "clicked Favorites!", Toast.LENGTH_SHORT).show();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
-                break;
-            case R.id.nav_playlists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new PlaylistsFragment()).commit();
-                break;
-            case R.id.nav_likedSongs:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new LikedSongsFragment()).commit();
-                break;
-            case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new SettingsFragment()).commit();
-                break;
-            case R.id.nav_reportBugs:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new BugReportFragment()).commit();
-                break;
-            case R.id.nav_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new AboutFragment()).commit();
-                break;
-
-            case R.id.nav_signOut:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(),LoginPage.class));
+    public void onBackPressed()
+    {
+        if(drawer.isDrawerOpen(GravityCompat.START))
+        {
+            drawer.closeDrawer(GravityCompat.START);
         }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        else
+            super.onBackPressed();
     }
     @Override
     protected void onStart()
     {
         super.onStart();
 
-
-
-        //FirebaseAuth.getInstance().signOut();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //Log.d("banan", user.getEmail());
 
         if(user != null)
         {
@@ -126,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Dialog d = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         d.setContentView(R.layout.custom_signup_completed_dialog);
 
-        d.getWindow().setWindowAnimations(R.style.CustomDialogAnims);
+        d.getWindow().setWindowAnimations(R.style.CustomDialogAnims_slide);
 
         d.getWindow().findViewById(R.id.signup_completion_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,15 +99,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void updateProfileUI()
     {
-       TextView profileName = findViewById(R.id.drawerMenu_displayName);
+        TextView profileName = findViewById(R.id.drawerMenu_displayName);
         TextView profileEmail = findViewById(R.id.drawerMenu_emailAddress);
         ImageView profilePic = findViewById(R.id.drawerMenu_profilePic);
-
-        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        String displayName = user.getDisplayName();
-        String email = user.getEmail();
-        String profilePicUri = String.valueOf(user.getPhotoUrl());*/
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -167,16 +121,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 displayName = profile.getDisplayName();
                 email = profile.getEmail();
                 profilePicUri = profile.getPhotoUrl();
-                Toast.makeText(MainActivity.this, email, Toast.LENGTH_SHORT).show();
             }
         }
 
-        View headerContainer = navigationView.getHeaderView(0); // This returns the container layout from your navigation drawer header layout file (e.g., the parent RelativeLayout/LinearLayout in your my_nav_drawer_header.xml file)
-
+        View headerContainer = navigationView.getHeaderView(0);
 
         if(displayName != "")
         {
-            Log.d("FIREBASE",displayName);
             profileName.setText(displayName);
         }
         if(email != "")
@@ -189,13 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ImageView profileImage = headerContainer.findViewById(R.id.drawerMenu_profilePic);
             profileImage.setImageURI(profilePicUri);
         }
-    }
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START))
-            drawer.closeDrawer(GravityCompat.START);
-        else
-            super.onBackPressed();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -220,5 +164,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
     };
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.nav_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+                break;
+            case R.id.nav_signOut:
+                Dialog d = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                d.setContentView(R.layout.custom_signout_dialog);
+
+                d.getWindow().setWindowAnimations(R.style.CustomDialogAnims_fade);
+
+                d.getWindow().findViewById(R.id.signout_no_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        d.dismiss();
+                    }
+                });
+
+                d.getWindow().findViewById(R.id.signout_yes_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getApplicationContext(),LoginPage.class));
+                        d.dismiss();
+                    }
+                });
+
+                d.show();
+                break;
+            case R.id.nav_playlists:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
+                break;
+            case R.id.nav_player:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new deviceMusicPlayerFragment()).commit();
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
 

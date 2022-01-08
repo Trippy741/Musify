@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmailVerification"
+    android:orientation="vertical"
+    android:background="@color/darkest_grey">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_list">
+
+        <TextView
+            android:id="@+id/verfMail_mainTitle_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/raleway_extrabold"
+            android:text="Verification!"
+            android:textAllCaps="true"
+            android:textColor="@color/purple"
+            android:textAlignment="center"
+            android:textSize="48sp"
+
+            />
+
+        <TextView
+            android:id="@+id/verfMail_subtitle_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/raleway_medium"
+            android:text="We sent a verification email to: "
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/purple"
+            android:textSize="30sp"
+
+            />
+
+        <TextView
+            android:id="@+id/verfMail_userMail_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/raleway_medium"
+            android:text="User@Gmail.com"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:gravity="center"
+
+            />
+
+        <Button
+            android:id="@+id/verfMail_resend_button"
+            android:layout_width="231dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/custom_button_1"
+            android:backgroundTint="@color/purple"
+            android:text="RESEND" />
+
+        <Button
+            android:id="@+id/verfMail_continue_button"
+            android:layout_width="231dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/custom_button_1"
+            android:backgroundTint="@color/purple"
+            android:text="CONTINUE" />
+
+    </LinearLayout>
+
+</LinearLayout>

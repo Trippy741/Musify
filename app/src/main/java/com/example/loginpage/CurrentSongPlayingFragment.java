@@ -30,8 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 
-public class CurrentSongPlayingFragment extends Fragment { //TODO: Create an HTTP Server with some songs on it and then download said songs
-    // onto the device and delete them after the app closes or something like that
+public class CurrentSongPlayingFragment extends Fragment {
 
     private ImageView songImage;
     private TextView bandName;

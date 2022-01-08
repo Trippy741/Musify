@@ -184,8 +184,15 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("FIREBASE", "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    startActivity(new Intent(LoginPage.this,MainActivity.class));
-                                    finish();
+                                    if(user.isEmailVerified())
+                                    {
+                                        startActivity(new Intent(LoginPage.this,MainActivity.class));
+                                        finish();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(LoginPage.this, "User email is not verified!!!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("FIREBASE", "signInWithEmail:failure", task.getException());

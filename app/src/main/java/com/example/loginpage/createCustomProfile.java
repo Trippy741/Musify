@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -101,7 +103,11 @@ public class createCustomProfile extends AppCompatActivity {
     }
     private void uploadImageToFirebase(Uri imageURI)
     {
-        StorageReference fireref = storageReference.child("profile.jpg");
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        StorageReference fireref = storageReference.child(uid+"/profile.jpg");
+
         fireref.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

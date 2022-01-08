@@ -96,7 +96,7 @@ public class sign_up extends AppCompatActivity {
         });
 
 
-        d.getWindow().setWindowAnimations(R.style.CustomDialogAnims);
+        d.getWindow().setWindowAnimations(R.style.CustomDialogAnims_slide);
 
         //TODO: ANIMATE THE LINEAR LAYOUT OF THE DIALOG AND FADE THE BACKGROUND (APPLY THE PATHINTERPOLATOR) INSTEAD OF RELYING ON BUILT IN ANIM STATES
 
@@ -232,7 +232,8 @@ public class sign_up extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(sign_up.this, "User Created! Welcome!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), EmailVerification.class));
 
                 } else {
                     Toast.makeText(sign_up.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();

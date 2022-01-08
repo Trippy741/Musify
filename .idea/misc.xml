@@ -9,6 +9,8 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_1.xml" value="0.4296875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_2.xml" value="0.4296875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_3.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_accent_black.xml" value="0.3890625" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_accent_purple.xml" value="0.3890625" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_1.xml" value="0.29375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_2.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_circular_list.xml" value="0.54375" />
@@ -27,11 +29,13 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_lighter.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_stroke.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_create_custom_profile.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_email_verification.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_login_page.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/bottom_song_playing.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/currentsong_bottombar.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signout_dialog.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_completed.xml" value="0.4640625" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_completed_dialog.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_failed_dialog.xml" value="0.47146739130434784" />
@@ -39,10 +43,12 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_message_dialog.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_about.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_device_music_player.xml" value="0.36875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_home.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likeSongs.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likesongs.xml" value="0.38125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_message.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_playlists.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_reportbugs.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_search.xml" value="0.41510416666666666" />
