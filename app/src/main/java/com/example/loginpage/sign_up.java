@@ -1,15 +1,21 @@
 package com.example.loginpage;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,21 +30,22 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class sign_up extends AppCompatActivity {
 
-    private TextInputEditText emailET;
-    private TextInputEditText passwordET;
-    private TextInputEditText confirmPasswordET;
-
     private FirebaseAuth firebaseAuth;
 
-    private Button signupButton;
-
     private Button testButton;
+
+    private TextInputLayout displayTIL;
+    private TextInputLayout emailTIL;
+    private TextInputLayout passwordTIL;
+    private TextInputLayout confirmPasswordTIL;
 
 
     @Override
@@ -49,21 +56,29 @@ public class sign_up extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-
+        Log.d("MyApp","test");
 
         setContentView(R.layout.activity_sign_up);
 
-        emailET = findViewById(R.id.signup_email_editText);
-        passwordET = findViewById(R.id.signup_password_editText);
-        confirmPasswordET = findViewById(R.id.signup_confirmPassword_editText);
+        displayTIL = findViewById(R.id.signup_displayName_textInputLayout);
+        emailTIL = findViewById(R.id.signup_email_textInputLayout);
+        passwordTIL = findViewById(R.id.signup_password_TextInputLayout);
+        confirmPasswordTIL = findViewById(R.id.signup_confirmPassword_textInputLayout);
+
+        passwordTIL.setEndIconActivated(false);
+        confirmPasswordTIL.setEndIconActivated(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        signupButton = findViewById(R.id.signup_signupButton);
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        View signupButtonView = findViewById(R.id.signup_button_View);
+
+        ProgressButton progressButton = new ProgressButton(sign_up.this,signupButtonView);
+        progressButton.changeButtonText("Sign Up");
+
+        signupButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signupButtonClick(); //TODO: CHANGE THIS AND IMPLEMENT AN ONCLICKLISTENER PLEASE
+                signupButtonClick(view); //TODO: CHANGE THIS AND IMPLEMENT AN ONCLICKLISTENER PLEASE
             }
         });
 
@@ -112,9 +127,6 @@ public class sign_up extends AppCompatActivity {
     }
     private void textListeners()
     {
-        TextInputLayout emailTIL = findViewById(R.id.signup_password_TextInputLayout);
-        TextInputLayout passwordTIL = findViewById(R.id.signup_password_TextInputLayout);
-        TextInputLayout confirmPasswordTIL = findViewById(R.id.signup_confirmPassword_TextInputLayout);
 
         emailTIL.getEditText().addTextChangedListener(new TextWatcher() {
 
@@ -130,10 +142,17 @@ public class sign_up extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(editable.toString()).matches();
+                String emailString = emailTIL.getEditText().getText().toString();
+                Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches();
+
                 if(isCorrectlyFormatted != true)
                 {
+                    emailTIL.setErrorEnabled(true);
                     emailTIL.setError("Invalid email Address!");
+                }
+                else
+                {
+                    emailTIL.setErrorEnabled(false);
                 }
             }
         });
@@ -156,15 +175,17 @@ public class sign_up extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().length() <= 6)
                 {
+                    passwordTIL.setErrorEnabled(true);
                     passwordTIL.setError("Current password is Too short!");
                 }
                 else if(containsUpperOrSpecialChars(editable.toString()) != true)
                 {
+                    passwordTIL.setErrorEnabled(true);
                     passwordTIL.setError("Password MUST contain atleast 1 digit,special and uppercase letter!");
                 }
                 else
                 {
-                    passwordTIL.setError("");
+                    passwordTIL.setErrorEnabled(false);
                 }
             }
         });
@@ -182,14 +203,23 @@ public class sign_up extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                confirmPasswordTIL.setError("Passwords do not match!");
-                if(passwordTIL.getEditText().getEditableText().toString() != editable.toString() && editable.toString().isEmpty() != true)
+                if(!passwordTIL.getEditText().getText().toString().equals(confirmPasswordTIL.getEditText().getText().toString()))
                 {
+                    confirmPasswordTIL.setErrorEnabled(true);
                     confirmPasswordTIL.setError("Passwords do not match!");
+                }
+                else if(editable.toString().isEmpty())
+                {
+                    confirmPasswordTIL.setErrorEnabled(true);
+                    confirmPasswordTIL.setError("*Required Field");
+                }
+                else if(!editable.toString().isEmpty())
+                {
+                    confirmPasswordTIL.setErrorEnabled(false);
                 }
                 else
                 {
-                    //confirmPasswordTIL.setError("");
+                    confirmPasswordTIL.setErrorEnabled(false);
                 }
             }
         });
@@ -220,29 +250,68 @@ public class sign_up extends AppCompatActivity {
         return false;
     }
 
-    public void signupButtonClick() {
+    public void signupButtonClick(View view) {
 
-        if (passwordET.getText().toString() != "" && passwordET.getText().toString() == confirmPasswordET.getText().toString() && emailET.getText().toString() != "") {
-            Log.d("TAG1",passwordET.getText().toString());
+        String displayNameString = displayTIL.getEditText().getText().toString();
+        String emailString = emailTIL.getEditText().getText().toString();
+        String passwordString = passwordTIL.getEditText().getText().toString();
+        String confirmPasswordString = confirmPasswordTIL.getEditText().getText().toString();
 
+        boolean displayName = displayNameString.isEmpty();
+
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches()) {
+            Toast.makeText(sign_up.this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
         }
+        else if (passwordString.isEmpty()) {
+            Toast.makeText(sign_up.this, "Empty Password String", Toast.LENGTH_SHORT).show();
+        }
+        else if(!passwordString.equals(confirmPasswordString)) {
+            Toast.makeText(sign_up.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(sign_up.this, passwordString, Toast.LENGTH_SHORT).show();
+            Toast.makeText(sign_up.this, confirmPasswordString, Toast.LENGTH_SHORT).show();
+        }
+        else{
+            ProgressButton progressButton = new ProgressButton(sign_up.this,view);
+            progressButton.onButtonClick(true,"Please Wait...");
 
-        firebaseAuth.createUserWithEmailAndPassword(emailET.getText().toString(), passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(sign_up.this, "User Created! Welcome!", Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    startActivity(new Intent(getApplicationContext(), EmailVerification.class));
+            firebaseAuth.createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        String displayNameString = "";
+                        if(!displayName)
+                            displayNameString = generateDisplayName();
+                        else
+                            displayNameString = displayTIL.getEditText().getText().toString();
 
-                } else {
-                    Toast.makeText(sign_up.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    showCustomFailedDialog();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(displayNameString)
+                                .build();
+
+                        Toast.makeText(sign_up.this, "User Created! Welcome!", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences preferences = getSharedPreferences("FIRST_AUTHENTICATION", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("FIRST_TIME_AUTH",true);
+
+                        startActivity(new Intent(getApplicationContext(), EmailVerification.class));
+                        finish();
+
+                    } else {
+                        Toast.makeText(sign_up.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        showCustomFailedDialog();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-
+    private String generateDisplayName()
+    {
+        String randDisplaName = "BeepBoop" + FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return randDisplaName;
+    }
     private void showCustomFailedDialog() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

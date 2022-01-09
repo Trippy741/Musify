@@ -174,22 +174,14 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp">
 
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="212dp"
-                android:layout_height="72dp"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/custom_button_1"
-                android:backgroundTint="@color/purple"
-                android:fontFamily="@font/raleway_medium"
-                android:text="Login"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold"
 
+            <include
+                android:id="@+id/login_button_View"
+                layout="@layout/progress_button_layout"
                 android:layout_gravity="center"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="Sign Up" />
 
             <ImageButton
                 android:id="@+id/loginGoogleButton"

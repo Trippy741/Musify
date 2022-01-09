@@ -34,18 +34,21 @@ public class EmailVerification extends AppCompatActivity {
         Button resendMailButton = findViewById(R.id.verfMail_resend_button);
         Button continueButton = findViewById(R.id.verfMail_continue_button);
 
+        userMail.setText(user.getEmail());
+
         resendMailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendMail();
-                //TODO: And then start a timer so that the user cant just spam himself
             }
         });
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(EmailVerification.this,LoginPage.class));
+                finish();
             }
         });
     }

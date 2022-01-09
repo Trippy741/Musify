@@ -9,7 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        SharedPreferences preferences = getSharedPreferences("FIRST_AUTHENTICATION", Context.MODE_PRIVATE);
+        boolean isUserFirstTimeAuth = preferences.getBoolean("FIRST_TIME_AUTH",false);
+
         if(user != null)
         {
             updateProfileUI();
@@ -83,25 +88,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
-        Dialog d = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-        d.setContentView(R.layout.custom_signup_completed_dialog);
+        if(isUserFirstTimeAuth)
+        {
+            Dialog d = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+            d.setContentView(R.layout.custom_signup_completed_dialog);
 
-        d.getWindow().setWindowAnimations(R.style.CustomDialogAnims_slide);
+            d.getWindow().setWindowAnimations(R.style.CustomDialogAnims_slide);
 
-        d.getWindow().findViewById(R.id.signup_completion_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                d.dismiss();
-            }
-        });
+            d.getWindow().findViewById(R.id.signup_completion_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    d.dismiss();
+                }
+            });
 
-        d.show();
+            d.show();
+        }
     }
     public void updateProfileUI()
     {
-        TextView profileName = findViewById(R.id.drawerMenu_displayName);
-        TextView profileEmail = findViewById(R.id.drawerMenu_emailAddress);
-        ImageView profilePic = findViewById(R.id.drawerMenu_profilePic);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -128,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(displayName != "")
         {
-            profileName.setText(displayName);
+            TextView displayText = headerContainer.findViewById(R.id.drawerMenu_displayName);
+            displayText.setText(displayName);
         }
         if(email != "")
         {
@@ -189,6 +195,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onClick(View view) {
                         FirebaseAuth.getInstance().signOut();
+
+                        SharedPreferences preferences = getSharedPreferences("FIRST_AUTHENTICATION", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("FIRST_TIME_AUTH",false);
+
                         startActivity(new Intent(getApplicationContext(),LoginPage.class));
                         d.dismiss();
                     }

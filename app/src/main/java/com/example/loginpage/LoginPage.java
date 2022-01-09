@@ -45,7 +45,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     private TextView signupText;
 
     private ImageButton googleLoginButton;
-    private Button LoginButton;
 
     private Context context;
 
@@ -68,9 +67,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         googleLoginButton = findViewById(R.id.loginGoogleButton);
         googleLoginButton.setOnClickListener(this);
 
-        LoginButton = findViewById(R.id.loginButton);
-        LoginButton.setOnClickListener(this);
-
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -89,6 +85,18 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_from_bottom_to_center, R.anim.slide_from_center_to_top);
                 finish();
+            }
+        });
+
+        View loginButtonView = findViewById(R.id.login_button_View);
+
+        ProgressButton progressButton = new ProgressButton(LoginPage.this,loginButtonView);
+        progressButton.changeButtonText("Login");
+
+        loginButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginClick(view);
             }
         });
 
@@ -134,11 +142,80 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 });
 
     }
+    private void resetButton(View view)
+    {
+        ProgressButton progressButton = new ProgressButton(LoginPage.this,view);
+        progressButton.onButtonClick(false,"Login");
+    }
 
     public void backToMain()
     {
         Intent mainIntent = new Intent(this,MainActivity.class);
         startActivity(mainIntent);
+    }
+    private void LoginClick(View view)
+    {
+        ProgressButton progressButton = new ProgressButton(LoginPage.this,view);
+        progressButton.onButtonClick(true,"Please Wait...");
+
+        TextInputLayout emailTIL = findViewById(R.id.emailEditText);
+        TextInputLayout passwordTIL = findViewById(R.id.passwordEditText);
+
+        String email_string = emailTIL.getEditText().getEditableText().toString();
+        String password_string = passwordTIL.getEditText().getEditableText().toString();
+
+        email_string = email_string.replaceAll("\\s", "");
+        password_string = password_string.replaceAll("\\s", "");
+
+        Toast.makeText(context, email_string, Toast.LENGTH_SHORT).show();
+
+        Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(email_string).matches();
+
+        if(email_string == "")
+        {
+            emailTIL.setError("*This is a required field!");
+            resetButton(view);
+        }
+        if(password_string == "")
+        {
+            emailTIL.setError("*This is a required field!");
+            resetButton(view);
+        }
+        if(isCorrectlyFormatted == false)
+        {
+            emailTIL.setError("Email address incorrectly formatted!");
+            resetButton(view);
+        }
+        else
+        {
+            mAuth.signInWithEmailAndPassword(email_string, password_string.toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("FIREBASE", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if(user.isEmailVerified())
+                                {
+                                    startActivity(new Intent(LoginPage.this,MainActivity.class));
+                                    finish();
+                                }
+                                else
+                                {
+                                    Toast.makeText(LoginPage.this, "User email is not verified!!!", Toast.LENGTH_SHORT).show();
+                                    resetButton(view);
+                                }
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("FIREBASE", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginPage.this, "Authentication failed: " + task.getException(),
+                                        Toast.LENGTH_SHORT).show();
+                                resetButton(view);
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -146,62 +223,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         if(view.getId() == R.id.loginGoogleButton)
         {
             signIn();
-        }
-        else if(view.getId() == R.id.loginButton)
-        {
-            TextInputLayout emailTIL = findViewById(R.id.emailEditText);
-            TextInputLayout passwordTIL = findViewById(R.id.passwordEditText);
-
-            String email_string = emailTIL.getEditText().getEditableText().toString();
-            String password_string = passwordTIL.getEditText().getEditableText().toString();
-
-            email_string = email_string.replaceAll("\\s", "");
-            password_string = password_string.replaceAll("\\s", "");
-
-            Toast.makeText(context, email_string, Toast.LENGTH_SHORT).show();
-
-            Boolean isCorrectlyFormatted = android.util.Patterns.EMAIL_ADDRESS.matcher(email_string).matches();
-
-            if(email_string == "")
-            {
-                emailTIL.setError("*This is a required field!");
-            }
-            if(password_string == "")
-            {
-                emailTIL.setError("*This is a required field!");
-            }
-            if(isCorrectlyFormatted == false)
-            {
-                emailTIL.setError("Email address incorrectly formatted!");
-            }
-            else
-            {
-                mAuth.signInWithEmailAndPassword(email_string, password_string.toString())
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d("FIREBASE", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    if(user.isEmailVerified())
-                                    {
-                                        startActivity(new Intent(LoginPage.this,MainActivity.class));
-                                        finish();
-                                    }
-                                    else
-                                    {
-                                        Toast.makeText(LoginPage.this, "User email is not verified!!!", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("FIREBASE", "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginPage.this, "Authentication failed: " + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
         }
     }
     private void showCustomFailedDialog() {

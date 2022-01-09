@@ -24,7 +24,7 @@
             android:textAllCaps="true"
             android:textColor="@color/purple"
             android:textAlignment="center"
-            android:textSize="48sp"
+            android:textSize="45sp"
 
             />
 
@@ -38,7 +38,7 @@
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/purple"
-            android:textSize="30sp"
+            android:textSize="28sp"
 
             />
 
