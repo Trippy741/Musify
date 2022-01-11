@@ -7,6 +7,7 @@ import androidx.core.view.animation.PathInterpolatorCompat;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +54,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     private TextView introText2;
     private TextView introText3;
     private TextView introText4;
+
+    private CheckBox rememberMe;
 
     Button animButton;
 
@@ -199,6 +203,13 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                                 if(user.isEmailVerified())
                                 {
                                     startActivity(new Intent(LoginPage.this,MainActivity.class));
+
+                                    rememberMe = findViewById(R.id.login_rememberMe_checkbox);
+
+                                    SharedPreferences preferences = getSharedPreferences("LOGIN_REMEMBER_CHECK", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putBoolean("REMEMBER_ME",rememberMe.isChecked());
+
                                     finish();
                                 }
                                 else

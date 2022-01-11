@@ -75,10 +75,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        SharedPreferences preferences = getSharedPreferences("FIRST_AUTHENTICATION", Context.MODE_PRIVATE);
-        boolean isUserFirstTimeAuth = preferences.getBoolean("FIRST_TIME_AUTH",false);
+        SharedPreferences preferences1 = getSharedPreferences("FIRST_AUTHENTICATION", Context.MODE_PRIVATE);
+        boolean isUserFirstTimeAuth = preferences1.getBoolean("FIRST_TIME_AUTH",false);
 
-        if(user != null)
+        SharedPreferences preferences2 = getSharedPreferences("LOGIN_REMEMBER_CHECK", Context.MODE_PRIVATE);
+        boolean isUserRemembered = preferences2.getBoolean("REMEMBER_ME",false);
+
+        if(user != null) //TODO: ADD  && isUserRemembered == true LATER PLEASE :)
         {
             updateProfileUI();
         }
@@ -208,10 +211,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 d.show();
                 break;
             case R.id.nav_playlists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
                 break;
             case R.id.nav_player:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new deviceMusicPlayerFragment()).commit();
+                break;
+            case R.id.nav_currentsongplaying:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

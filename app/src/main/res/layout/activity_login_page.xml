@@ -150,7 +150,7 @@
 
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/login_rememberMe_checkbox"
                 style="@style/checkBoxStyle"
 
                 android:layout_width="wrap_content"
