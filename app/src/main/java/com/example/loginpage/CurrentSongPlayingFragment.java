@@ -1,9 +1,9 @@
 package com.example.loginpage;
 
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.gms.common.util.IOUtils;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 //import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -34,18 +30,17 @@ public class CurrentSongPlayingFragment extends Fragment {
     private TextView bandName;
     private TextView songName;
     private TextView currentTime;
+    private TextView timeLeft;
     private SeekBar seekBar;
-    private MediaPlayer player;
     private Handler handler = new Handler();
 
-    private ImageView playImage;
+    private ImageView playButton;
     private ImageView fwrdImage;
     private ImageView bckdImage;
 
-    private SimpleExoPlayer exoPlayer;
+    private MusicService musicService;
 
     private View contextView;
-
     private boolean isPlaying = false;
 
     @Nullable
@@ -57,38 +52,107 @@ public class CurrentSongPlayingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_currentsongplaying, container, false);
 
+        musicService = new MusicService(); //Init Music service
+
+
         contextView = view;
 
-        songImage = (ImageView) view.findViewById(R.id.songImage);
-        bandName = view.findViewById(R.id.bandName);
-        songName = view.findViewById(R.id.songName);
+        songImage = view.findViewById(R.id.songImage);
+        timeLeft = view.findViewById(R.id.timeLeft);
         currentTime = view.findViewById(R.id.currentTime);
+        seekBar = view.findViewById(R.id.seekbar);
 
-        playImage = view.findViewById(R.id.play_button);
-
-        playImage.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isPlaying)
+                if(isPlaying)
                 {
-                    startPlayer();
+                    musicService.stopPlayer();
                 }else
                 {
-
+                    startPlayer();
                 }
             }
         });
 
         return view;
     }
+    private void updateProgressBar(SimpleExoPlayer player) {
+        long duration = player == null ? 0 : player.getDuration();
+        long position = player == null ? 0 : player.getCurrentPosition();
+
+        if (!seekBar.isPressed()) {
+            seekBar.setProgress((int)(position/ duration));
+            Log.d("SEEKBAR","PROGRESS: " + (int)(position/ duration));
+        }
+        long bufferedPosition = player == null ? 0 : player.getBufferedPosition();
+        seekBar.setSecondaryProgress((int)(position/ duration));
+        // Remove scheduled updates.
+        handler.removeCallbacks(updateProgressAction);
+        // Schedule an update if necessary.
+        int playbackState = player == null ? Player.STATE_IDLE : player.getPlaybackState();
+        if (playbackState != Player.STATE_IDLE && playbackState != Player.STATE_ENDED) {
+            long delayMs;
+            if (player.getPlayWhenReady() && playbackState == Player.STATE_READY) {
+                delayMs = 1000 - (position % 1000);
+                if (delayMs < 200) {
+                    delayMs += 1000;
+                }
+            } else {
+                delayMs = 1000;
+            }
+            handler.postDelayed(updateProgressAction, delayMs);
+        }
+    }
+
+    private final Runnable updateProgressAction = new Runnable() {
+        @Override
+        public void run() {
+            updateProgressBar(musicService.getPlayer());
+        }
+    };
     private void startPlayer()
     {
+        int trackLength = 197000;
         String URL = "https://www.youtube.com/watch?v=fahcCePs9O0&list=RDfahcCePs9O0&start_radio=1&ab_channel=Koma";
-        MusicService musicService = new MusicService();
+
         musicService.initPlayer(getContext(),URL);
 
-        Picasso.with(getContext()).load("https://img.youtube.com/vi/"+getImageUrlQuietly(URL)+"/maxresdefault.jpg").into(songImage);
-        songName.setText(getTitleQuietly(URL));
+        Picasso.with(getContext()).load(getImageUrlQuietly(URL)).into(songImage);
+        //songName.setText(getTitleQuietly(URL));
+        timeLeft.setText("/ " + (trackLength / 60000) + ":" + (trackLength % 60000) / 1000);
+        /*seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                int seekVal;
+                seekVal = trackLength / seekBar.getProgress();
+                musicService.setPlayerPosition(seekVal);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int seekVal;
+                seekVal = trackLength / seekBar.getProgress();
+                musicService.setPlayerPosition(seekVal);
+            }
+        });*/
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateProgressBar(musicService.getPlayer());
+            }
+        }, 0, 1000);
+
+        //timer.cancel();//stop the timer
+
     }
     public static String getImageUrlQuietly(String youtubeUrl) {
         try {
@@ -96,33 +160,6 @@ public class CurrentSongPlayingFragment extends Fragment {
                 return String.format("http://img.youtube.com/vi/%s/0.jpg", Uri.parse(youtubeUrl).getQueryParameter("v"));
             }
         } catch (UnsupportedOperationException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static String getTitleQuietly(String youtubeUrl) {
-        try {
-            if (youtubeUrl != null) {
-                URL embededURL = new URL("http://www.youtube.com/oembed?url=" + youtubeUrl + "&format=json");
-                return new JSONObject(IOUtils.toString(embededURL)).getString("title");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public static String getAuthorQuietly(String youtubeUrl) { //Finish this please!!!!!!!!
-        try {
-            if (youtubeUrl != null) {
-                URL embededURL = new URL("http://www.youtube.com/oembed?url=" + youtubeUrl + "&format=json");
-                return new JSONObject(IOUtils.toString(embededURL)).getString("title");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

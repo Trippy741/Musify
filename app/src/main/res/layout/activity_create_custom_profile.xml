@@ -14,29 +14,97 @@
         android:orientation="vertical"
         android:background="@drawable/gradient_list">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TableLayout
+            android:layout_margin="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clipChildren="true">
+            android:layout_gravity="center">
 
-            <ImageView
-                android:id="@+id/createProfile_glowingCircle"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/gradient_circular_list"/>
+            <TableRow android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/signup_profilePic_CircleImageView"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher_round"
-                android:tint="@color/purple" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_00"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
 
-        </RelativeLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_01"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_02"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+
+            </TableRow>
+
+            <TableRow android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_10"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_11"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_12"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+
+            </TableRow>
+
+        </TableLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

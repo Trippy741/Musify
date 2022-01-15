@@ -1,7 +1,5 @@
 package com.example.loginpage;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,12 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -281,7 +276,7 @@ public class sign_up extends AppCompatActivity {
                         String displayNameString = "";
                         if(!displayName)
                             displayNameString = generateDisplayName();
-                        else
+                        else if(displayName)
                             displayNameString = displayTIL.getEditText().getText().toString();
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -296,6 +291,8 @@ public class sign_up extends AppCompatActivity {
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putBoolean("FIRST_TIME_AUTH",true);
 
+                        generateDisplayName();
+
                         startActivity(new Intent(getApplicationContext(), EmailVerification.class));
                         finish();
 
@@ -307,10 +304,11 @@ public class sign_up extends AppCompatActivity {
             });
         }
     }
+
     private String generateDisplayName()
     {
-        String randDisplaName = "BeepBoop" + FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return randDisplaName;
+        String randDisplayName = "BeepBoop" + FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return randDisplayName;
     }
     private void showCustomFailedDialog() {
         Dialog dialog = new Dialog(this);

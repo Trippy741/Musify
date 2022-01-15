@@ -33,11 +33,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 
 public class createCustomProfile extends AppCompatActivity {
     private Context context;
-    private ImageView profilePicImg;
-    StorageReference storageReference;
+
+    private ImageView[][] profilesPics = new ImageView[2][3];
+    private int selectedImageIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +50,39 @@ public class createCustomProfile extends AppCompatActivity {
 
         context = this;
 
-        profilePicImg = findViewById(R.id.signup_profilePic_CircleImageView);
-
-        storageReference = FirebaseStorage.getInstance().getReference();
-
         clickListeners();
-        animateGradient();
     }
 
     private void clickListeners()
     {
+        for (int row = 0; row < 2; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                String imgID = "img_"+row+col;
+                int resID = getResources().getIdentifier(imgID,"id",getPackageName());
+                profilesPics[row][col] = findViewById(resID);
+                profilesPics[row][col].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(selectedImageIndex != -1)
+                        {
+                            profilesPics[selectedImageIndex/10][selectedImageIndex%10].setBackgroundResource(android.R.color.transparent);
+                        }
+                        selectedImageIndex = (Character.getNumericValue(imgID.charAt(4))*10) + Character.getNumericValue(imgID.charAt(5));
+                        view.setBackgroundResource(R.drawable.stroke_purple);
+                    }
+                });
+            }
+        }
+
+
         TextView skipText = findViewById(R.id.signup_skip_textView);
         skipText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Moves to different activity
+                insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),0);
                 startActivity(new Intent(context,MainActivity.class));
                 finish();
             }
@@ -71,8 +92,7 @@ public class createCustomProfile extends AppCompatActivity {
         setProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent,1000);
+                insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),selectedImageIndex);
             }
         });
     }
@@ -82,42 +102,10 @@ public class createCustomProfile extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
-    private void animateGradient()
+    private void insertUser_db(FirebaseUser createdUser,int profileIndex)
     {
-        ImageView glowingCircle = findViewById(R.id.createProfile_glowingCircle);
-        AnimationDrawable animationDrawable = (AnimationDrawable) glowingCircle.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
-        animationDrawable.start();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1000)
-        {
-            Uri imageURI = data.getData();
-            profilePicImg.setImageURI(imageURI);
-            uploadImageToFirebase(imageURI);
-        }
-    }
-    private void uploadImageToFirebase(Uri imageURI)
-    {
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        StorageReference fireref = storageReference.child(uid+"/profile.jpg");
-
-        fireref.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(context, "Profile Updated!", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        local_user user = new local_user(createdUser.getDisplayName(),createdUser.getUid(),profileIndex);
+        db.collection("users").add("");
     }
 }

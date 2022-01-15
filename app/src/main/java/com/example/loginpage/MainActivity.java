@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
-        bottomNavMenu.setOnNavigationItemSelectedListener(navListener);
+        /*BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
+        bottomNavMenu.setOnNavigationItemSelectedListener(navListener);*/
     }
     @Override
     public void onBackPressed()

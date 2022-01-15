@@ -10,10 +10,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="440dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/shadow">
 
         <ImageView
@@ -25,8 +21,8 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@mipmap/ic_launcher_round"
-            android:background="@drawable/shadow_lighter">
+            android:background="@drawable/shadow_lighter"
+            android:src="@mipmap/ic_launcher_round">
 
         </ImageView>
 
@@ -46,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:text="Song Name"
             android:fontFamily="@font/roboto_bold"
+            android:text="Song Name"
             android:textColor="@color/purple"
             android:textSize="26dp" />
 
@@ -57,8 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="45dp"
-            android:text="Band Name"
             android:fontFamily="@font/roboto_thin"
+            android:text="Band Name"
             android:textColor="@color/purple_lightgrey" />
 
         <SeekBar
@@ -69,16 +65,27 @@
             android:layout_marginTop="80dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/shadow_lighter"
-            android:thumbTint="@color/purple"
-            android:progressTint="@color/lighterText_grey"/>
+            android:progressTint="@color/lighterText_grey"
+            android:thumbTint="@color/purple" />
 
         <TextView
             android:id="@+id/currentTime"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="100dp"
             android:text="0:00"
+            android:textColor="@color/purple" />
+
+        <TextView
+            android:id="@+id/timeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="100dp"
+            android:text="/ 0:00"
             android:textColor="@color/white" />
 
         <LinearLayout
@@ -93,9 +100,9 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:clickable="true"
                 android:rotation="180"
                 android:src="@drawable/ic_backwardsicon"
-                android:clickable="true"
                 app:tint="@color/purple_lightgrey" />
 
             <ImageView
@@ -103,8 +110,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_playicon"
                 android:clickable="true"
+                android:src="@drawable/ic_playicon"
                 app:tint="@color/purple" />
 
             <ImageView
@@ -112,8 +119,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_forwardicon"
                 android:clickable="true"
+                android:src="@drawable/ic_forwardicon"
                 app:tint="@color/purple_lightgrey" />
         </LinearLayout>
 

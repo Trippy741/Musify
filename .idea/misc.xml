@@ -28,6 +28,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_lighter.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/shadow_stroke.xml" value="0.54375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/stroke_purple.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_create_custom_profile.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_email_verification.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_login_page.xml" value="0.5" />
@@ -42,7 +43,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_instructions_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_message_dialog.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_about.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_device_music_player.xml" value="0.36875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_home.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likeSongs.xml" value="0.30416666666666664" />

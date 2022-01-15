@@ -2,6 +2,7 @@ package com.example.loginpage
 
 import android.content.Context
 import android.util.SparseArray
+import android.view.View
 import at.huber.youtubeExtractor.VideoMeta
 import com.google.android.exoplayer2.SimpleExoPlayer
 import at.huber.youtubeExtractor.YouTubeExtractor
@@ -37,8 +38,25 @@ class MusicService {
 
                     player!!.prepare()
                     player!!.playWhenReady = playWhenReady
+                    player!!.seekTo(playbackPosition);
                 }
             }
         }.extract(videoURL,false,true)
+    }
+    public fun setPlayerPosition(position:Long)
+    {
+        player!!.seekTo(position)
+    }
+    public fun stopPlayer()
+    {
+        player!!.stop()
+    }
+    public fun getProgress():Long
+    {
+        return player!!.currentPosition
+    }
+    public fun getPlayer():SimpleExoPlayer
+    {
+        return player!!
     }
 }
