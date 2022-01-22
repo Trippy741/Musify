@@ -10,9 +10,10 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/drawerMenu_profilePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round" />
+        android:layout_width="190px"
+        android:layout_height="190px"
+        android:src="@drawable/ic_profile_def"
+        />
 
     <TextView
         android:id="@+id/drawerMenu_displayName"

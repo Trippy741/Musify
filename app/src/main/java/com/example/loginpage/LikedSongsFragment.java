@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,7 +43,7 @@ public class LikedSongsFragment extends Fragment {
             bandNames.add(songs.get(i).name_song);
 
         }
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(),imageURL,songNames,bandNames);
+        LikedSongs_RecyclerViewAdapter adapter = new LikedSongs_RecyclerViewAdapter(getActivity(),imageURL,songNames,bandNames);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

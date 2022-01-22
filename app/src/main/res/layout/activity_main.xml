@@ -39,6 +39,7 @@
 
     </RelativeLayout>-->
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,6 +59,33 @@
             android:layout_height="wrap_content"
             android:id="@+id/fragment_container"/>
 
+        <TextView
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Liked Albums"
+            android:fontFamily="@font/raleway_bold"
+            android:textSize="30sp"
+            android:textColor="@color/purple"/>
+
+        <HorizontalScrollView
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/horizontal_scroll_view_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -70,6 +98,8 @@
         app:headerLayout="@layout/nav_header"
         android:background="@drawable/gradient_accent_purple"
         app:menu="@menu/drawer_menu"/>
+
+
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -2,8 +2,6 @@ package com.example.loginpage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,18 +14,15 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class LikedSongs_RecyclerViewAdapter extends RecyclerView.Adapter<LikedSongs_RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> songImages = new ArrayList<>();
@@ -40,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Animation Liked_pop;
     private Animation Disliked_pop;
 
-    public RecyclerViewAdapter(Context mContext,ArrayList<String> songImages, ArrayList<String> bandNames, ArrayList<String> songNames) {
+    public LikedSongs_RecyclerViewAdapter(Context mContext, ArrayList<String> songImages, ArrayList<String> bandNames, ArrayList<String> songNames) {
         this.songImages = songImages;
         this.bandNames = bandNames;
         this.songNames = songNames;

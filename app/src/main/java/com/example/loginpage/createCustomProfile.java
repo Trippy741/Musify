@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,10 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,7 +46,7 @@ public class createCustomProfile extends AppCompatActivity {
     private Context context;
 
     private ImageView[][] profilesPics = new ImageView[2][3];
-    private int selectedImageIndex = -1;
+    private String selectedImageIndex = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +68,19 @@ public class createCustomProfile extends AppCompatActivity {
                 String imgID = "img_"+row+col;
                 int resID = getResources().getIdentifier(imgID,"id",getPackageName());
                 profilesPics[row][col] = findViewById(resID);
+
+                String profileID = "ic_profile_"+row+col;
+                int profile_res_id = getResources().getIdentifier(profileID,"drawable",getPackageName());
+
+                profilesPics[row][col].setImageResource(profile_res_id);
                 profilesPics[row][col].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(selectedImageIndex != -1)
+                        if(selectedImageIndex != "-1")
                         {
-                            profilesPics[selectedImageIndex/10][selectedImageIndex%10].setBackgroundResource(android.R.color.transparent);
+                            profilesPics[Character.getNumericValue(selectedImageIndex.charAt(0))][Character.getNumericValue(selectedImageIndex.charAt(1))].setBackgroundResource(android.R.color.transparent);
                         }
-                        selectedImageIndex = (Character.getNumericValue(imgID.charAt(4))*10) + Character.getNumericValue(imgID.charAt(5));
+                        selectedImageIndex = String.valueOf(imgID.charAt(4)) + String.valueOf(imgID.charAt(5));
                         view.setBackgroundResource(R.drawable.stroke_purple);
                     }
                 });
@@ -82,7 +93,7 @@ public class createCustomProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Moves to different activity
-                insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),0);
+                insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),"00");
                 startActivity(new Intent(context,MainActivity.class));
                 finish();
             }
@@ -93,6 +104,7 @@ public class createCustomProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),selectedImageIndex);
+                startActivity(new Intent(createCustomProfile.this,EmailVerification.class));
             }
         });
     }
@@ -102,10 +114,20 @@ public class createCustomProfile extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
-    private void insertUser_db(FirebaseUser createdUser,int profileIndex)
+    private void insertUser_db(FirebaseUser createdUser,String profileIndex)
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        local_user user = new local_user(createdUser.getDisplayName(),createdUser.getUid(),profileIndex);
-        db.collection("users").add("");
+
+        String user_id = "user_"+createdUser.getUid();
+
+        local_user user = new local_user(user_id,createdUser.getDisplayName(),createdUser.getEmail(),profileIndex);
+
+        //firebase store
+        db.collection("users").document(user_id).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(createCustomProfile.this, "User created & stored successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

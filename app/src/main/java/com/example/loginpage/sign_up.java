@@ -247,12 +247,9 @@ public class sign_up extends AppCompatActivity {
 
     public void signupButtonClick(View view) {
 
-        String displayNameString = displayTIL.getEditText().getText().toString();
         String emailString = emailTIL.getEditText().getText().toString();
         String passwordString = passwordTIL.getEditText().getText().toString();
         String confirmPasswordString = confirmPasswordTIL.getEditText().getText().toString();
-
-        boolean displayName = displayNameString.isEmpty();
 
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches()) {
             Toast.makeText(sign_up.this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
@@ -273,17 +270,16 @@ public class sign_up extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        String displayNameString = "";
-                        if(!displayName)
+                        String displayNameString = displayTIL.getEditText().getText().toString();
+                        if(displayNameString.isEmpty())
                             displayNameString = generateDisplayName();
-                        else if(displayName)
-                            displayNameString = displayTIL.getEditText().getText().toString();
-
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(displayNameString)
                                 .build();
+
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        user.updateProfile(profileUpdates);
 
                         Toast.makeText(sign_up.this, "User Created! Welcome!", Toast.LENGTH_SHORT).show();
 
@@ -293,7 +289,7 @@ public class sign_up extends AppCompatActivity {
 
                         generateDisplayName();
 
-                        startActivity(new Intent(getApplicationContext(), EmailVerification.class));
+                        startActivity(new Intent(getApplicationContext(), createCustomProfile.class));
                         finish();
 
                     } else {
@@ -307,7 +303,7 @@ public class sign_up extends AppCompatActivity {
 
     private String generateDisplayName()
     {
-        String randDisplayName = "BeepBoop" + FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String randDisplayName = "BeepBoop_" + FirebaseAuth.getInstance().getCurrentUser().getUid();
         return randDisplayName;
     }
     private void showCustomFailedDialog() {

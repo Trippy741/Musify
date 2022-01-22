@@ -1,14 +1,42 @@
 package com.example.loginpage;
 
-public class local_user {
-    private String displayName;
-    private String uid;
-    private int profile_pic_index;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public local_user(String displayName, String uid, int profile_pic_index) {
+import java.util.ArrayList;
+
+@Entity
+public class local_user {
+    public String displayName;
+
+    public String uid;
+
+    public String profile_pic_index;
+
+    public String email;
+
+    public ArrayList<local_user> friends = new ArrayList<local_user>();
+
+    public local_user(String uid,String displayName,String email , String profile_pic_index) {
         this.displayName = displayName;
         this.uid = uid;
+        this.email = email;
         this.profile_pic_index = profile_pic_index;
+    }
+    public void addFriend(local_user friend)
+    {
+        friends.add(friend);
+    }
+
+    public void addFriends(ArrayList<local_user> friends)
+    {
+        friends.addAll(friends);
+    }
+
+    public void setFriends(ArrayList<local_user> friends)
+    {
+        friends = friends;
     }
 
     public String getDisplayName() {
@@ -27,11 +55,11 @@ public class local_user {
         this.uid = uid;
     }
 
-    public int getProfile_pic_index() {
+    public String getProfile_pic_index() {
         return profile_pic_index;
     }
 
-    public void setProfile_pic_index(int profile_pic_index) {
+    public void setProfile_pic_index(String profile_pic_index) {
         this.profile_pic_index = profile_pic_index;
     }
 }

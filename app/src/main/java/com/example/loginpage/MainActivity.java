@@ -1,5 +1,21 @@
 package com.example.loginpage;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,31 +23,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
+    private String profilePicIndex = "-1";
+    private String displayName = "";
+    private String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(user != null) //TODO: ADD  && isUserRemembered == true LATER PLEASE :)
         {
-            updateProfileUI();
+            //updateProfileUI();
         }
         else
         {
@@ -107,48 +124,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             d.show();
         }
+
+        updateAlbumScrollview();
+    }
+    private void updateAlbumScrollview()
+    {
+        LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
+
+        for(int i = 0; i < 7; i++)
+        {
+            ImageView iv = new ImageView(getApplicationContext());
+
+            // Set an image for ImageView
+            iv.setImageDrawable(getDrawable(R.mipmap.ic_launcher_round));
+
+            // Add layout parameters to ImageView
+            iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
+
+            // Finally, add the ImageView to layout
+            albumLayout.addView(iv);
+        }
     }
     public void updateProfileUI()
     {
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        String displayName = "";
-        String email = "";
-        Uri profilePicUri = Uri.EMPTY;
-
-        if (user != null) {
-            for (UserInfo profile : user.getProviderData()) {
-                // Id of the provider (ex: google.com)
-                String providerId = profile.getProviderId();
-
-                // UID specific to the provider
-                String uid = profile.getUid();
-
-                // Name, email address, and profile photo Url
-                displayName = profile.getDisplayName();
-                email = profile.getEmail();
-                profilePicUri = profile.getPhotoUrl();
-            }
-        }
-
         View headerContainer = navigationView.getHeaderView(0);
 
-        if(displayName != "")
-        {
-            TextView displayText = headerContainer.findViewById(R.id.drawerMenu_displayName);
-            displayText.setText(displayName);
-        }
-        if(email != "")
-        {
-            TextView emailText = headerContainer.findViewById(R.id.drawerMenu_emailAddress);
-            emailText.setText(email);
-        }
-        if(profilePicUri != Uri.EMPTY)
-        {
-            ImageView profileImage = headerContainer.findViewById(R.id.drawerMenu_profilePic);
-            profileImage.setImageURI(profilePicUri);
-        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                String profile_index = document.get("profile_pic_index").toString();
+                if (document.exists() && !profile_index.isEmpty()) {
+                    profilePicIndex = profile_index;
+                } else {
+                    profilePicIndex = "-1";
+                }
+
+                Toast.makeText(MainActivity.this, "Profile Index: " + profilePicIndex, Toast.LENGTH_SHORT).show();
+
+                String DN = document.get("displayName").toString();
+                if (document.exists() && !DN.isEmpty()) {
+                    displayName = DN;
+                }
+
+                Toast.makeText(MainActivity.this, "Display Name: " + displayName, Toast.LENGTH_SHORT).show();
+
+                String mail = document.get("email").toString();
+                if (document.exists() && !mail.isEmpty()) {
+                    email = mail;
+                }
+                Toast.makeText(MainActivity.this, "Email Address: " + email, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ImageView prof_pic_view = headerContainer.findViewById(R.id.drawerMenu_profilePic);
+
+        String profileID = "ic_profile_"+profilePicIndex;
+        int resID = getResources().getIdentifier(profileID,"drawable",getPackageName());
+        prof_pic_view.setImageResource(resID);
+
+        TextView displayText = headerContainer.findViewById(R.id.drawerMenu_displayName);
+        displayText.setText(displayName);
+
+        TextView emailText = headerContainer.findViewById(R.id.drawerMenu_emailAddress);
+        emailText.setText(email);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -210,14 +252,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 d.show();
                 break;
-            case R.id.nav_playlists:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
-                break;
             case R.id.nav_player:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new deviceMusicPlayerFragment()).commit();
                 break;
             case R.id.nav_currentsongplaying:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
+                break;
+            case R.id.nav_playlists:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AlbumView()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

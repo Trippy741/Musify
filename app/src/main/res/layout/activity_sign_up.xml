@@ -71,7 +71,7 @@
 
 
 
-                    app:startIconDrawable="@drawable/ic_profile_icon"
+                    app:startIconDrawable="@drawable/ic_profile_def"
                     app:startIconTint="@color/purple_dim">
 
                     <com.google.android.material.textfield.TextInputEditText
