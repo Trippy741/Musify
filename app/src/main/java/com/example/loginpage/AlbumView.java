@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,13 @@ public class AlbumView extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Song> Songs = new ArrayList<Song>();
     private String artistName;
+    private String albumName;
+
+    private ProgressBar loadingBar;
+    private ImageView albumImg;
+    private TextView albumNameTextView;
+    private TextView artistNameTextView;
+    private TextView albumDurationTextView;
 
     @Nullable
     @Override
@@ -46,8 +57,46 @@ public class AlbumView extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        ProgressBar loadingBar = view.findViewById(R.id.album_view_loadingBar);
+        artistNameTextView = view.findViewById(R.id.album_view_artistName);
+        albumNameTextView = view.findViewById(R.id.album_view_albumName);
+        albumImg = view.findViewById(R.id.album_view_albumImgView);
+        loadingBar = view.findViewById(R.id.album_view_loadingBar);
+        albumDurationTextView = view.findViewById(R.id.album_view_durationTextView);
+
         loadingBar.setVisibility(View.VISIBLE);
+
+        albumImg.setVisibility(View.INVISIBLE);
+        albumNameTextView.setVisibility(View.INVISIBLE);
+        artistNameTextView.setVisibility(View.INVISIBLE);
+        albumDurationTextView.setVisibility(View.INVISIBLE);
+
+        artistNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODo: Move to artist view P.S, make the artist view ;)
+            }
+        });
+
+        db.collection("artists")
+                .document("TOOL")
+                .collection("albums")
+                .document("lateralus").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    DocumentSnapshot doc = task.getResult();
+                    String albumIMG_url = doc.get("album_img_url").toString();
+                    Picasso.with(view.getContext()).load(albumIMG_url).into(albumImg);
+
+                    String albumName = doc.getId();
+                    albumNameTextView.setText(albumName);
+
+                    String albumDuration = doc.get("album_duration").toString();
+                    albumDurationTextView.setText(albumDuration);
+                }
+            }
+        });
 
         db.collection("artists")
                 .document("TOOL")
@@ -81,7 +130,14 @@ public class AlbumView extends Fragment {
                                                         recyclerView.setAdapter(adapter);
                                                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+                                                        artistNameTextView.setText(artistName);
+
                                                         loadingBar.setVisibility(View.INVISIBLE);
+
+                                                        albumImg.setVisibility(View.VISIBLE);
+                                                        albumNameTextView.setVisibility(View.VISIBLE);
+                                                        artistNameTextView.setVisibility(View.VISIBLE);
+                                                        albumDurationTextView.setVisibility(View.VISIBLE);
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());

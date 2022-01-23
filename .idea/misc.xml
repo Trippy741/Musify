@@ -17,6 +17,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/gradient_list.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/grey_sphere.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_abouticon.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_clock.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_dot_icon.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_googlevectorlogo.xml" value="0.5598958333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_home.xml" value="0.5640625" />
@@ -46,7 +47,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_instructions_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_message_dialog.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_about.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_album_view.xml" value="0.33" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_album_view.xml" value="0.6300940438871473" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_device_music_player.xml" value="0.36875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_home.xml" value="0.5234375" />

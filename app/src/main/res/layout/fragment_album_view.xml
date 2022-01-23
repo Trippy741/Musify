@@ -5,26 +5,78 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient_list"
+        android:scrollbars="none"
         android:rotation="180">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:rotation="180">
+
+            <ImageView
+                android:id="@+id/album_view_albumImgView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"/>
+
+            <TextView
+                android:id="@+id/album_view_albumName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Album Title"
+                android:textAlignment="textStart"
+                android:textSize="55sp"
+                android:fontFamily="@font/raleway_extrabold"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/album_view_artistName"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist Title"
+                android:textAlignment="textStart"
+                android:textSize="30sp"
+                android:fontFamily="@font/raleway_extrabold"
+                android:textColor="@color/purple"/>
+
+            <TextView
+                android:id="@+id/album_view_durationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000H"
+                android:textSize="20sp"
+                android:layout_gravity="right"
+                android:drawableRight="@drawable/ic_clock"
+                android:drawableTint="@color/light_grey"
+                android:fontFamily="@font/raleway_extrabold"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/light_grey"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/album_view_songRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
-    </RelativeLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/album_view_songRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyle"
@@ -34,5 +86,6 @@
         android:visibility="visible"
         android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/purple"/>
+
 
 </RelativeLayout>
