@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +37,11 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 
@@ -50,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String displayName = "";
     private String email = "";
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
@@ -57,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         setContentView(R.layout.activity_main);
-
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,21 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
         bottomNavMenu.setOnNavigationItemSelectedListener(navListener);*/
-    }
-    @Override
-    public void onBackPressed()
-    {
-        if(drawer.isDrawerOpen(GravityCompat.START))
-        {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        else
-            super.onBackPressed();
-    }
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -100,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(user != null) //TODO: ADD  && isUserRemembered == true LATER PLEASE :)
         {
-            //updateProfileUI();
+            updateProfileUI();
         }
         else
         {
@@ -127,70 +118,106 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateAlbumScrollview();
     }
+    @Override
+    public void onBackPressed()
+    {
+        if(drawer.isDrawerOpen(GravityCompat.START))
+        {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else
+            super.onBackPressed();
+    }
     private void updateAlbumScrollview()
     {
         LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
 
-        for(int i = 0; i < 7; i++)
-        {
-            ImageView iv = new ImageView(getApplicationContext());
+        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .collection("user_liked_albums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    for (QueryDocumentSnapshot document : task.getResult()){
 
-            // Set an image for ImageView
-            iv.setImageDrawable(getDrawable(R.mipmap.ic_launcher_round));
+                        ImageView iv = new ImageView(getApplicationContext());
+                        Picasso.with(MainActivity.this).load(document.get("album_image_url").toString()).into(iv);
+                        iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
+                        albumLayout.addView(iv);
 
-            // Add layout parameters to ImageView
-            iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
-
-            // Finally, add the ImageView to layout
-            albumLayout.addView(iv);
-        }
+                    }
+                }
+            }
+        });
     }
     public void updateProfileUI()
     {
         View headerContainer = navigationView.getHeaderView(0);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        ProgressBar headerProgressBar = headerContainer.findViewById(R.id.drawerMenu_progressBar);
+        ImageView prof_pic_view = headerContainer.findViewById(R.id.drawerMenu_profilePic);
+        TextView displayText = headerContainer.findViewById(R.id.drawerMenu_displayName);
+        TextView emailText = headerContainer.findViewById(R.id.drawerMenu_emailAddress);
+
+        headerProgressBar.setVisibility(View.VISIBLE);
+        prof_pic_view.setVisibility(View.INVISIBLE);
+        displayText.setVisibility(View.INVISIBLE);
+        emailText.setVisibility(View.INVISIBLE);
+
 
         DocumentReference docRef = db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                String profile_index = document.get("profile_pic_index").toString();
-                if (document.exists() && !profile_index.isEmpty()) {
-                    profilePicIndex = profile_index;
-                } else {
-                    profilePicIndex = "-1";
-                }
+                if(task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    String profile_index = document.get("profile_pic_index").toString();
+                    if (document.exists() && !profile_index.isEmpty()) {
+                        profilePicIndex = profile_index;
+                    } else {
+                        profilePicIndex = "-1";
+                    }
 
-                Toast.makeText(MainActivity.this, "Profile Index: " + profilePicIndex, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Profile Index: " + profilePicIndex, Toast.LENGTH_SHORT).show();
 
-                String DN = document.get("displayName").toString();
-                if (document.exists() && !DN.isEmpty()) {
-                    displayName = DN;
-                }
+                    String DN = document.get("displayName").toString();
+                    if (document.exists() && !DN.isEmpty()) {
+                        displayName = DN;
+                    }
 
-                Toast.makeText(MainActivity.this, "Display Name: " + displayName, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Display Name: " + displayName, Toast.LENGTH_SHORT).show();
 
-                String mail = document.get("email").toString();
-                if (document.exists() && !mail.isEmpty()) {
-                    email = mail;
-                }
-                Toast.makeText(MainActivity.this, "Email Address: " + email, Toast.LENGTH_SHORT).show();
+                    String mail = document.get("email").toString();
+                    if (document.exists() && !mail.isEmpty()) {
+                        email = mail;
+                    }
+                    //Toast.makeText(MainActivity.this, "Email Address: " + email, Toast.LENGTH_SHORT).show();
+
+                    String profileID = "ic_profile_def";
+
+                    if(profilePicIndex != "-1")
+                    {
+                        profileID = "ic_profile_"+profilePicIndex;
+                    }
+
+                    int resID = getResources().getIdentifier(profileID,"drawable",getPackageName());
+                    prof_pic_view.setImageResource(resID);
+
+
+                    displayText.setText(displayName);
+
+
+                    emailText.setText(email);
+
+                    headerProgressBar.setVisibility(View.INVISIBLE);
+                    prof_pic_view.setVisibility(View.VISIBLE);
+                    displayText.setVisibility(View.VISIBLE);
+                    emailText.setVisibility(View.VISIBLE);
+                }else
+                    Toast.makeText(MainActivity.this, "Failed to update user UI elements: " + task.getException(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        ImageView prof_pic_view = headerContainer.findViewById(R.id.drawerMenu_profilePic);
-
-        String profileID = "ic_profile_"+profilePicIndex;
-        int resID = getResources().getIdentifier(profileID,"drawable",getPackageName());
-        prof_pic_view.setImageResource(resID);
-
-        TextView displayText = headerContainer.findViewById(R.id.drawerMenu_displayName);
-        displayText.setText(displayName);
-
-        TextView emailText = headerContainer.findViewById(R.id.drawerMenu_emailAddress);
-        emailText.setText(email);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -260,6 +287,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_playlists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AlbumView()).commit();
+                break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ArtistView()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

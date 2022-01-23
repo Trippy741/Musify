@@ -2,6 +2,7 @@ package com.example.loginpage;
 
 import static com.google.android.exoplayer2.ExoPlayerLibraryInfo.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +76,12 @@ public class AlbumView extends Fragment {
         artistNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODo: Move to artist view P.S, make the artist view ;)
+                // Create new fragment and transaction
+                Fragment newFragment = new ArtistView();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -155,6 +163,5 @@ public class AlbumView extends Fragment {
 
         return view;
     }
-
 
 }

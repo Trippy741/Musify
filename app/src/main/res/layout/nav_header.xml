@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="176dp"
@@ -7,6 +7,13 @@
     android:gravity="bottom"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ProgressBar
+        android:id="@+id/drawerMenu_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/purple"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/drawerMenu_profilePic"
@@ -21,7 +28,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/raleway_bold"
         android:textColor="@color/purple"
-        android:paddingTop="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
         android:text="Display Name"
         android:textSize="20sp" />
 
@@ -29,9 +37,10 @@
         android:id="@+id/drawerMenu_emailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/raleway_medium"
         android:textColor="@color/purple_dim"
-        android:paddingTop="8dp"
         android:text="Email" />
 
-</LinearLayout>
+</RelativeLayout>
