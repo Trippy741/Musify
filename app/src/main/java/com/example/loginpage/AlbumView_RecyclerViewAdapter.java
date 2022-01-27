@@ -18,18 +18,14 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<Song> songs = new ArrayList<Song>();
-    private Song selected;
-    private int selectedPosition = -1;
-    private String artistName;
     private Context mContext;
 
     private ViewHolder selectedHolder;
 
     private Boolean liked = false;
 
-    public AlbumView_RecyclerViewAdapter(Context mContext,ArrayList<Song> songs,String artistName) {
+    public AlbumView_RecyclerViewAdapter(Context mContext,ArrayList<Song> songs) {
         this.songs = songs;
-        this.artistName = artistName;
         this.mContext = mContext;
     }
 
@@ -47,7 +43,7 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
         Log.d(TAG,"onBindViewHolder: called.");
 
         holder.songName.setText(songs.get(position).name_song);
-        holder.artistName.setText(artistName);
+        holder.artistName.setText(songs.get(position).name_artist);
         
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,6 +37,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String profilePicIndex = "-1";
     private String displayName = "";
     private String email = "";
+
+    private ArrayList<ImageView> likedAlbums = new ArrayList<ImageView>();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -122,24 +128,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
 
-        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .collection("user_liked_albums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_liked_albums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
+                for(QueryDocumentSnapshot document : task.getResult())
                 {
-                    for (QueryDocumentSnapshot document : task.getResult()){
+                    ImageView iv = new ImageView(getApplicationContext());
+                    Picasso.with(MainActivity.this).load(document.get("album_image_url").toString()).into(iv);
+                    iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
+                    albumLayout.addView(iv);
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Bundle bundle = new Bundle();
+                            /*bundle.putString("artist_id",document.getId());
+                            bundle.putString("album_id",document.get("album_name").toString());*/
 
-                        ImageView iv = new ImageView(getApplicationContext());
-                        Picasso.with(MainActivity.this).load(document.get("album_image_url").toString()).into(iv);
-                        iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
-                        albumLayout.addView(iv);
+                            bundle.putString("artist_id","TOOL");
+                            bundle.putString("album_id","lateralus");
 
-                    }
+                            AlbumView frag = new AlbumView();
+                            frag.setArguments(bundle);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,frag).commit();
+                        }
+                    });
+                    likedAlbums.add(iv);
                 }
             }
         });
     }
+
     public void updateProfileUI()
     {
         View headerContainer = navigationView.getHeaderView(0);

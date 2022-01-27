@@ -2,7 +2,6 @@ package com.example.loginpage;
 
 import static com.google.android.exoplayer2.ExoPlayerLibraryInfo.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,29 +10,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumView extends Fragment {
 
@@ -54,7 +47,6 @@ public class AlbumView extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_album_view, container, false);
 
@@ -73,6 +65,26 @@ public class AlbumView extends Fragment {
         artistNameTextView.setVisibility(View.INVISIBLE);
         albumDurationTextView.setVisibility(View.INVISIBLE);
 
+        String artist_id = "";
+        String album_id = "";
+
+        if(getArguments() != null)
+        {
+            Bundle bundle = getArguments();
+            artist_id = bundle.getString("artist_id");
+            album_id = bundle.getString("album_id");
+
+            artistName = artist_id;
+            albumName = album_id;
+        }
+        else
+        {
+            artistName = "TOOL";
+            albumName = "lateralus";
+        }
+
+
+
         artistNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,9 +98,9 @@ public class AlbumView extends Fragment {
         });
 
         db.collection("artists")
-                .document("TOOL")
+                .document(artistName)
                 .collection("albums")
-                .document("lateralus").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .document(albumName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful())
@@ -107,9 +119,9 @@ public class AlbumView extends Fragment {
         });
 
         db.collection("artists")
-                .document("TOOL")
+                .document(artistName)
                 .collection("albums")
-                .document("lateralus")
+                .document(albumName)
                 .collection("songs")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -119,48 +131,29 @@ public class AlbumView extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String docString = document.get("song_title").toString();
 
-                                Song tempSong = new Song("","",docString);
-
-
-                                db.collection("artists").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        artistName = document.getId().toString();
-                                                        tempSong.name_artist = artistName;
-
-                                                        Songs.add(tempSong);
-
-                                                        recyclerView = view.findViewById(R.id.album_view_songRecyclerView);
-                                                        AlbumView_RecyclerViewAdapter adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),Songs,artistName);
-                                                        recyclerView.setAdapter(adapter);
-                                                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                                                        artistNameTextView.setText(artistName);
-
-                                                        loadingBar.setVisibility(View.INVISIBLE);
-
-                                                        albumImg.setVisibility(View.VISIBLE);
-                                                        albumNameTextView.setVisibility(View.VISIBLE);
-                                                        artistNameTextView.setVisibility(View.VISIBLE);
-                                                        albumDurationTextView.setVisibility(View.VISIBLE);
-                                                    }
-                                                } else {
-                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                }
-                                            }
-                                        });
-
-
+                                //Songs.add(new Song("",artistName,docString));
+                                Songs.add(new Song("",artistName,docString));
                             }
+                            recyclerView = view.findViewById(R.id.album_view_songRecyclerView);
+                            recyclerView.setHasFixedSize(false);
+                            AlbumView_RecyclerViewAdapter adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),Songs);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                            artistNameTextView.setText(artistName);
+
+                            loadingBar.setVisibility(View.INVISIBLE);
+
+                            albumImg.setVisibility(View.VISIBLE);
+                            albumNameTextView.setVisibility(View.VISIBLE);
+                            artistNameTextView.setVisibility(View.VISIBLE);
+                            albumDurationTextView.setVisibility(View.VISIBLE);
+
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
         return view;
     }
 
