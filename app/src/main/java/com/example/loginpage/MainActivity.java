@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 d.show();
                 break;
             case R.id.nav_player:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new deviceMusicPlayerFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).commit();
                 break;
             case R.id.nav_currentsongplaying:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();

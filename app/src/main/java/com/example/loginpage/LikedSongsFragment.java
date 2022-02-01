@@ -39,8 +39,8 @@ public class LikedSongsFragment extends Fragment {
         for(int i = 0; i < songs.size(); i++)
         {
             imageURL.add(songs.get(i).image_URL);
-            songNames.add(songs.get(i).name_artist);
-            bandNames.add(songs.get(i).name_song);
+            songNames.add(songs.get(i).artist_title);
+            bandNames.add(songs.get(i).song_title);
 
         }
         LikedSongs_RecyclerViewAdapter adapter = new LikedSongs_RecyclerViewAdapter(getActivity(),imageURL,songNames,bandNames);

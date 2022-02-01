@@ -42,8 +42,8 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG,"onBindViewHolder: called.");
 
-        holder.songName.setText(songs.get(position).name_song);
-        holder.artistName.setText(songs.get(position).name_artist);
+        holder.songName.setText(songs.get(position).song_title);
+        holder.artistName.setText(songs.get(position).artist_title);
         
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override

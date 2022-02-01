@@ -48,7 +48,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_instructions_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_signup_message_dialog.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_about.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_album_view.xml" value="0.6300940438871473" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_album_view.xml" value="0.5624483043837882" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_artist_view.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_device_music_player.xml" value="0.36875" />
@@ -65,6 +65,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/nav_header.xml" value="0.7057877813504824" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/progress_button_layout.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/report_custom_dialog.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/search_item.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/song_options_menu.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_song_playing.xml" value="0.5234375" />
