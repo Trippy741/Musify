@@ -1,6 +1,7 @@
 package com.example.loginpage;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,12 +26,17 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
     private static final String TAG = "RecyclerViewAdapter";
 
     //private ArrayList<SearchQuery> searches = new ArrayList<SearchQuery>();
-    private ArrayList<Object> searches = new ArrayList<>();
+    private ArrayList<Object> searches = new ArrayList<Object>();
     private Context mContext;
 
-    public Search_RecyclerViewAdapter(Context mContext,ArrayList<Object> queries) {
+    private FragmentManager fragmentManager;
+
+    private ViewHolder selectedHolder;
+
+    public Search_RecyclerViewAdapter(Context mContext, FragmentManager fragmentManager, ArrayList<Object> queries) {
         this.searches = queries;
         this.mContext = mContext;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -43,40 +52,76 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG,"onBindViewHolder: called.");
 
-        if(searches.get(position).equals(Artist.class))
+        if(searches.get(position) instanceof Artist)
         {
             Artist tmp = (Artist)searches.get(position);
             holder.mainTitle.setText(tmp.artistTitle);
             holder.subTitle.setText("");
             Picasso.with(mContext).load(tmp.artistImage).into(holder.image);
+
         }
-        else if(searches.get(position).equals(Album.class))
+        else if(searches.get(position) instanceof Album)
         {
             Album tmp = (Album) searches.get(position);
             holder.mainTitle.setText(tmp.albumTitle);
             holder.subTitle.setText("Album by: " + tmp.artistTitle);
             Picasso.with(mContext).load(tmp.albumImage).into(holder.image);
+
+            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(selectedHolder == null)
+                    {
+                        selectedHolder = holder;
+                    }
+
+                    selectedHolder.mainTitle.setTextColor(view.getResources().getColor(R.color.white));
+                    selectedHolder.subTitle.setTextColor(view.getResources().getColor(R.color.white));
+
+                    holder.mainTitle.setTextColor(view.getResources().getColor(R.color.purple));
+                    holder.subTitle.setTextColor(view.getResources().getColor(R.color.purple_lightgrey));
+
+                    selectedHolder = holder;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("album_obj",(Album)searches.get(position));
+
+                    AlbumView frag = new AlbumView();
+                    frag.setArguments(bundle);
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).commit();
+                }
+            });
         }
-        else if(searches.get(position).equals(Song.class))
+        else if(searches.get(position) instanceof Song)
         {
             Song tmp = (Song) searches.get(position);
             holder.mainTitle.setText(tmp.song_title);
             holder.subTitle.setText(tmp.artist_title);
             Picasso.with(mContext).load(tmp.image_URL).into(holder.image);
+
+            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Clicked!", Toast.LENGTH_SHORT).show();
+
+                    if(selectedHolder == null)
+                    {
+                        selectedHolder = holder;
+                    }
+
+                    selectedHolder.mainTitle.setTextColor(view.getResources().getColor(R.color.white));
+                    selectedHolder.subTitle.setTextColor(view.getResources().getColor(R.color.white));
+
+                    holder.mainTitle.setTextColor(view.getResources().getColor(R.color.purple));
+                    holder.subTitle.setTextColor(view.getResources().getColor(R.color.purple_lightgrey));
+
+                    selectedHolder = holder;
+                }
+            });
         }
 
-        //holder.songName.setText(songNames.get(position));
-        //holder.bandName.setText(bandNames.get(position));
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                //Log.d(TAG,"onClick: clicked on: " + bandNames.get(position));
-                //onClick
-            }
-        });
     }
     @Override
     public int getItemCount() {

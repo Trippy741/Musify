@@ -11,101 +11,39 @@
         android:layout_height="200dp"
         android:padding="5dp">
 
-        <!--<de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilePicImg"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="@drawable/shadow"
-            android:cropToPadding="true"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher_round"/>-->
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/profile_horizontal_scroll_view_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:src="@mipmap/ic_launcher_round"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_round"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_round"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/shadow"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Profile Name:"
-            android:fontFamily="@font/roboto_black"
-            android:textStyle="bold"
-            android:textColor="@color/purple"
-            android:textSize="30dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Profile E-mail:"
-            android:fontFamily="@font/roboto_thin"
-            android:textColor="@color/purple_lightgrey"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/shadow"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
-
-            <Button
-                android:id="@+id/takeProfilePicBtn"
-                android:layout_width="170dp"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_button_2"
-                android:text="Add A Profile Pic"
-                android:textColor="@color/white"
-                android:textSize="17dp"
-                android:textAllCaps="false"
-                android:fontFamily="@font/roboto_bold"
-                android:layout_marginRight="20dp"></Button>
-
-            <Button
-                android:id="@+id/selectProfilePicBtn"
-                android:layout_width="170dp"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_button_2"
-                android:textColor="@color/white"
-                android:textSize="17dp"
-                android:fontFamily="@font/roboto_bold"
-                android:textAllCaps="false"
-                android:text="Select A Profile Pic"
-                android:layout_marginLeft="20dp"></Button>
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_nav_menu"
-            app:itemIconTint="@color/purple"
-            app:backgroundTint="@color/dark_grey"
-            app:itemTextColor="@color/purple"
-            />
     </RelativeLayout>
 </LinearLayout>
