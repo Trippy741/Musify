@@ -32,7 +32,7 @@ public class CurrentSongPlayingFragment extends Fragment {
     private TextView currentTime;
     private TextView timeLeft;
     private SeekBar seekBar;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     private ImageView playButton;
     private ImageView fwrdImage;
@@ -41,7 +41,7 @@ public class CurrentSongPlayingFragment extends Fragment {
     private MusicService musicService;
 
     private View contextView;
-    private boolean isPlaying = false;
+    private final boolean isPlaying = false;
 
     @Nullable
     @Override

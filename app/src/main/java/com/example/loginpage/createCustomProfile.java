@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public class createCustomProfile extends AppCompatActivity {
     private Context context;
 
-    private ImageView[][] profilesPics = new ImageView[2][3];
+    private final ImageView[][] profilesPics = new ImageView[2][3];
     private String selectedImageIndex = "-1";
 
     @Override
@@ -80,7 +80,7 @@ public class createCustomProfile extends AppCompatActivity {
                         {
                             profilesPics[Character.getNumericValue(selectedImageIndex.charAt(0))][Character.getNumericValue(selectedImageIndex.charAt(1))].setBackgroundResource(android.R.color.transparent);
                         }
-                        selectedImageIndex = String.valueOf(imgID.charAt(4)) + String.valueOf(imgID.charAt(5));
+                        selectedImageIndex = String.valueOf(imgID.charAt(4)) + imgID.charAt(5);
                         view.setBackgroundResource(R.drawable.stroke_purple);
                     }
                 });

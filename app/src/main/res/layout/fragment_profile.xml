@@ -1,49 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkest_grey"
+    android:background="@color/black"
     android:orientation="vertical">
 
-    <LinearLayout
+    <!--<TextView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:padding="5dp">
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/raleway_extrabold"
+        android:text="Change it up baby!"
+        android:textAllCaps="true"
+        android:textColor="@color/purple"
+        android:textAlignment="textStart"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="48sp"
 
-        <HorizontalScrollView
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkest_grey">
+
+        &lt;!&ndash;<androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_fragment_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>&ndash;&gt;
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/profile_horizontal_scroll_view_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+            android:id="@+id/profile_fragment_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_centerHorizontal="true"
+            android:hapticFeedbackEnabled="true"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher_round"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_selector_gradient" />
 
-            </LinearLayout>
+    </RelativeLayout>
 
-        </HorizontalScrollView>
 
-    </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/purpleInputField"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:hint="Updated Email Address"
+        android:textColorHint="@color/purple"
+        app:boxStrokeColor="@color/purple"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        android:layout_marginTop="10dp"
+
+        app:startIconDrawable="@drawable/ic_mail_icon"
+        app:startIconTint="@color/purple_dim"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_thin"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/purpleInputField"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:hint="Updated Email Address"
+        android:textColorHint="@color/purple"
+        app:boxStrokeColor="@color/purple"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        android:layout_marginTop="10dp"
+
+        app:startIconDrawable="@drawable/ic_mail_icon"
+        app:startIconTint="@color/purple_dim"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_thin"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/gradient_circular_list"
+            />
+
+        <ImageView
+            android:id="@+id/profile_fragment_profileImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_profile_00"
+            android:layout_centerInParent="true"/>
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/profile_fragment_mainTitle"
+
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_extrabold"
+            android:text="Name"
+            android:textAllCaps="true"
+            android:textColor="@color/purple"
+            android:textAlignment="center"
+            android:textSize="48sp"
+
+            android:drawableRight="@drawable/ic_edit"
+            android:drawableTint="@color/purple"
+            android:drawablePadding="10dp"
+
+            android:clickable="true"
+            />
+
+        <TextView
+            android:id="@+id/profile_fragment_subTitle"
+
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_extrabold"
+            android:text="Email"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_lightgrey"
+            android:textAlignment="center"
+            android:textSize="20sp"
+
+            android:drawableRight="@drawable/ic_edit"
+            android:drawableTint="@color/purple_lightgrey"
+            android:drawablePadding="10dp"
+
+            android:clickable="true"
+            />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/profile_fragment_update_button"
+        layout="@layout/progress_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom"
+        android:text="Update Profile Details" />
+
+
 </LinearLayout>

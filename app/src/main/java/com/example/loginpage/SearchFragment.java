@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +30,7 @@ public class SearchFragment extends Fragment {
 
     private View view;
     private RecyclerView recyclerView;
-    private ArrayList<Object> queries = new ArrayList<>();
+    private final ArrayList<Object> queries = new ArrayList<>();
     private Search_RecyclerViewAdapter adapter;
     private ProgressBar progressBar;
 
@@ -48,8 +50,6 @@ public class SearchFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        searchDatabase("TOOL");
-
         return view;
     }
     private void searchDatabase(String searchText)
@@ -64,8 +64,8 @@ public class SearchFragment extends Fragment {
                     for(QueryDocumentSnapshot doc : task.getResult())
                     {
                         Artist tmpArtist = new Artist(doc.get("artist_title").toString(),doc.get("artist_quote").toString(),doc.get("artist_image_url").toString());
-
-                        queries.add(tmpArtist);//TODO: ARTISTS
+                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                            queries.add(tmpArtist);//TODO: ARTISTS
                         String artistID = doc.get("artist_title").toString();
 
                         db.collection("artists").document(doc.getId()).collection("albums").orderBy("album_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -80,7 +80,8 @@ public class SearchFragment extends Fragment {
                                                 ,doc.get("album_img_url").toString(),doc.get("album_release_date").toString(),doc.get("album_duration").toString());
 
                                         tmpArtist.addAlbum(tmpAlbum);
-                                        queries.add(tmpAlbum);
+                                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                                            queries.add(tmpAlbum);
 
                                         db.collection("artists").document(artistID).collection("albums").document(doc.getId()).collection("songs").orderBy("song_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
@@ -91,7 +92,8 @@ public class SearchFragment extends Fragment {
                                                     {
                                                         Song tmpSong = new Song(tmpAlbum.albumImage,tmpArtist.artistTitle,doc.get("song_title").toString());
                                                         tmpAlbum.addSong(tmpSong);
-                                                        queries.add(tmpSong);
+                                                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                                                            queries.add(tmpSong);
                                                     }
 
                                                     progressBar.setVisibility(View.INVISIBLE);
@@ -123,22 +125,38 @@ public class SearchFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        /*inflater.inflate(R.menu.main_menu_search,menu);
-        MenuItem item = menu.findItem(R.id.main_search_recyclerView);
+        inflater.inflate(R.menu.main_menu_search,menu);
 
-        SearchView searchView = (SearchView)item.getActionView();
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                Toast.makeText(view.getContext(), "Expanded", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                Toast.makeText(view.getContext(), "Collapsed", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+        menu.findItem(R.id.main_menu_search_menu).setOnActionExpandListener(onActionExpandListener);
+        SearchView searchView = (SearchView) menu.findItem(R.id.main_menu_search_menu).getActionView();
+
+        searchView.setQueryHint("Enter your search query here...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                queries.clear();
+                searchDatabase(s);
                 return false;
             }
-        });*/
+        });
 
         super.onCreateOptionsMenu(menu, inflater);
     }

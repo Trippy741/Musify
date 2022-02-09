@@ -154,7 +154,7 @@ public class sign_up extends AppCompatActivity {
 
         passwordTIL.getEditText().addTextChangedListener(new TextWatcher() {
 
-            String string = passwordTIL.getEditText().getText().toString();
+            final String string = passwordTIL.getEditText().getText().toString();
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -238,11 +238,7 @@ public class sign_up extends AppCompatActivity {
             }
         }
 
-        if(isSpecial && isDigit && isUppercase)
-        {
-            return true;
-        }
-        return false;
+        return isSpecial && isDigit && isUppercase;
     }
 
     public void signupButtonClick(View view) {

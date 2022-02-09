@@ -1,10 +1,12 @@
 package com.example.loginpage;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,29 +55,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String displayName = "";
     private String email = "";
 
-    private ArrayList<ImageView> likedAlbums = new ArrayList<ImageView>();
+    private final ArrayList<Album> likedAlbums = new ArrayList<Album>();
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    //private ArrayList<RecyclerView> recyclers = new ArrayList<RecyclerView>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
 
+        drawer.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            @Override
+            public void onSwipeRight() {
+
+                if(!drawer.isDrawerVisible(GravityCompat.START))
+                    drawer.openDrawer(GravityCompat.START);
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                if(drawer.isDrawerVisible(GravityCompat.START))
+                    drawer.closeDrawer(GravityCompat.START);
+            }
+
+            @Override
+            public void onSwipeTop() {
+
+            }
+
+            @Override
+            public void onSwipeBottom() {
+
+            }
+        });
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //recyclers.add(findViewById(R.id.mainLikedAlbumsRecyclerView));
 
 
         /*BottomNavigationView bottomNavMenu = findViewById(R.id.bottom_navigation);
@@ -112,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             d.show();
         }
 
-        updateAlbumScrollview();
+        //updateAlbumScrollview();
     }
     @Override
     public void onBackPressed()
@@ -124,16 +158,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else
             super.onBackPressed();
     }
-    private void updateAlbumScrollview()
+    /*private void updateAlbumScrollview()
     {
-        LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
+        //LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
 
         db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_liked_albums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot document : task.getResult())
+                for(QueryDocumentSnapshot doc : task.getResult())
                 {
-                    ImageView iv = new ImageView(getApplicationContext());
+
+                    Album tmpAlbum = new Album("users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/user_liked_albums/TOOL/albums/"+doc.getId()
+                            ,doc.getId()
+                            ,doc.get("album_title").toString()
+                            ,"TOOL"
+                            ,doc.get("album_img_url").toString()
+                            ,doc.get("album_release_date").toString()
+                            ,doc.get("album_duration").toString());
+
+                    likedAlbums.add(tmpAlbum);
+
+                    MainActivityAlbums_RecyclerViewAdapter adapter = new MainActivityAlbums_RecyclerViewAdapter(MainActivity.this,getSupportFragmentManager(),likedAlbums);
+                    recyclers.get(0).setAdapter(adapter);
+
+                    *//*ImageView iv = new ImageView(getApplicationContext());
                     Picasso.with(MainActivity.this).load(document.get("album_image_url").toString()).into(iv);
                     iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
                     albumLayout.addView(iv);
@@ -141,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         @Override
                         public void onClick(View view) {
                             Bundle bundle = new Bundle();
-                            /*bundle.putString("artist_id",document.getId());
-                            bundle.putString("album_id",document.get("album_name").toString());*/
+                            *//**//*bundle.putString("artist_id",document.getId());
+                            bundle.putString("album_id",document.get("album_name").toString());*//**//*
 
                             bundle.putString("artist_id","TOOL");
                             bundle.putString("album_id","lateralus");
@@ -152,11 +200,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,frag).commit();
                         }
                     });
-                    likedAlbums.add(iv);
+                    likedAlbums.add(iv);*//*
                 }
             }
         });
-    }
+    }*/
 
     public void updateProfileUI()
     {
@@ -228,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = null;

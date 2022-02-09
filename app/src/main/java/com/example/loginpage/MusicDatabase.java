@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MusicDatabase {
 
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference songCollection = firestore.collection("songs");
     private List<Song> songList;
 

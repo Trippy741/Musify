@@ -22,7 +22,7 @@ import com.google.android.exoplayer2.util.Util;
 
 public class deviceMusicPlayerFragment extends Fragment{
     private SimpleExoPlayer simpleExoPlayer;
-    private boolean isPlaying = false;
+    private final boolean isPlaying = false;
     private Button playButton;
     private View thisView;
 

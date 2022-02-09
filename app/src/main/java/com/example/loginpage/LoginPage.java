@@ -192,7 +192,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         }
         else
         {
-            mAuth.signInWithEmailAndPassword(email_string, password_string.toString())
+            mAuth.signInWithEmailAndPassword(email_string, password_string)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

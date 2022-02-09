@@ -18,11 +18,11 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<Song> songs = new ArrayList<Song>();
-    private Context mContext;
+    private final Context mContext;
 
     private ViewHolder selectedHolder;
 
-    private Boolean liked = false;
+    private final Boolean liked = false;
 
     public AlbumView_RecyclerViewAdapter(Context mContext,ArrayList<Song> songs) {
         this.songs = songs;

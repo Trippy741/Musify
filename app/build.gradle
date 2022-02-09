@@ -8,7 +8,6 @@ android {
     compileSdk 31
 
     configurations.all {
-        resolutionStrategy { force 'androidx.core:core:1.6.0' }
         resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
     }
 
@@ -86,6 +85,13 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.2'
     implementation "androidx.core:core-ktx:+"
 
+    //Instant search (Firebase firestore text search UI thingy)
+    implementation "com.algolia:instantsearch-android:2.11.4"
+
+    //Algolia firebase firestore text search thingy
+    implementation 'com.algolia:instantsearch-android:2.0.0'
+
+    implementation 'com.github.sparrow007:carouselrecyclerview:1.2.4'
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

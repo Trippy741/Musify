@@ -27,9 +27,9 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
 
     //private ArrayList<SearchQuery> searches = new ArrayList<SearchQuery>();
     private ArrayList<Object> searches = new ArrayList<Object>();
-    private Context mContext;
+    private final Context mContext;
 
-    private FragmentManager fragmentManager;
+    private final FragmentManager fragmentManager;
 
     private ViewHolder selectedHolder;
 

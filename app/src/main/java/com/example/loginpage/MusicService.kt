@@ -18,7 +18,7 @@ class MusicService {
     private var playWhenReady = true
     private var playbackPosition: Long = 0
 
-    public fun initPlayer(Context:Context,VID_URL:String)
+    fun initPlayer(Context:Context,VID_URL:String)
     {
         player = SimpleExoPlayer.Builder(Context).build()
 
@@ -38,24 +38,24 @@ class MusicService {
 
                     player!!.prepare()
                     player!!.playWhenReady = playWhenReady
-                    player!!.seekTo(playbackPosition);
+                    player!!.seekTo(playbackPosition)
                 }
             }
         }.extract(videoURL,false,true)
     }
-    public fun setPlayerPosition(position:Long)
+    fun setPlayerPosition(position:Long)
     {
         player!!.seekTo(position)
     }
-    public fun stopPlayer()
+    fun stopPlayer()
     {
         player!!.stop()
     }
-    public fun getProgress():Long
+    fun getProgress():Long
     {
         return player!!.currentPosition
     }
-    public fun getPlayer():SimpleExoPlayer
+    fun getPlayer():SimpleExoPlayer
     {
         return player!!
     }

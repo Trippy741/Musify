@@ -12,10 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ProgressButton {
 
-    private CardView cardView;
-    private ProgressBar progressBar;
-    private TextView textView;
-    private ConstraintLayout constraintLayout;
+    private final CardView cardView;
+    private final ProgressBar progressBar;
+    private final TextView textView;
+    private final ConstraintLayout constraintLayout;
 
     Animation fade_in;
 

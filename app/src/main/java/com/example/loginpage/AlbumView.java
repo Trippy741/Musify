@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class AlbumView extends Fragment {
 
     private RecyclerView recyclerView;
-    private ArrayList<Song> Songs = new ArrayList<Song>();
+    private final ArrayList<Song> Songs = new ArrayList<Song>();
     /*private String artistName;
     private String albumName;*/
 

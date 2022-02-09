@@ -28,7 +28,7 @@ public class LikedSongs_RecyclerViewAdapter extends RecyclerView.Adapter<LikedSo
     private ArrayList<String> songImages = new ArrayList<>();
     private ArrayList<String> bandNames = new ArrayList<>();
     private ArrayList<String> songNames = new ArrayList<>();
-    private Context mContext;
+    private final Context mContext;
 
     private Boolean liked = false;
 
