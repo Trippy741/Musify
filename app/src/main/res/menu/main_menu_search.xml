@@ -2,9 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/main_menu_search_menu"
+        android:id="@+id/search_menu_search"
         android:title="Search Songs!"
         android:icon="@drawable/ic_search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always|collapseActionView"/>
+
+    <item
+        android:id="@+id/search_menu_spinner"
+        android:title="Type"
+        android:icon="@drawable/ic_arrow_down"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#ff00"
+        app:showAsAction="always" />
 </menu>

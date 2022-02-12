@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkest_grey"
+    android:background="@color/black"
     android:id="@+id/currentSongPlayingFragment">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="440dp"
-        android:background="@drawable/shadow">
+        android:layout_height="440dp">
 
         <ImageView
             android:id="@+id/songImage"
@@ -21,7 +20,6 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/shadow_lighter"
             android:src="@mipmap/ic_launcher_round">
 
         </ImageView>
@@ -32,41 +30,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="5dp"
         android:layout_marginTop="450dp"
-        android:background="@drawable/shadow">
+        android:background="@drawable/gradient_list">
 
         <TextView
-            android:id="@+id/songName"
+            android:id="@+id/song_playing_mainTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Song Name"
+            android:text="Main Title"
             android:textColor="@color/purple"
             android:textSize="26dp" />
 
         <TextView
-            android:id="@+id/bandName"
+            android:id="@+id/song_playing_subTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="45dp"
             android:fontFamily="@font/roboto_thin"
-            android:text="Band Name"
+            android:text="Sub Title"
             android:textColor="@color/purple_lightgrey" />
 
-        <SeekBar
+        <!--<SeekBar
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_marginTop="80dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shadow_lighter"
-            android:progressTint="@color/lighterText_grey"
-            android:thumbTint="@color/purple" />
+            android:progressTint="@color/purple"
+            android:thumbTint="@color/purple" />-->
+
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/song_playing_timeBar"
+            android:layout_width="match_parent"
+
+            app:played_color="@color/purple"
+            app:scrubber_enabled_size="10dp"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="69dp"
+            app:scrubber_color="@color/purple"
+            app:scrubber_drawable="@drawable/shadow_circle" />
 
         <TextView
             android:id="@+id/currentTime"
@@ -87,6 +97,7 @@
             android:layout_marginTop="100dp"
             android:text="/ 0:00"
             android:textColor="@color/white" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"

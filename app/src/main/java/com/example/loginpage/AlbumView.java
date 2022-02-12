@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -77,16 +73,6 @@ public class AlbumView extends Fragment {
         {
             Bundle bundle = getArguments();
             album = (Album) bundle.get("album_obj");
-            /*artist_id = bundle.getString("artist_id");
-            album_id = bundle.getString("album_id");
-
-            artistName = artist_id;
-            albumName = album_id;*/
-        }
-        else
-        {
-            /*artistName = "TOOL";
-            albumName = "lateralus";*/
         }
 
 
@@ -126,7 +112,7 @@ public class AlbumView extends Fragment {
                                 String docString = document.get("song_title").toString();
 
                                 //Songs.add(new Song("",artistName,docString));
-                                Songs.add(new Song("",album.artistTitle,docString));
+                                Songs.add(new Song(document.get("song_URL").toString(),"",album.artistTitle,docString));
                             }
                             recyclerView = view.findViewById(R.id.album_view_songRecyclerView);
                             recyclerView.setHasFixedSize(false);

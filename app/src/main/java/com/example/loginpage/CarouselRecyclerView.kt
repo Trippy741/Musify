@@ -8,6 +8,8 @@ import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
 
 class CarouselRecyclerView {
 
+    var carousel : CarouselRecyclerview? = null
+
     @RequiresApi(Build.VERSION_CODES.Q)
     fun Bind(adapter : Profile_RecyclerViewAdapter, carouselRecyclerview : CarouselRecyclerview)
     {
@@ -20,6 +22,8 @@ class CarouselRecyclerView {
 
         carouselRecyclerview.getSelectedPosition()
 
+        carousel = carouselRecyclerview
+
         carouselRecyclerview.setItemSelectListener(object : CarouselLayoutManager.OnSelected{
             @RequiresApi(Build.VERSION_CODES.Q)
             override fun onItemSelected(position: Int) {
@@ -27,5 +31,9 @@ class CarouselRecyclerView {
                 adapter.vibrate()
             }
         })
+    }
+    fun getCarouselPosition() : Int
+    {
+        return carousel!!.getSelectedPosition()
     }
 }

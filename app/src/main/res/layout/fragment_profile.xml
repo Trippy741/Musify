@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -45,67 +46,15 @@
             android:src="@drawable/profile_selector_gradient" />
 
     </RelativeLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/purpleInputField"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:hint="Updated Email Address"
-        android:textColorHint="@color/purple"
-        app:boxStrokeColor="@color/purple"
-
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-
-        android:layout_marginTop="10dp"
-
-        app:startIconDrawable="@drawable/ic_mail_icon"
-        app:startIconTint="@color/purple_dim"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/raleway_thin"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/purpleInputField"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:hint="Updated Email Address"
-        android:textColorHint="@color/purple"
-        app:boxStrokeColor="@color/purple"
-
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-
-        android:layout_marginTop="10dp"
-
-        app:startIconDrawable="@drawable/ic_mail_icon"
-        app:startIconTint="@color/purple_dim"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/raleway_thin"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>-->
+-->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -117,8 +66,28 @@
             android:id="@+id/profile_fragment_profileImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_profile_00"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_profile_def" />
+
+        <ProgressBar
+            android:id="@+id/profile_fragment_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/purple"/>
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_edit"
+            android:background="@drawable/shadow_circle"
+            android:backgroundTint="@color/purple"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="250dp"
+            app:tint="@color/black" />
 
     </RelativeLayout>
 

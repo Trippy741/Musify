@@ -12,13 +12,14 @@
         android:scaleType="centerCrop"
         android:layout_centerInParent="true"
         />
+
     <ImageView
+        android:clickable="true"
         android:id="@+id/profile_fragment_imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_profile_00"
-        android:scaleType="centerCrop"
         android:layout_centerInParent="true"
-        />
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_profile_def" />
 
 </RelativeLayout>

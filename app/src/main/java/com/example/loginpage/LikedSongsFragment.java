@@ -52,7 +52,7 @@ public class LikedSongsFragment extends Fragment {
     //
     private void initSongs()
     {
-        songs.add(new Song("Afterlife","Avenged Sevenfold","https://upload.wikimedia.org/wikipedia/en/7/76/Avenged_Sevenfold_cover_2007.jpg"));
+        /*songs.add(new Song("Afterlife","Avenged Sevenfold","https://upload.wikimedia.org/wikipedia/en/7/76/Avenged_Sevenfold_cover_2007.jpg"));
         songs.add(new Song("Prison Sex","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
         songs.add(new Song("Sober","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
         songs.add(new Song("Undertow","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
@@ -62,7 +62,7 @@ public class LikedSongsFragment extends Fragment {
         songs.add(new Song("Bottom","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
         songs.add(new Song("Bottom","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
         songs.add(new Song("Bottom","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
-        songs.add(new Song("Bottom","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));
+        songs.add(new Song("Bottom","TOOL","https://static.wikia.nocookie.net/songmeaning/images/1/13/Album-undertow.jpg/revision/latest?cb=20091006235818"));*/
     }
 
 }

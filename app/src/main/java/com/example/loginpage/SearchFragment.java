@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
                                                 {
                                                     for(QueryDocumentSnapshot doc : task.getResult())
                                                     {
-                                                        Song tmpSong = new Song(tmpAlbum.albumImage,tmpArtist.artistTitle,doc.get("song_title").toString());
+                                                        Song tmpSong = new Song(doc.get("song_URL").toString(),tmpAlbum.albumImage,tmpArtist.artistTitle,doc.get("song_title").toString());
                                                         tmpAlbum.addSong(tmpSong);
                                                         if(queries.size() <= 20 && !queries.contains(tmpArtist))
                                                             queries.add(tmpSong);
@@ -140,8 +140,8 @@ public class SearchFragment extends Fragment {
                 return true;
             }
         };
-        menu.findItem(R.id.main_menu_search_menu).setOnActionExpandListener(onActionExpandListener);
-        SearchView searchView = (SearchView) menu.findItem(R.id.main_menu_search_menu).getActionView();
+        menu.findItem(R.id.search_menu_search).setOnActionExpandListener(onActionExpandListener);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_menu_search).getActionView();
 
         searchView.setQueryHint("Enter your search query here...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

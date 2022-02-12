@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/custom_profilePicChange_bg"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/translucent_black">
 
-</LinearLayout>
+    <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+        android:id="@+id/profile_fragment_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_centerHorizontal="true"
+        android:hapticFeedbackEnabled="true"
+        android:layout_centerInParent="true"
+        android:paddingBottom="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="500dp">
+
+        <ImageButton
+            android:id="@+id/custom_profilePicChange_deny_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_x_mark"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="150dp"
+            android:background="@android:color/transparent"
+            app:tint="@color/purple"/>
+
+        <ImageButton
+            android:id="@+id/custom_profilePicChange_confirm_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_check_mark"
+            android:layout_marginLeft="150dp"
+            android:background="@android:color/transparent"
+            app:tint="@color/purple" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

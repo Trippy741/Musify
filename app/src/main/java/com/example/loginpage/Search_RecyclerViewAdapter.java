@@ -117,6 +117,13 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
                     holder.subTitle.setTextColor(view.getResources().getColor(R.color.purple_lightgrey));
 
                     selectedHolder = holder;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("song_obj",(Song)searches.get(position));
+
+                    CurrentSongPlayingFragment frag = new CurrentSongPlayingFragment();
+                    frag.setArguments(bundle);
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).commit();
                 }
             });
         }
