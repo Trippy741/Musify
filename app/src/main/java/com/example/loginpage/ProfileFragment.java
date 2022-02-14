@@ -19,16 +19,18 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProfileFragment extends Fragment{
 
@@ -47,10 +49,6 @@ public class ProfileFragment extends Fragment{
     private String UpdatedEmail;
     private String UpdatedName;
     private String updatedProfileIndex;
-
-    private boolean isUpdatedName = false;
-    private boolean isUpdatedEmail = false;
-    private boolean isUpdatedProfile = false;
 
 
     private final ArrayList<Integer> profileResources = new ArrayList<Integer>();
@@ -160,13 +158,14 @@ public class ProfileFragment extends Fragment{
 
 
         TextInputLayout textLayout =  d.getWindow().findViewById(R.id.custom_profileTitlesChange_editText);
-        textLayout.getEditText().setHint("Updated Name");
+        textLayout.setHint("Updated Name");
         textLayout.setEndIconDrawable(R.drawable.ic_profile_pic_icon);
-         UpdatedName = textLayout.getEditText().getEditableText().toString();
+
 
         d.getWindow().findViewById(R.id.custom_profileTitlesChange_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UpdatedName = textLayout.getEditText().getEditableText().toString();
                 mainTitle.setText(UpdatedName);
                 d.dismiss();
             }
@@ -182,13 +181,14 @@ public class ProfileFragment extends Fragment{
 
 
         TextInputLayout textLayout = d.getWindow().findViewById(R.id.custom_profileTitlesChange_editText);
-        textLayout.getEditText().setHint("Updated Email");
+        textLayout.setHint("Updated Email");
         textLayout.setEndIconDrawable(R.drawable.ic_mail_icon);
-        UpdatedEmail = textLayout.getEditText().getEditableText().toString();
+
 
         d.getWindow().findViewById(R.id.custom_profileTitlesChange_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UpdatedEmail = textLayout.getEditText().getEditableText().toString();
                 subTitle.setText(UpdatedEmail);
                 d.dismiss();
             }
@@ -210,8 +210,6 @@ public class ProfileFragment extends Fragment{
         CarouselRecyclerView carouselRecyclerView = new CarouselRecyclerView();
         carouselRecyclerView.Bind(adapter,profilePicRecyclerView);
 
-        int profilePosition = carouselRecyclerView.getCarouselPosition();
-
         d.getWindow().findViewById(R.id.custom_profilePicChange_bg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -222,7 +220,13 @@ public class ProfileFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 try {
+                    int profilePosition = carouselRecyclerView.getCarouselPosition();
                     updatedProfileIndex = fromPositionToIndexProfile(profilePosition);
+
+                    String profileID = "ic_profile_"+updatedProfileIndex;
+                    int profile_res_id = getResources().getIdentifier(profileID,"drawable", "com.example.loginpage");
+
+                    profilePicImgView.setImageResource(profile_res_id);
                 }catch (Exception e)
                 {
                     Toast.makeText(view.getContext(),"Failed to update profile pic: " + e, Toast.LENGTH_SHORT).show();
@@ -233,6 +237,38 @@ public class ProfileFragment extends Fragment{
         d.getWindow().findViewById(R.id.custom_profilePicChange_deny_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                d.dismiss();
+            }
+        });
+
+        d.show();
+    }
+    private void openConfirmPasswordDialog()
+    {
+        Dialog d = new Dialog(view.getContext(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        d.setContentView(R.layout.custom_update_profile_confirmpass_dialog);
+
+
+        TextInputLayout textLayout = d.getWindow().findViewById(R.id.custom_profileConfirmPassword_TIL);
+        textLayout.setHint("Confirm Password");
+        textLayout.setEndIconDrawable(R.drawable.ic_password_icon);
+
+        d.getWindow().findViewById(R.id.custom_profileConfirmPassword_bg).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                d.dismiss();
+            }
+        });
+        d.getWindow().findViewById(R.id.custom_profileConfirmPassword_confirmButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pass = textLayout.getEditText().getEditableText().toString();
+                if(pass != "")
+                {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail().toString().toLowerCase(Locale.ROOT),pass);
+                    user.reauthenticate(credential);
+                }
                 d.dismiss();
             }
         });
@@ -272,85 +308,79 @@ public class ProfileFragment extends Fragment{
     }
     private void updateProfile()
     {
-        isUpdatedName = false;
-        isUpdatedEmail = false;
-        isUpdatedProfile = false;
-
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(mainTitle.getText().toString())
                 .build();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-        @Override
-        public void onComplete(@NonNull Task<Void> task) {
-            if (task.isSuccessful()) {
-                isUpdatedName = true;
-                user.updateEmail(subTitle.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
-                            isUpdatedEmail = true;
-                            db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).update("profile_pic_index",updatedProfileIndex).
-                                    addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful())
-                                            {
-                                                isUpdatedProfile = true;
-                                            }
-                                            else
-                                            {
-                                                isUpdatedProfile = false;
-                                                Toast.makeText(view.getContext(), "Failed to update user profile picture: " + task.getException(), Toast.LENGTH_SHORT).show();
-                                            }
-                                            updateProfileDialog(isUpdatedName,isUpdatedEmail,isUpdatedProfile);
-                                        }
-                                    });
-                        }else
-                        {
-                            Toast.makeText(view.getContext(), "Failed to update user email address: " + task.getException(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-            }else
-            {
-                Toast.makeText(view.getContext(), "Failed to update user display name: " + task.getException(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    });
+        openConfirmPasswordDialog();
+        updateProfileDialog(user,profileUpdates);
     }
-    private void updateProfileDialog(boolean isUpdatedName, boolean isUpdatedMail, boolean isUpdatedProfile)
+    private void updateProfileDialog(FirebaseUser user,UserProfileChangeRequest profileUpdates)
     {
         Dialog d = new Dialog(view.getContext(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         d.setContentView(R.layout.custom_update_profile_dialog);
+        //Profile Pic
+        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).update("profile_pic_index",updatedProfileIndex).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-        if(!isUpdatedName)
-        {
-            ImageView img = d.getWindow().findViewById(R.id.updateProfile_dialog_displayName_check);
-            img.setImageResource(R.drawable.ic_x_mark);
-        }
-        if(!isUpdatedMail)
-        {
-            ImageView img = d.getWindow().findViewById(R.id.updateProfile_dialog_emailAddress_check);
-            img.setImageResource(R.drawable.ic_x_mark);
-        }
-        if(!isUpdatedProfile)
-        {
-            ImageView img = d.getWindow().findViewById(R.id.updateProfile_dialog_profilePic_check);
-            img.setImageResource(R.drawable.ic_x_mark);
-        }
+                        ProgressBar progressBar = d.getWindow().findViewById(R.id.custom_profile_update_profilePicture_progressBar);
+                        ImageView img = d.getWindow().findViewById(R.id.custom_profile_update_profilePicture_image);
 
-        d.getWindow().findViewById(R.id.updateProfile_dialog_ok_button).setOnClickListener(new View.OnClickListener() {
+                        if(!task.isSuccessful())
+                        {
+                            img.setImageResource(R.drawable.ic_x_mark);
+                            Toast.makeText(view.getContext(), "Failed to update user profile picture: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                        progressBar.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.VISIBLE);
+                    }
+                });
+        //Email
+        user.updateEmail(subTitle.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                ProgressBar progressBar = d.getWindow().findViewById(R.id.custom_profile_update_displayName_progressBar);
+                ImageView img = d.getWindow().findViewById(R.id.custom_profile_update_displayName_image);
+
+                if(!task.isSuccessful())
+                {
+                    img.setImageResource(R.drawable.ic_x_mark);
+                    Toast.makeText(view.getContext(), "Failed to update user profile picture: " + task.getException(), Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.INVISIBLE);
+                img.setVisibility(View.VISIBLE);
+            }
+        });
+        //Display Name
+        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).update("displayName",UpdatedName).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        ProgressBar progressBar = d.getWindow().findViewById(R.id.custom_profile_update_displayName_progressBar);
+                        ImageView img = d.getWindow().findViewById(R.id.custom_profile_update_displayName_image);
+
+                        if(!task.isSuccessful())
+                        {
+                            img.setImageResource(R.drawable.ic_x_mark);
+                            Toast.makeText(view.getContext(), "Failed to update user profile picture: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                        progressBar.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.VISIBLE);
+                    }
+                });
+        d.getWindow().findViewById(R.id.custom_profile_update_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 d.dismiss();
             }
         });
-        d.getWindow().findViewById(R.id.updateProfile_dialog_bg).setOnClickListener(new View.OnClickListener() {
+        d.getWindow().findViewById(R.id.custom_profile_update_bg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 d.dismiss();

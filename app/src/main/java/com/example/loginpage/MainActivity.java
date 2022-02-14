@@ -44,6 +44,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
+
 
         drawer.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             @Override
@@ -219,7 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         prof_pic_view.setVisibility(View.INVISIBLE);
         displayText.setVisibility(View.INVISIBLE);
         emailText.setVisibility(View.INVISIBLE);
-
 
         DocumentReference docRef = db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

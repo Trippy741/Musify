@@ -1,7 +1,6 @@
 package com.example.loginpage
 
 import android.os.Build
-import android.view.View
 import androidx.annotation.RequiresApi
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
@@ -20,14 +19,11 @@ class CarouselRecyclerView {
         carouselRecyclerview.setFlat(false)
         carouselRecyclerview.setIsScrollingEnabled(true)
 
-        carouselRecyclerview.getSelectedPosition()
-
         carousel = carouselRecyclerview
 
         carouselRecyclerview.setItemSelectListener(object : CarouselLayoutManager.OnSelected{
             @RequiresApi(Build.VERSION_CODES.Q)
             override fun onItemSelected(position: Int) {
-                adapter.focusImg(position)
                 adapter.vibrate()
             }
         })

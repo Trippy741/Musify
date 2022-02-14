@@ -18,29 +18,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="500dp">
+        android:layout_marginTop="600dp">
 
         <ImageButton
             android:id="@+id/custom_profilePicChange_deny_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_x_mark"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="150dp"
             android:background="@android:color/transparent"
-            app:tint="@color/purple"/>
+            android:src="@drawable/ic_x_mark"
+            app:tint="@color/purple" />
 
         <ImageButton
             android:id="@+id/custom_profilePicChange_confirm_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_check_mark"
             android:layout_marginLeft="150dp"
             android:background="@android:color/transparent"
+            android:src="@drawable/ic_check_mark"
             app:tint="@color/purple" />
 
     </RelativeLayout>
