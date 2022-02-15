@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 
 import at.huber.youtubeExtractor.VideoMeta;
@@ -22,10 +23,12 @@ public class MusicService {
     private final Context mContext;
     private SimpleExoPlayer player;
     public Boolean isPlaying = false;
+    private PlayerView playerView;
 
-    public MusicService(Context mContext)
+    public MusicService(Context mContext, PlayerView playerView)
     {
         this.mContext = mContext;
+        this.playerView = playerView;
         player = ExoPlayerFactory.newSimpleInstance(mContext, new DefaultTrackSelector());
     }
     public SimpleExoPlayer getPlayer()
@@ -63,6 +66,9 @@ public class MusicService {
 
                     player.setMediaSource(audioSource,true);
                     player.prepare();
+                    playerView.setPlayer(player);
+                    playerView.setControllerShowTimeoutMs(-1);
+                    playerView.setControllerHideOnTouch(false);
                     player.setPlayWhenReady(true);
                     isPlaying = true;
                 }

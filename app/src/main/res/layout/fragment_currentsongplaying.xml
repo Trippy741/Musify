@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:id="@+id/currentSongPlayingFragment">
-
+    android:id="@+id/currentSongPlayingFragment"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,121 +20,37 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@mipmap/ic_launcher_round">
+            android:src="@mipmap/ic_launcher">
 
         </ImageView>
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/song_playing_mainTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"
-        android:background="@drawable/gradient_list">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Main Title"
+        android:textColor="@color/purple"
+        android:textSize="26dp" />
 
-        <TextView
-            android:id="@+id/song_playing_mainTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Main Title"
-            android:textColor="@color/purple"
-            android:textSize="26dp" />
+    <TextView
+        android:id="@+id/song_playing_subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/roboto_thin"
+        android:text="Sub Title"
+        android:textColor="@color/purple_lightgrey" />
 
-        <TextView
-            android:id="@+id/song_playing_subTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="45dp"
-            android:fontFamily="@font/roboto_thin"
-            android:text="Sub Title"
-            android:textColor="@color/purple_lightgrey" />
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:controller_layout_id="@layout/exoplayer_controller"/>
 
-        <!--<SeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="5dp"
-            android:progressTint="@color/purple"
-            android:thumbTint="@color/purple" />-->
-
-        <com.google.android.exoplayer2.ui.DefaultTimeBar
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:id="@+id/song_playing_timeBar"
-            android:layout_width="match_parent"
-
-            app:played_color="@color/purple"
-            app:scrubber_enabled_size="10dp"
-
-            android:layout_height="wrap_content"
-            android:layout_marginTop="69dp"
-            app:scrubber_color="@color/purple"
-            app:scrubber_drawable="@drawable/shadow_circle" />
-
-        <TextView
-            android:id="@+id/currentTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="100dp"
-            android:text="0:00"
-            android:textColor="@color/purple" />
-
-        <TextView
-            android:id="@+id/timeLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="100dp"
-            android:text="/ 0:00"
-            android:textColor="@color/white" />
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/forward_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:rotation="180"
-                android:src="@drawable/ic_backwardsicon"
-                app:tint="@color/purple_lightgrey" />
-
-            <ImageView
-                android:id="@+id/play_button"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:src="@drawable/ic_playicon"
-                app:tint="@color/purple" />
-
-            <ImageView
-                android:id="@+id/backwards_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:src="@drawable/ic_forwardicon"
-                app:tint="@color/purple_lightgrey" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>
