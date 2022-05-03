@@ -1,21 +1,73 @@
 package com.example.loginpage;
 
+import android.media.Image;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class Album implements Parcelable {
-    public String albumTitle;
-    public String artistTitle;
-    public String albumImage;
-    public String albumDuration;
-    public String albumReleaseDate;
-    public String album_id;
-    public String database_path;
+    public String albumTitle = "Empty";
+    public String artistTitle = "Empty";
+    public String albumImage = "";
+    public String albumDuration = "0 hr, 0 min";
+    public String albumReleaseDate = "";
+    public String album_id = "";
+    public String database_path = "";
+
+    public String imageURI = "";
+
+    public void setImageURI(String imageURI) {
+        this.imageURI = imageURI;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public String getImageURI() {
+        return imageURI;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Image image;
+
     public ArrayList<Song> songs = new ArrayList<Song>();
 
-    public Album(String database_path,String album_id,String albumTitle, String artistTitle,String albumImage ,ArrayList<Song> songs,String albumDuration,String albumReleaseDate) {
+    public void setAlbumTitle(String albumTitle) {
+        this.albumTitle = albumTitle;
+    }
+
+    public void setArtistTitle(String artistTitle) {
+        this.artistTitle = artistTitle;
+    }
+
+    public void setAlbumImage(String albumImage) {
+        this.albumImage = albumImage;
+    }
+
+    public void setAlbumDuration(String albumDuration) {
+        this.albumDuration = albumDuration;
+    }
+
+    public void setAlbumReleaseDate(String albumReleaseDate) {
+        this.albumReleaseDate = albumReleaseDate;
+    }
+
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
+    }
+
+    public void setDatabase_path(String database_path) {
+        this.database_path = database_path;
+    }
+
+    public Album(String database_path, String album_id, String albumTitle, String artistTitle, String albumImage , ArrayList<Song> songs, String albumDuration, String albumReleaseDate) {
         this.albumTitle = albumTitle;
         this.artistTitle = artistTitle;
         this.albumImage = albumImage;
@@ -33,6 +85,10 @@ public class Album implements Parcelable {
         this.albumReleaseDate = albumReleaseDate;
         this.album_id = album_id;
         this.database_path = database_path;
+    }
+    public Album()
+    {
+
     }
 
     protected Album(Parcel in) {
@@ -60,6 +116,10 @@ public class Album implements Parcelable {
     public void addSong(Song song)
     {
         songs.add(song);
+    }
+    public void setSongs(ArrayList<Song> songs)
+    {
+        this.songs = songs;
     }
 
     @Override

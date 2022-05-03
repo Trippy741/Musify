@@ -16,7 +16,7 @@
     <color name="purple_lightgrey">#977eab</color>
     <color name="purple_dim">#6e5682</color>
     <color name="translucent_black">#90000000</color>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#9b57d4</color>
+    <color name="colorPrimaryDark">#9b57d4</color>
+    <color name="colorAccent">#9b57d4</color>
 </resources>

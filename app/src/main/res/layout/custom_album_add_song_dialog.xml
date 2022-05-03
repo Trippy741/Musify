@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent_black"
+    android:id="@+id/custom_add_song_bg">
+
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_extrabold"
+                android:text="Song Title: "
+
+                android:textAlignment="textStart"
+
+
+                android:textAllCaps="true"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/purpleInputField"
+                android:id="@+id/custom_add_song_songTitle_TIL"
+                android:layout_gravity="center"
+
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+
+                android:hint="Title"
+                android:textColorHint="@color/purple"
+                app:boxStrokeColor="@color/purple"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                app:startIconDrawable="@drawable/ic_mail_icon"
+                app:startIconTint="@color/purple_dim"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_thin"
+                    android:textColor="@color/purple"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_extrabold"
+                android:text="Artist Title: "
+
+                android:textAlignment="textStart"
+
+
+                android:textAllCaps="true"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/purpleInputField"
+                android:id="@+id/custom_add_song_artistTitle_TIL"
+                android:layout_gravity="center"
+
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+
+                android:hint="Artist"
+                android:textColorHint="@color/purple"
+                app:boxStrokeColor="@color/purple"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                app:startIconDrawable="@drawable/ic_mail_icon"
+                app:startIconTint="@color/purple_dim"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_thin"
+                    android:textColor="@color/purple"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_extrabold"
+                android:text="Song Youtube URL: "
+
+                android:textAlignment="textStart"
+
+
+                android:textAllCaps="true"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/purpleInputField"
+                android:id="@+id/custom_add_song_songURL_TIL"
+                android:layout_gravity="center"
+
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+
+                android:hint="URL"
+                android:textColorHint="@color/purple"
+                app:boxStrokeColor="@color/purple"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                app:startIconDrawable="@drawable/ic_url"
+                app:startIconTint="@color/purple_dim"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_thin"
+                    android:textColor="@color/purple"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/custom_add_song_confirm"
+                    android:layout_gravity="center"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_check_mark"
+                    android:backgroundTint="@android:color/transparent"
+                    app:tint="@color/purple" />
+
+                <ImageButton
+                    android:id="@+id/custom_add_song_deny"
+                    android:layout_gravity="center"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_x_mark"
+                    android:backgroundTint="@android:color/transparent"
+                    app:tint="@color/purple" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/custom_add_song_loadingBar"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_centerVertical="true"
+            android:indeterminateTint="@color/purple"/>
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

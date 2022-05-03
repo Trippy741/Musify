@@ -35,17 +35,6 @@ android {
 
 dependencies {
 
-    //ROOM
-    def room_version = "2.4.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
-    implementation "androidx.room:room-rxjava3:$room_version"
-    implementation "androidx.room:room-guava:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
-    implementation "androidx.room:room-paging:2.4.0"
-
-
     //Firebase & Google play
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
@@ -77,6 +66,7 @@ dependencies {
     implementation 'com.google.android.material:compose-theme-adapter:1.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
     implementation 'com.google.android.exoplayer:exoplayer:2.13.2'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.13.2'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.13.2'
@@ -84,12 +74,6 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.13.2'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.2'
     implementation "androidx.core:core-ktx:+"
-
-    //Instant search (Firebase firestore text search UI thingy)
-    implementation "com.algolia:instantsearch-android:2.11.4"
-
-    //Algolia firebase firestore text search thingy
-    implementation 'com.algolia:instantsearch-android:2.0.0'
 
     implementation 'com.github.sparrow007:carouselrecyclerview:1.2.4'
 

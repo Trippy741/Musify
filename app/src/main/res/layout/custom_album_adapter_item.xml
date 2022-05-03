@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:id="@+id/custom_album_adapter_item_bg">
+
+    <ImageView
+        android:id="@+id/custom_album_adapter_item_albumImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:src="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/custom_album_adapter_item_albumTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Album Title"
+        android:fontFamily="@font/raleway_bold"
+        android:textColor="@color/white"
+
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="90dp"/>
+
+    <TextView
+        android:id="@+id/custom_album_adapter_item_artistTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Artist Title"
+        android:fontFamily="@font/raleway_extralight"
+        android:textColor="@color/white"
+
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="90dp"/>
+
+    <ImageView
+        android:id="@+id/custom_album_adapter_item_editImgV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_edit"
+        app:tint="@color/white"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:clickable="true"/>
+
+</RelativeLayout>

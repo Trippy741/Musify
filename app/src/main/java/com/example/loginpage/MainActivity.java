@@ -1,7 +1,9 @@
 package com.example.loginpage;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +25,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
-
 
         drawer.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             @Override
@@ -145,7 +145,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         }
         else
-            super.onBackPressed();
+        {
+            showDismissAlertDialog();
+        }
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+
+        }
+    }
+    private void showDismissAlertDialog()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        alert.setTitle("Gone so soon?");
+        alert.setMessage("Are you sure you want to quit the app?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MainActivity.super.onBackPressed();
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Exists alert dialog
+            }
+        });
+        alert.create().show();
+
     }
     /*private void updateAlbumScrollview()
     {
@@ -211,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DocumentReference docRef = db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid());
         String u = "user_"+FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -269,30 +298,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(MainActivity.this, "Failed to update user UI elements: " + task.getException(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
-
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-
-            switch (item.getItemId())
-            {
-                case R.id.nav_favorites:
-                    selectedFragment = new LikedSongsFragment();
-                    break;
-                case R.id.nav_search:
-                    selectedFragment = new SearchFragment();
-                    break;
-                case R.id.nav_home:
-                    selectedFragment = new HomeFragment();
-                    break;
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
-            return true;
-        }
-    };
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -330,17 +338,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 d.show();
                 break;
-            case R.id.nav_player:
+            case R.id.navmenu_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).commit();
                 break;
             case R.id.nav_currentsongplaying:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
                 break;
             case R.id.nav_playlists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AlbumView()).commit();
+
                 break;
             case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ArtistView()).commit();
+
+                break;
+            case R.id.nav_mySongs:
+                /*Bundle args = new Bundle();
+                args.putString("artist_id","my_songs");
+                args.putString("album_id","welcome_album");
+                AlbumView albumView = new AlbumView();
+                albumView.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,albumView).commit();*/
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CustomAlbumsFragment()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

@@ -1,12 +1,8 @@
 package com.example.loginpage;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 
-@Entity
 public class local_user {
     public String displayName;
 

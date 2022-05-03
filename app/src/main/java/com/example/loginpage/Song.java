@@ -5,10 +5,12 @@ import android.os.Parcelable;
 
 public class Song implements Parcelable {
 
-    public String image_URL;
+    public String image_URL = "";
     public String artist_title;
     public String song_title;
-    public String song_URL;
+    public String song_URL = "";
+
+    public String image_uri = "";
 
     public Song(String song_URL,String image_URL, String name_artist, String song_title) {
         this.image_URL = image_URL;
@@ -22,6 +24,11 @@ public class Song implements Parcelable {
         artist_title = in.readString();
         song_title = in.readString();
         song_URL = in.readString();
+        image_uri = in.readString();
+    }
+    public Song()
+    {
+
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {
@@ -47,5 +54,6 @@ public class Song implements Parcelable {
         parcel.writeString(artist_title);
         parcel.writeString(song_title);
         parcel.writeString(song_URL);
+        parcel.writeString(image_uri);
     }
 }

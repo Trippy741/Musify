@@ -26,6 +26,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_home.xml" value="0.5640625" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_launcher_background.xml" value="0.39895833333333336" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_likedsongsicon.xml" value="0.39895833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_plus.xml" value="0.39" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_profile_00.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_profile_01.xml" value="0.54375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/drawable/ic_profile_02.xml" value="0.54375" />
@@ -44,8 +45,14 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/album_view_song.xml" value="0.36875" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/alert_dialog_2_choices.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/bottom_song_playing.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/currentsong_bottombar.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_album_adapter_item.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_album_add_song_dialog.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_alert_dialog.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_loading_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_playlist_creation_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_profile_change_main_title_dialog.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_profile_change_profile_picture_dialog.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/custom_profile_change_sub_title_dialog.xml" value="0.5234375" />
@@ -63,6 +70,8 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_album_view.xml" value="0.5624483043837882" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_artist_view.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_currentsongplaying.xml" value="0.5" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_custom_album_view.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_custom_albums.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_device_music_player.xml" value="0.36875" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_home.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/layout/fragment_likeSongs.xml" value="0.30416666666666664" />
@@ -85,6 +94,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/bottom_song_playing.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/currentsong_bottombar.xml" value="0.5234375" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/custom_album_save_menu_button.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/drawer_menu.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/main_menu_search.xml" value="0.5234375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/LoginPage/app/src/main/res/menu/song_options_menu.xml" value="0.3359375" />

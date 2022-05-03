@@ -17,6 +17,10 @@ public class Artist{
         this.artistImage = artistImage;
         this.albums = albums;
     }
+    public Artist()
+    {
+
+    }
     public Artist(String artistTitle,String artistQuote,String artistImage)
     {
         this.artistTitle = artistTitle;

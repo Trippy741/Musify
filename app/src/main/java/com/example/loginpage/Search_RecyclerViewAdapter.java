@@ -1,6 +1,8 @@
 package com.example.loginpage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +51,7 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Log.d(TAG,"onBindViewHolder: called.");
 
         if(searches.get(position) instanceof Artist)
@@ -123,7 +125,10 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
 
                     CurrentSongPlayingFragment frag = new CurrentSongPlayingFragment();
                     frag.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(
+                            R.anim.slide_in_right,
+                            R.anim.slide_in_left
+                    ).replace(R.id.fragment_container,frag).commit();
                 }
             });
         }

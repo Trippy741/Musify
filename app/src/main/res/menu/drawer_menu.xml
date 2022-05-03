@@ -9,14 +9,19 @@
             android:icon="@drawable/ic_home"
             />
 
-        <item android:id="@+id/nav_player"
-            android:title="Device Music Player"
-            android:icon="@drawable/ic_device_music_player"
+        <item android:id="@+id/navmenu_search"
+            android:title="Search"
+            android:icon="@drawable/ic_search"
             />
 
         <item android:id="@+id/nav_profile"
             android:title="Profile"
             android:icon="@drawable/ic_profile_def"
+            />
+
+        <item android:id="@+id/nav_mySongs"
+                android:title="My Songs"
+                android:icon="@drawable/ic_my_songs"
             />
 
         <item android:id="@+id/nav_playlists"
@@ -31,7 +36,7 @@
 
         <item android:id="@+id/nav_currentsongplaying"
             android:title="Current Song Playing"
-            android:icon="@drawable/ic_settingsicon"
+            android:icon="@drawable/ic_headphones"
             />
 
         <item android:id="@+id/nav_signOut"
