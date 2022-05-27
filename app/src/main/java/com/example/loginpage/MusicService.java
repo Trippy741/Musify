@@ -48,7 +48,7 @@ public class MusicService {
     private DefaultHttpDataSource.Factory dataSource;
     /*private CacheDataSourceFactory cacheDataSourceFactory;*/
 
-    private MediaSessionCompat mediaSessionCompat;
+    private static MediaSessionCompat mediaSessionCompat;
 
     public MusicService(Context mContext, PlayerView playerView,ArrayList<Song> songs)
     {
@@ -96,7 +96,7 @@ public class MusicService {
     {
         return mediaSessionCompat;
     }
-    public MediaSession.Token getMediaCompatToken()
+    public static MediaSession.Token getMediaCompatToken()
     {
         return (MediaSession.Token) mediaSessionCompat.getSessionToken().getToken();
     }

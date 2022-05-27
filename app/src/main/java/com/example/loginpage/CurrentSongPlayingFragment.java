@@ -1,12 +1,7 @@
 package com.example.loginpage;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -130,79 +125,14 @@ public class CurrentSongPlayingFragment extends Fragment {
 
         musicService.playSongFromURL(songPlaying.song_URL);
 
+        MediaNotificationHandler.CreateNotification(view.getContext(),songPlaying,requireActivity().getSystemService(NotificationManager.class));
+
         contextView = view;
 
         //Creating the Notification Channel
 
-        Intent prevIntent = new Intent(view.getContext(), NotificationReciever.class);
-        prevIntent.putExtra("action","ACTION_PREV");
-        PendingIntent prevPendingIntent = PendingIntent.getBroadcast(view.getContext(),111,prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent pauseIntent = new Intent(view.getContext(), NotificationReciever.class);
-        pauseIntent.putExtra("action","ACTION_PAUSE");
-        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(view.getContext(),112,pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent nextIntent = new Intent(view.getContext(), NotificationReciever.class);
-        nextIntent.putExtra("action","ACTION_NEXT");
-        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(view.getContext(),113,nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Bitmap iconBitmap = null;
-
-        /*if(songPlaying.image_uri != null && songPlaying.image_uri != "")
-        {
-            if(Uri.parse(songPlaying.image_uri) != Uri.EMPTY)
-            {
-                try {
-                    iconBitmap = Picasso.with(view.getContext()).load(songPlaying.image_uri).get(); //TODO: FIX THIS LINE BECUASE THAT'S NOT YOU'RE SUPPOSED TO LOAD THE IMAGE URIS
-                } catch (IOException e) {
-                    Toast.makeText(view.getContext(), "Failed to set Notification large image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }else
-        {
-
-        }*/
-
-/*        try {
-            URL url = new URL(songPlaying.image_URL);
-            iconBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch(IOException e) {
-            Toast.makeText(view.getContext(), "Failed fetching song image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }*/
-
-        /*try {
-
-        }catch (Exception e)
-        {
-            Toast.makeText(view.getContext(), "Failed to create Notification: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }*/
-
-        NotificationManager notificationManager = requireActivity().getSystemService(NotificationManager.class);
-
-        CharSequence name = getString(R.string.notification_channel_id);
-        String description = getString(R.string.notification_channel_description);
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("musicNotif", name, importance);
-        channel.setDescription(description);
-
-        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_mail_icon);
-
-        notificationManager.createNotificationChannel(channel);
-        Notification.Builder builder = new Notification.Builder(view.getContext(), getString(R.string.notification_channel_id))
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .addAction(R.drawable.exo_controls_previous, "Previous", prevPendingIntent) // #0
-                .addAction(R.drawable.exo_controls_pause, "Pause", pausePendingIntent)  // #1
-                .addAction(R.drawable.exo_controls_next, "Next", nextPendingIntent)     // #2
-                .setStyle(new Notification.MediaStyle()
-                        .setShowActionsInCompactView(1 /* #1: pause button */)
-                        .setMediaSession(musicService.getMediaCompatToken()))
-                .setContentTitle(songPlaying.song_title)
-                .setContentText(songPlaying.artist_title)
-                .setLargeIcon(bMap);
-
-        notificationManager.notify(R.string.notification_channel_id , builder.build());
         return view;
     }
     //TODO: FIX THE IMAGE UPLOAD AND DOWNLOAD THROUGH FIREBASE
