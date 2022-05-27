@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumView_RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
 
+    private Album album;
     private ArrayList<Song> songs = new ArrayList<Song>();
     private String albumTitle = "";
     private final Context mContext;
@@ -34,14 +35,16 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
 
     private Boolean editMode = false;
 
-    public AlbumView_RecyclerViewAdapter(Context mContext,FragmentManager fragmentManager,ArrayList<Song> songs) {
-        this.songs = songs;
+    public AlbumView_RecyclerViewAdapter(Context mContext,FragmentManager fragmentManager,Album album) {
+        this.album = album;
+        songs = album.songs;
         this.mContext = mContext;
         this.fragmentManager = fragmentManager;
     }
 
-    public AlbumView_RecyclerViewAdapter(Context mContext,FragmentManager fragmentManager,ArrayList<Song> songs,boolean editMode,String albumTitle) {
-        this.songs = songs;
+    public AlbumView_RecyclerViewAdapter(Context mContext,FragmentManager fragmentManager,Album album,boolean editMode,String albumTitle) {
+        this.album = album;
+        songs = album.songs;
         this.mContext = mContext;
         this.fragmentManager = fragmentManager;
         this.editMode = editMode;
@@ -83,9 +86,15 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
                 selectedHolder = holder;
 
                 try {
-                    //Moves to the "Current Song Playing" Fragment
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("song_obj",(Song)songs.get(position));
+
+                    if(songs.size() > 1)
+                    {
+                        bundle.putParcelable("album_obj",album);
+                        bundle.putInt("song_index",position);
+                    }
+                    else if(songs.size() == 1)
+                        bundle.putParcelable("song_obj",(Song)songs.get(position));
 
                     CurrentSongPlayingFragment frag = new CurrentSongPlayingFragment();
                     frag.setArguments(bundle);

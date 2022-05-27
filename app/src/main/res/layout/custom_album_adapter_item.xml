@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:id="@+id/custom_album_adapter_item_bg">
+    android:id="@+id/custom_album_adapter_item_bg"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/custom_album_adapter_item_albumImageView"
@@ -11,8 +12,25 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <ProgressBar
+        android:id="@+id/custom_album_adapter_item_progressBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:indeterminateTint="@color/purple"
+        android:visibility="invisible"
+        />
 
     <TextView
         android:id="@+id/custom_album_adapter_item_albumTitle"

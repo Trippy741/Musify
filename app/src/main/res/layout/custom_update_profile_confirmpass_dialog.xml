@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/translucent_black"
+    android:clickable="true"
     android:id="@+id/custom_profileConfirmPassword_bg">
 
     <TextView
@@ -12,8 +13,8 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginTop="352dp"
+        android:layout_marginStart="14dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/raleway_extrabold"
         android:text="Confirm Password: "
@@ -26,9 +27,28 @@
         android:textSize="20sp"
         />
 
+    <TextView
+        android:id="@+id/custom_profileConfirmPassword_title2"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/raleway_extrabold"
+        android:text="Confirm Password: "
+
+        android:textAlignment="textStart"
+
+
+        android:textAllCaps="true"
+        android:textColor="@color/dark_grey"
+        android:textSize="20sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:background="@drawable/shadow">
 
 
@@ -46,7 +66,7 @@
             app:boxStrokeColor="@color/purple"
 
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
 
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -64,17 +84,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageButton
-            android:id="@+id/custom_profileConfirmPassword_confirmButton"
-            android:layout_gravity="center"
+        <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_check_mark"
-            android:backgroundTint="@android:color/transparent"
-            app:tint="@color/purple" />
+            android:layout_gravity="center">
+
+            <ImageButton
+                android:id="@+id/custom_profileConfirmPassword_confirmButton"
+                android:layout_gravity="center"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_check_mark"
+                android:backgroundTint="@android:color/transparent"
+                app:tint="@color/purple" />
+
+            <ProgressBar
+                android:id="@+id/custom_profileConfirmPassword_progressBar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/transparent"
+                android:indeterminateTint="@color/purple"
+                android:src="@drawable/ic_check_mark"
+                android:visibility="invisible"
+                app:tint="@color/purple" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

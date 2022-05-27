@@ -2,6 +2,9 @@ package com.example.loginpage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.session.MediaSession;
+import android.support.v4.media.session.MediaSessionCompat;
+
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
@@ -12,19 +15,14 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.upstream.cache.Cache;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
-import com.google.android.exoplayer2.upstream.cache.CacheEvictor;
-import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
-import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 
-import java.io.File;
+
 import java.util.ArrayList;
 
 import at.huber.youtubeExtractor.VideoMeta;
@@ -34,21 +32,23 @@ import at.huber.youtubeExtractor.YtFile;
 public class MusicService {
 
     private final Context mContext;
-    private SimpleExoPlayer player;
-    public Boolean isPlaying = false;
+    private static SimpleExoPlayer player;
+    public static Boolean isPlaying = false;
     private PlayerView playerView;
 
     private ArrayList<Song> songs = new ArrayList<Song>();
 
-    private SimpleCache simpleCache;
+    /*private SimpleCache simpleCache;*/
     private DefaultTrackSelector trackSelector = new DefaultTrackSelector();
 
     private ArrayList<MediaSource> mediaSources = new ArrayList<MediaSource>();
     private int currentSourceIndex;
-    private File cacheFolder;
-    private CacheEvictor evictor;
+    /*private File cacheFolder;
+    private CacheEvictor evictor;*/
     private DefaultHttpDataSource.Factory dataSource;
-    private CacheDataSourceFactory cacheDataSourceFactory;
+    /*private CacheDataSourceFactory cacheDataSourceFactory;*/
+
+    private MediaSessionCompat mediaSessionCompat;
 
     public MusicService(Context mContext, PlayerView playerView,ArrayList<Song> songs)
     {
@@ -59,18 +59,24 @@ public class MusicService {
 
         currentSourceIndex = 0;
 
-        cacheFolder = new File(mContext.getCacheDir(),"audio_cache");
-        evictor = new LeastRecentlyUsedCacheEvictor(1920*1920);
-        simpleCache = new SimpleCache(cacheFolder,evictor);
+        mediaSessionCompat = new MediaSessionCompat(mContext,"tag");
+
+        /*cacheFolder = new File(mContext.getCacheDir(),"audio_cache");
+        evictor = new LeastRecentlyUsedCacheEvictor(1920*1920);*/
+        /*simpleCache = new SimpleCache(cacheFolder,evictor);*/
         dataSource = new DefaultHttpDataSource.Factory();
 
-        cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,dataSource);
+        /*cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,dataSource);*/
+
+        MediaSessionConnector mediaSessionConnector =
+                new MediaSessionConnector(mediaSessionCompat);
+        mediaSessionConnector.setPlayer(player);
     }
-    public SimpleExoPlayer getPlayer()
+    public static SimpleExoPlayer getPlayer()
     {
         return player;
     }
-    public void resumePlayer()
+    public static void resumePlayer()
     {
         if(!isPlaying)
         {
@@ -78,13 +84,21 @@ public class MusicService {
             isPlaying = true;
         }
     }
-    public void stopPlayer()
+    public static void pausePlayer()
     {
         if(isPlaying)
         {
-            player.stop();
+            player.pause();
             isPlaying = false;
         }
+    }
+    public MediaSessionCompat getMediaSessionCompat()
+    {
+        return mediaSessionCompat;
+    }
+    public MediaSession.Token getMediaCompatToken()
+    {
+        return (MediaSession.Token) mediaSessionCompat.getSessionToken().getToken();
     }
     @SuppressLint("StaticFieldLeak")
     public void playAlbumFromURL()
@@ -98,7 +112,7 @@ public class MusicService {
                     {
                         int audioTag = 140;
                         MediaSource audioSource = new ProgressiveMediaSource
-                                .Factory(cacheDataSourceFactory).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl()));
+                                .Factory(dataSource).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl()));
 
                         mediaSources.add(audioSource);
                         Toast.makeText(mContext, "Fetched Song!" , Toast.LENGTH_SHORT).show();
@@ -153,7 +167,7 @@ public class MusicService {
                 {
                     int audioTag = 140;
                     MediaSource audioSource = new ProgressiveMediaSource
-                            .Factory(cacheDataSourceFactory).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl()));
+                            .Factory(dataSource).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl())); //TODO: CHANGE THE FACTORY TO THE CACHE FACTORY LATER
 
                     Toast.makeText(mContext, "Fetched Song!" , Toast.LENGTH_SHORT).show();
 

@@ -40,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,13 +58,12 @@ public class CustomAlbumsFragment extends Fragment{
     private ArrayList<Album> newAlbums = new ArrayList<Album>();
 
     private Dialog d;
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private CustomAlbum_RecyclerViewAdapter adapter;
     private Uri tempURI = Uri.EMPTY;
     private Album tempAlbum = new Album();
 
-    private boolean tempDoneWithPhotoPick = false;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     @Nullable
     @Override
@@ -74,10 +75,13 @@ public class CustomAlbumsFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_custom_albums, container, false);
         setHasOptionsMenu(true);
 
+        albumRecycler = view.findViewById(R.id.custom_albums_recyclerView);
+
         adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
+        adapter.notifyDataSetChanged();
+        albumRecycler.setAdapter(adapter);
 
         mContext = view.getContext();
-        albumRecycler = view.findViewById(R.id.custom_albums_recyclerView);
         fab = view.findViewById(R.id.custom_albums_fab);
 
         fab = view.findViewById(R.id.custom_albums_fab);
@@ -91,51 +95,63 @@ public class CustomAlbumsFragment extends Fragment{
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_custom_playlists")
-        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot doc : task.getResult())
-                {
-                    if(task.isSuccessful())
+
+        if(albums.isEmpty())
+        {
+            db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_custom_playlists")
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for (QueryDocumentSnapshot doc : task.getResult())
                     {
-                        if(doc.get("album_title") != null)
+                        if(task.isSuccessful())
                         {
-                            Album tempAlbum = new Album();
-                            tempAlbum.setAlbumTitle(doc.get("album_title").toString());
+                            if(doc.get("albumTitle") != null)
+                            {
+                                Album tempAlbum = new Album();
+                                tempAlbum.setAlbumTitle(doc.get("albumTitle").toString());
 
-                            tempAlbum.setAlbumDuration(doc.get("album_duration").toString());
-                            tempAlbum.setArtistTitle(doc.get("artist_title").toString());
-                            tempAlbum.setAlbumReleaseDate(doc.get("album_release_date").toString());
-                            tempAlbum.setAlbumImage(doc.get("album_img_url").toString());
+                                tempAlbum.setAlbumDuration(doc.get("albumDuration").toString());
+                                tempAlbum.setArtistTitle(doc.get("artistTitle").toString());
+                                tempAlbum.setAlbumReleaseDate(doc.get("albumReleaseDate").toString());
 
-                            db.collection("artists").document("my_songs").collection("albums")
-                                    .document(doc.getId()).collection("songs").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    for (QueryDocumentSnapshot doc : task.getResult())
-                                    {
-                                        if(task.isSuccessful())
+                                tempAlbum.album_id = doc.getId();
+
+                                if(doc.get("albumImage").toString() != null && doc.get("albumImage").toString() != "")
+                                    tempAlbum.setAlbumImage(doc.get("albumImage").toString());
+                                else if(doc.get("imageURI").toString() != null && doc.get("imageURI").toString() != "")
+                                    tempAlbum.imageURI = doc.get("imageURI").toString();
+
+
+
+                                db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_custom_playlists")
+                                        .document(doc.getId()).collection("songs").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        for (QueryDocumentSnapshot doc : task.getResult())
                                         {
-                                            Song tmpSong = new Song();
-                                            tmpSong.song_title = doc.get("song_title").toString();
-                                            tmpSong.song_URL = doc.get("song_URL").toString();
-                                            tmpSong.artist_title = tempAlbum.artistTitle;
-                                            tmpSong.image_URL = tempAlbum.albumImage;
-                                            tempAlbum.addSong(tmpSong);
-                                        }else
-                                            Toast.makeText(view.getContext(), "Failed Fetching songs: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                            if(task.isSuccessful())
+                                            {
+                                                Song tmpSong = new Song();
+                                                tmpSong.song_title = doc.get("song_title").toString();
+                                                tmpSong.song_URL = doc.get("song_URL").toString();
+                                                tmpSong.artist_title = tempAlbum.artistTitle;
+                                                tmpSong.image_URL = tempAlbum.albumImage;
+                                                tempAlbum.addSong(tmpSong);
+                                            }else
+                                                Toast.makeText(view.getContext(), "Failed Fetching songs: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-                            albums.add(tempAlbum);
-                            adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
-                            albumRecycler.setAdapter(adapter);
+                                });
+                                albums.add(tempAlbum);
+                                adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
+                                albumRecycler.setAdapter(adapter);
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
         return view;
     }
@@ -225,6 +241,35 @@ public class CustomAlbumsFragment extends Fragment{
                 newAlbums.add(tempAlbum);
 
                 adapter.addNewAlbums(newAlbums);
+                adapter.notifyDataSetChanged();
+                adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
+                albumRecycler.setAdapter(adapter);
+
+                loading_custom_dialog loadingD = new loading_custom_dialog(mContext,false,null);
+                loadingD.show();
+
+                storageReference = FirebaseStorage.getInstance().getReference("images/user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/custom_playlists/"+tempAlbum.albumTitle);
+
+                storageReference.putFile(tempURI)
+                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Toast.makeText(mContext, "Successfully Uploaded Image to database!", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), tempURI);
+                                        tempAlbum.imgBitmap = bitmap;
+                                    } catch (IOException e) {
+                                        Toast.makeText(mContext, "Error storing image Bitmap: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else
+                                    Toast.makeText(mContext, "Failed Uploading Image to database: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                loadingD.dismiss();
+                            }
+                        });
+
                 d.dismiss();
             }
         });
@@ -291,7 +336,6 @@ public class CustomAlbumsFragment extends Fragment{
                     {
                         String albumID = task.getResult().getId();
                         Toast.makeText(mContext, "Album Saved!", Toast.LENGTH_SHORT).show();
-
                         for (Song s :
                                 album.songs) {
                             db.collection("users")

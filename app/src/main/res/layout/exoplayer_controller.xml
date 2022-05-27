@@ -63,7 +63,7 @@
             android:background="@drawable/ic_backwardsicon"
             android:backgroundTint="@color/purple"
             android:rotation="180"
-
+            android:clickable="true"
             />
 
         <!--<ImageButton android:id="@id/exo_repeat_toggle"
@@ -87,7 +87,7 @@
             android:layout_height="80dp"
             android:background="@drawable/ic_backwardsicon"
             android:backgroundTint="@color/purple"
-
+            android:clickable="true"
             />
 
         <!--<ImageButton android:id="@id/exo_next"-->

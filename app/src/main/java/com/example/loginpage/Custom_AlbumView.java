@@ -5,6 +5,8 @@ import static com.google.android.exoplayer2.ExoPlayerLibraryInfo.TAG;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,16 +33,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -125,7 +134,7 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed{
         });
 
         recyclerView = view.findViewById(R.id.custom_albumView_recyclerView);
-        adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album.songs,true,album.albumTitle);
+        adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album,true,album.albumTitle);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -140,9 +149,14 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed{
         artistNameTextView.setVisibility(View.VISIBLE);
         albumDurationTextView.setVisibility(View.VISIBLE);
 
-        if(!album.imageURI.isEmpty())
-            albumImg.setImageURI(Uri.parse(album.imageURI));
-        else
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/user_"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/custom_playlists/"+album.albumTitle);
+
+        //TODO: FIX THE IMAGE LOADING
+        if(album.imgBitmap != null)
+        {
+            albumImg.setImageBitmap(album.imgBitmap);
+        }
+        else if(album.albumImage != null && album.albumImage != "")
             Picasso.with(view.getContext()).load(album.albumImage).into(albumImg);
 
 
@@ -204,7 +218,7 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed{
                     album.addSong(tempSong);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album.songs);
+                    adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album);
                     recyclerView.setVisibility(View.VISIBLE);
 
                     Toast.makeText(view.getContext(), "Size: " + album.songs.size(), Toast.LENGTH_SHORT).show();

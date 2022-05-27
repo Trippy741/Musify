@@ -2,6 +2,8 @@ package com.example.loginpage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,10 +52,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //private ArrayList<RecyclerView> recyclers = new ArrayList<RecyclerView>();
 
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
         super.onCreate(savedInstanceState);
+
+        contextOfApplication = getApplicationContext();
 
         setContentView(R.layout.activity_main);
 
@@ -340,9 +350,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navmenu_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).commit();
-                break;
-            case R.id.nav_currentsongplaying:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CurrentSongPlayingFragment()).commit();
                 break;
             case R.id.nav_playlists:
 

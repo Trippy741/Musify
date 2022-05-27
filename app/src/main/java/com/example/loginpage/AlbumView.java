@@ -143,7 +143,7 @@ public class AlbumView extends Fragment {
                             }
                             recyclerView = view.findViewById(R.id.album_view_songRecyclerView);
                             recyclerView.setHasFixedSize(false);
-                            AlbumView_RecyclerViewAdapter adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),Songs);
+                            AlbumView_RecyclerViewAdapter adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

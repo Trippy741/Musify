@@ -1,6 +1,8 @@
 package com.example.loginpage;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,8 +82,8 @@ public class ProfileFragment extends Fragment{
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        mainTitle.setText(auth.getCurrentUser().getDisplayName());
-        subTitle.setText(auth.getCurrentUser().getEmail());
+        mainTitle.setText(auth.getCurrentUser().getDisplayName().toString());
+        subTitle.setText(auth.getCurrentUser().getEmail().toString());
 
         profilePicImgView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -125,11 +127,16 @@ public class ProfileFragment extends Fragment{
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
+                if(task.isSuccessful() && task.getResult() != null)
                 {
                     String profilePicIndex = "-1";
                     DocumentSnapshot document = task.getResult();
-                    String profile_index = document.get("profile_pic_index").toString();
+
+                    String profile_index = "-1";
+
+                    if(document.get("profile_pic_index") != null)
+                        profile_index = document.get("profile_pic_index").toString();
+
                     if (document.exists() && !profile_index.isEmpty()) {
                         profilePicIndex = profile_index;
                     } else {
@@ -213,7 +220,24 @@ public class ProfileFragment extends Fragment{
         d.getWindow().findViewById(R.id.custom_profilePicChange_bg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                d.dismiss();
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setTitle("Hey! Aren't you forgetting something?");
+                alert.setMessage("Are you sure you want to dismiss this dialog and discard your changes?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        d.dismiss();
+                        Toast.makeText(view.getContext(), "Discarding Changes...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Exists alert dialog
+                    }
+                });
+                alert.create().show();
             }
         });
         d.getWindow().findViewById(R.id.custom_profilePicChange_confirm_button).setOnClickListener(new View.OnClickListener() {
@@ -253,23 +277,58 @@ public class ProfileFragment extends Fragment{
         textLayout.setHint("Confirm Password");
         textLayout.setEndIconDrawable(R.drawable.ic_password_icon);
 
+        ProgressBar progressBar = d.getWindow().findViewById(R.id.custom_profileConfirmPassword_progressBar);
+
         d.getWindow().findViewById(R.id.custom_profileConfirmPassword_bg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                d.dismiss();
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setTitle("Hey! Aren't you forgetting something?");
+                alert.setMessage("Are you sure you want to dismiss this dialog and discard your changes?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        d.dismiss();
+                        Toast.makeText(view.getContext(), "Discarding Changes...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Exists alert dialog
+                    }
+                });
+                alert.create().show();
             }
         });
         d.getWindow().findViewById(R.id.custom_profileConfirmPassword_confirmButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE); //Making the progress bar visible
+                d.getWindow().findViewById(R.id.custom_profileConfirmPassword_confirmButton).setVisibility(View.INVISIBLE);
                 String pass = textLayout.getEditText().getEditableText().toString();
                 if(pass != "")
                 {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail().toString().toLowerCase(Locale.ROOT),pass);
-                    user.reauthenticate(credential);
+                    user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                progressBar.setVisibility(View.INVISIBLE); //Making the progress bar invisible
+                                d.getWindow().findViewById(R.id.custom_profileConfirmPassword_confirmButton).setVisibility(View.VISIBLE);
+                                d.dismiss();
+                                Toast.makeText(view.getContext(), "Profile Successfully Updated!", Toast.LENGTH_SHORT).show();
+                            }else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                d.getWindow().findViewById(R.id.custom_profileConfirmPassword_confirmButton).setVisibility(View.VISIBLE);
+                                Toast.makeText(view.getContext(), "Failed Updating Profile Details: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
-                d.dismiss();
             }
         });
 
@@ -316,6 +375,7 @@ public class ProfileFragment extends Fragment{
 
         openConfirmPasswordDialog();
         updateProfileDialog(user,profileUpdates);
+        ((MainActivity)getActivity()).updateProfileUI();
     }
     private void updateProfileDialog(FirebaseUser user,UserProfileChangeRequest profileUpdates)
     {
@@ -377,6 +437,7 @@ public class ProfileFragment extends Fragment{
         d.getWindow().findViewById(R.id.custom_profile_update_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainTitle.setText(profileUpdates.getDisplayName());
                 d.dismiss();
             }
         });

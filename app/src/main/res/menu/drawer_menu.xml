@@ -34,11 +34,6 @@
             android:icon="@drawable/ic_settingsicon"
             />
 
-        <item android:id="@+id/nav_currentsongplaying"
-            android:title="Current Song Playing"
-            android:icon="@drawable/ic_headphones"
-            />
-
         <item android:id="@+id/nav_signOut"
             android:title="Sign out"
             android:icon="@drawable/ic_signout"

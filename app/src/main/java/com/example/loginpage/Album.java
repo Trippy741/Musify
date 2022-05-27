@@ -1,9 +1,12 @@
 package com.example.loginpage;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.firebase.firestore.Exclude;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,6 +21,9 @@ public class Album implements Parcelable {
     public String database_path = "";
 
     public String imageURI = "";
+
+    @Exclude
+    public Bitmap imgBitmap;
 
     public void setImageURI(String imageURI) {
         this.imageURI = imageURI;
