@@ -2,7 +2,12 @@ package com.example.loginpage;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +19,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 //import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -36,6 +46,10 @@ public class CurrentSongPlayingFragment extends Fragment {
     private ArrayList<Song> songQueue = new ArrayList<Song>();
     private Notification notification;
 
+    private Bitmap notifBitmap;
+
+    private ImageView songImage;
+
     @Nullable
     @Override
     public View onCreateView(
@@ -47,7 +61,7 @@ public class CurrentSongPlayingFragment extends Fragment {
         contextView = view;
 
 
-        ImageView songImage = view.findViewById(R.id.songImage);
+        songImage = view.findViewById(R.id.songImage);
 
         TextView mainTitle = view.findViewById(R.id.song_playing_mainTitle);
         TextView subTitle = view.findViewById(R.id.song_playing_subTitle);
@@ -68,7 +82,7 @@ public class CurrentSongPlayingFragment extends Fragment {
 
         }
         else
-            Toast.makeText(view.getContext(), "Null song argument", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Null song argument: No Song Loaded!", Toast.LENGTH_SHORT).show();
 
         PlayerView playerView = view.findViewById(R.id.video_view);
         musicService = new MusicService(view.getContext(),playerView,songQueue); //Init Music service
@@ -126,10 +140,36 @@ public class CurrentSongPlayingFragment extends Fragment {
         musicService.playSongFromURL(songPlaying.song_URL);
 
         MediaNotificationHandler.CreateNotification(view.getContext(),songPlaying,requireActivity().getSystemService(NotificationManager.class));
+        //MediaNotificationHandler.builderForClass.setLargeIcon(notifBitmap);
+
+
+
+
 
         contextView = view;
 
-        //Creating the Notification Channel
+        if(songPlaying.image_URL != "")
+        {
+            new GetImageFromUrlToImg(songImage).execute(songPlaying.image_URL); //Setting the song image
+            Thread thread = new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    Bitmap thumb;
+                    // Ur URL
+                    String link = songPlaying.image_URL.toString();
+                    try {
+                        URL url = new URL(link);
+                        thumb = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        MediaNotificationHandler.builderForClass.setLargeIcon(thumb);
+                        MediaNotificationHandler.Notify();
+
+                    } catch (Exception e) {
+                        //Toast here
+                    }
+                }
+            });
+            thread.start();
+        }
 
 
 
@@ -138,5 +178,30 @@ public class CurrentSongPlayingFragment extends Fragment {
     //TODO: FIX THE IMAGE UPLOAD AND DOWNLOAD THROUGH FIREBASE
     //TODO: MAKE IT SO THAT THE "CURRENT SONG PLAYING" CLASS TAKES IN AN ALBUM OBJECT INSTEAD OF A SINGLE SONG AND ALLOWS THE USER TO SKIP THE SONG
     //TODO: IMPLEMENT EXOPLAYER CACHING SO THAT SONGS LOAD BEFOREHAND
-
 }
+ class GetImageFromUrlToImg extends AsyncTask<String, Void, Bitmap>{
+    ImageView imageView;
+    Bitmap bitmap;
+    public GetImageFromUrlToImg(ImageView img){
+        this.imageView = img;
+    }
+    @Override
+    protected Bitmap doInBackground(String... url) {
+        String stringUrl = url[0];
+        bitmap = null;
+        InputStream inputStream;
+        try {
+            inputStream = new java.net.URL(stringUrl).openStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    @Override
+    protected void onPostExecute(Bitmap bitmap){
+        super.onPostExecute(bitmap);
+        imageView.setImageBitmap(bitmap);
+    }
+}
+

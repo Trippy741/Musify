@@ -9,14 +9,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import com.example.loginpage.R;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MediaNotificationHandler {
 
     public static NotificationManager notificationManagerForClass;
-    public static Notification.Builder builderForClass;
+    public static NotificationCompat.Builder builderForClass;
 
     public static PendingIntent pendingIntentForPause;
     public static PendingIntent pendingIntentForPrev;
@@ -50,13 +56,13 @@ public class MediaNotificationHandler {
         Bitmap bMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_mail_icon);
 
         notificationManager.createNotificationChannel(channel);
-        Notification.Builder builder = new Notification.Builder(mContext, mContext.getString(R.string.notification_channel_id))
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, mContext.getString(R.string.notification_channel_id))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.ic_music_note)
                 .addAction(R.drawable.exo_controls_previous, "Previous", prevPendingIntent) // #0
                 .addAction(R.drawable.exo_controls_pause, "Pause", pausePendingIntent)  // #1
                 .addAction(R.drawable.exo_controls_next, "Next", nextPendingIntent)     // #2
-                .setStyle(new Notification.MediaStyle()
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(1 /* #1: pause button */)
                         .setMediaSession(MusicService.getMediaCompatToken()))
                 .setContentTitle(songPlaying.song_title)
@@ -71,24 +77,28 @@ public class MediaNotificationHandler {
         pendingIntentForPrev = prevPendingIntent;
         pendingIntentForNext = nextPendingIntent;
     }
+    public static void Notify()
+    {
+        notificationManagerForClass.notify(R.string.notification_channel_id , builderForClass.build());
+    }
     public static void resumeNotif()
     {
         Notification notif = builderForClass.build();
-        builderForClass.setActions(new Notification.Action[]{
-                new Notification.Action(R.drawable.exo_controls_previous, "Previous", pendingIntentForPrev), // #0
-                new Notification.Action(R.drawable.exo_controls_pause, "Pause", pendingIntentForPause),  // #1
-                new Notification.Action(R.drawable.exo_controls_next, "Next", pendingIntentForNext)
-        });
+        builderForClass.clearActions();
+
+        builderForClass.addAction(R.drawable.exo_controls_previous, "Previous", pendingIntentForPrev);
+        builderForClass.addAction(R.drawable.exo_controls_pause, "Pause", pendingIntentForPause);
+        builderForClass.addAction(R.drawable.exo_controls_next, "Next", pendingIntentForNext);
         notificationManagerForClass.notify(R.string.notification_channel_id , builderForClass.build());
     }
     public static void pauseNotif()
     {
         Notification notif = builderForClass.build();
-        builderForClass.setActions(new Notification.Action[]{
-                new Notification.Action(R.drawable.exo_controls_previous, "Previous", pendingIntentForPrev), // #0
-                new Notification.Action(R.drawable.exo_controls_play, "Pause", pendingIntentForPause),  // #1
-                new Notification.Action(R.drawable.exo_controls_next, "Next", pendingIntentForNext)
-        });
+        builderForClass.clearActions();
+
+        builderForClass.addAction(R.drawable.exo_controls_previous, "Previous", pendingIntentForPrev);
+        builderForClass.addAction(R.drawable.exo_controls_play, "Pause", pendingIntentForPause);
+        builderForClass.addAction(R.drawable.exo_controls_next, "Next", pendingIntentForNext);
         notificationManagerForClass.notify(R.string.notification_channel_id , builderForClass.build());
     }
     public static void prevNotif()

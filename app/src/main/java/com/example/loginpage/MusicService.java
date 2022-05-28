@@ -5,6 +5,8 @@ import android.content.Context;
 import android.media.session.MediaSession;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import com.example.loginpage.R;
+
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
@@ -31,7 +33,7 @@ import at.huber.youtubeExtractor.YtFile;
 
 public class MusicService {
 
-    private final Context mContext;
+    private static Context mContext = null;
     private static SimpleExoPlayer player;
     public static Boolean isPlaying = false;
     private PlayerView playerView;
@@ -80,6 +82,7 @@ public class MusicService {
     {
         if(!isPlaying)
         {
+            MediaNotificationHandler.resumeNotif();
             player.play();
             isPlaying = true;
         }
@@ -88,6 +91,7 @@ public class MusicService {
     {
         if(isPlaying)
         {
+            MediaNotificationHandler.pauseNotif();
             player.pause();
             isPlaying = false;
         }
@@ -96,9 +100,9 @@ public class MusicService {
     {
         return mediaSessionCompat;
     }
-    public static MediaSession.Token getMediaCompatToken()
+    public static MediaSessionCompat.Token getMediaCompatToken()
     {
-        return (MediaSession.Token) mediaSessionCompat.getSessionToken().getToken();
+        return (MediaSessionCompat.Token) mediaSessionCompat.getSessionToken();
     }
     @SuppressLint("StaticFieldLeak")
     public void playAlbumFromURL()
@@ -197,5 +201,11 @@ public class MusicService {
 
         player.setPlayWhenReady(true);
         isPlaying = true;
+    }
+    public static void Destroy()
+    {
+        player.stop();
+        player.release();
+        MediaNotificationHandler.notificationManagerForClass.deleteNotificationChannel(mContext.getString(R.string.notification_channel_id));
     }
 }
