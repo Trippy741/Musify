@@ -46,7 +46,7 @@ public class CurrentSongPlayingFragment extends Fragment {
     private ArrayList<Song> songQueue = new ArrayList<Song>();
     private Notification notification;
 
-    private Bitmap notifBitmap;
+    private Bitmap songBitmap;
 
     private ImageView songImage;
 
@@ -79,7 +79,11 @@ public class CurrentSongPlayingFragment extends Fragment {
                     songPlaying = songQueue.get(pos);
                 }
             }
-
+            /*if(bundle.get("song_bitmap") != null)
+            {
+                songBitmap = (Bitmap) bundle.get("song_bitmap");
+            }*/
+            songBitmap = songPlaying.song_bitmap;
         }
         else
             Toast.makeText(view.getContext(), "Null song argument: No Song Loaded!", Toast.LENGTH_SHORT).show();
@@ -131,7 +135,7 @@ public class CurrentSongPlayingFragment extends Fragment {
         playerView.setPlayer(musicService.getPlayer());
 
         if(songPlaying.image_URL.isEmpty())
-            songImage.setImageURI(Uri.parse(songPlaying.image_uri));
+            songImage.setImageBitmap(songBitmap);
         else
             Picasso.with(view.getContext()).load(songPlaying.image_URL).into(songImage);
         mainTitle.setText(songPlaying.song_title);
@@ -140,11 +144,6 @@ public class CurrentSongPlayingFragment extends Fragment {
         musicService.playSongFromURL(songPlaying.song_URL);
 
         MediaNotificationHandler.CreateNotification(view.getContext(),songPlaying,requireActivity().getSystemService(NotificationManager.class));
-        //MediaNotificationHandler.builderForClass.setLargeIcon(notifBitmap);
-
-
-
-
 
         contextView = view;
 
@@ -175,7 +174,6 @@ public class CurrentSongPlayingFragment extends Fragment {
 
         return view;
     }
-    //TODO: FIX THE IMAGE UPLOAD AND DOWNLOAD THROUGH FIREBASE
     //TODO: MAKE IT SO THAT THE "CURRENT SONG PLAYING" CLASS TAKES IN AN ALBUM OBJECT INSTEAD OF A SINGLE SONG AND ALLOWS THE USER TO SKIP THE SONG
     //TODO: IMPLEMENT EXOPLAYER CACHING SO THAT SONGS LOAD BEFOREHAND
 }

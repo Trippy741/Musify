@@ -184,7 +184,53 @@ public class MusicService {
             }
         }.extract(URL,false,true);
 
+        if(!player.isPlaying())
+        {
+            new YouTubeExtractor(mContext)
+            {
+                @Override
+                protected void onExtractionComplete(@Nullable SparseArray<YtFile> ytFiles, @Nullable VideoMeta videoMeta) {
+                    if(ytFiles != null)
+                    {
+                        int audioTag = 140;
+                        MediaSource audioSource = new ProgressiveMediaSource
+                                .Factory(dataSource).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl())); //TODO: CHANGE THE FACTORY TO THE CACHE FACTORY LATER
 
+                        Toast.makeText(mContext, "Fetched Song!" , Toast.LENGTH_SHORT).show();
+
+                        player.setMediaSource(audioSource,true);
+                        player.prepare();
+                        playerView.setPlayer(player);
+                        playerView.setControllerShowTimeoutMs(-1);
+                        playerView.setControllerHideOnTouch(false);
+                    }
+                }
+            }.extract(URL,false,true);
+        }
+
+        if(!player.isPlaying())
+        {
+            new YouTubeExtractor(mContext)
+            {
+                @Override
+                protected void onExtractionComplete(@Nullable SparseArray<YtFile> ytFiles, @Nullable VideoMeta videoMeta) {
+                    if(ytFiles != null)
+                    {
+                        int audioTag = 140;
+                        MediaSource audioSource = new ProgressiveMediaSource
+                                .Factory(dataSource).createMediaSource(MediaItem.fromUri(ytFiles.get(audioTag).getUrl())); //TODO: CHANGE THE FACTORY TO THE CACHE FACTORY LATER
+
+                        Toast.makeText(mContext, "Fetched Song!" , Toast.LENGTH_SHORT).show();
+
+                        player.setMediaSource(audioSource,true);
+                        player.prepare();
+                        playerView.setPlayer(player);
+                        playerView.setControllerShowTimeoutMs(-1);
+                        playerView.setControllerHideOnTouch(false);
+                    }
+                }
+            }.extract(URL,false,true);
+        }
 
         playerView.findViewById(R.id.exo_ffwd).setOnClickListener(new View.OnClickListener() {
             @Override

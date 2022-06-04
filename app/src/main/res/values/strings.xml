@@ -8,5 +8,10 @@
     <string name="greetingIntroQuote">Welcome to the family!</string>
     <string name="notification_channel_id">musicNotif</string>
     <string name="notification_channel_description">Manage the Music from your home screen!</string>
+
+
+    <string name="username_greeting_0">Welcome back!</string>
+    <string name="username_greeting_1">Back Already?</string>
+    <string name="username_greeting_2">Greetings Sire</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

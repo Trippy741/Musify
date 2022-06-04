@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumView_RecyclerViewAdapter.ViewHolder> {
@@ -95,6 +96,9 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
                     }
                     else if(songs.size() == 1)
                         bundle.putParcelable("song_obj",(Song)songs.get(position));
+
+                    if(album.imgBitmap != null)
+                        songs.get(position).song_bitmap = album.imgBitmap;
 
                     CurrentSongPlayingFragment frag = new CurrentSongPlayingFragment();
                     frag.setArguments(bundle);

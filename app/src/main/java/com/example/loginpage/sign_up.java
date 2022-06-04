@@ -27,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,12 +37,12 @@ public class sign_up extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private Button testButton;
+    
 
     private TextInputLayout displayTIL;
     private TextInputLayout emailTIL;
     private TextInputLayout passwordTIL;
     private TextInputLayout confirmPasswordTIL;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,6 @@ public class sign_up extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
 
         super.onCreate(savedInstanceState);
-
 
         Log.d("MyApp","test");
 

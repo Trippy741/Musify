@@ -1,9 +1,15 @@
 package com.example.loginpage;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Song implements Parcelable {
+
+    @Exclude
+    public Bitmap song_bitmap;
 
     public String image_URL = "";
     public String artist_title;
@@ -25,6 +31,7 @@ public class Song implements Parcelable {
         song_title = in.readString();
         song_URL = in.readString();
         image_uri = in.readString();
+        song_bitmap = Bitmap.CREATOR.createFromParcel(in);
     }
     public Song()
     {
@@ -55,5 +62,6 @@ public class Song implements Parcelable {
         parcel.writeString(song_title);
         parcel.writeString(song_URL);
         parcel.writeString(image_uri);
+        song_bitmap.writeToParcel(parcel,0);
     }
 }

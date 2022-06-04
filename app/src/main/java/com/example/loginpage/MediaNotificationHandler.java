@@ -55,6 +55,9 @@ public class MediaNotificationHandler {
 
         Bitmap bMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_mail_icon);
 
+        if(songPlaying.song_bitmap != null)
+            bMap = songPlaying.song_bitmap;
+
         notificationManager.createNotificationChannel(channel);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, mContext.getString(R.string.notification_channel_id))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

@@ -125,7 +125,10 @@ public class createCustomProfile extends AppCompatActivity {
         db.collection("users").document(user_id).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(createCustomProfile.this, "User created & stored successfully", Toast.LENGTH_SHORT).show();
+                if(task.isSuccessful())
+                    Toast.makeText(createCustomProfile.this, "User created & stored successfully", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(context, "Failed to store user: " + task.getException(), Toast.LENGTH_SHORT).show();
             }
         });
     }

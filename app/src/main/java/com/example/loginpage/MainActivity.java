@@ -2,8 +2,6 @@ package com.example.loginpage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,8 +33,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String profilePicIndex = "-1";
     private String displayName = "";
     private String email = "";
+
+    private TextView usernameText;
 
     private final ArrayList<Album> likedAlbums = new ArrayList<Album>();
 
@@ -75,6 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        usernameText = findViewById(R.id.home_usernameTextView);
+
+        /*String customTextID = "username_greeting_"+ new Random().nextInt(2);
+        int customTextRES_ID = getResources().getIdentifier(customTextID,"id",getPackageName());
+
+        usernameText.setText(getString(customTextRES_ID) + " " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());*/
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -150,8 +163,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             d.show();
         }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).addToBackStack(null).commit();
 
-        //updateAlbumScrollview();
     }
     @Override
     public void onBackPressed()
@@ -191,53 +204,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         alert.create().show();
 
     }
-    /*private void updateAlbumScrollview()
-    {
-        //LinearLayout albumLayout = findViewById(R.id.horizontal_scroll_view_0);
-
-        db.collection("users").document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("user_liked_albums").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot doc : task.getResult())
-                {
-
-                    Album tmpAlbum = new Album("users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/user_liked_albums/TOOL/albums/"+doc.getId()
-                            ,doc.getId()
-                            ,doc.get("album_title").toString()
-                            ,"TOOL"
-                            ,doc.get("album_img_url").toString()
-                            ,doc.get("album_release_date").toString()
-                            ,doc.get("album_duration").toString());
-
-                    likedAlbums.add(tmpAlbum);
-
-                    MainActivityAlbums_RecyclerViewAdapter adapter = new MainActivityAlbums_RecyclerViewAdapter(MainActivity.this,getSupportFragmentManager(),likedAlbums);
-                    recyclers.get(0).setAdapter(adapter);
-
-                    *//*ImageView iv = new ImageView(getApplicationContext());
-                    Picasso.with(MainActivity.this).load(document.get("album_image_url").toString()).into(iv);
-                    iv.setLayoutParams(new LinearLayout.LayoutParams(600, 600));
-                    albumLayout.addView(iv);
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Bundle bundle = new Bundle();
-                            *//**//*bundle.putString("artist_id",document.getId());
-                            bundle.putString("album_id",document.get("album_name").toString());*//**//*
-
-                            bundle.putString("artist_id","TOOL");
-                            bundle.putString("album_id","lateralus");
-
-                            AlbumView frag = new AlbumView();
-                            frag.setArguments(bundle);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,frag).commit();
-                        }
-                    });
-                    likedAlbums.add(iv);*//*
-                }
-            }
-        });
-    }*/
 
     public void updateProfileUI()
     {
@@ -322,8 +288,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).addToBackStack(null).commit();
+                break;
             case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_signOut:
                 Dialog d = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
@@ -355,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 d.show();
                 break;
             case R.id.navmenu_search:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_playlists:
 
@@ -370,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AlbumView albumView = new AlbumView();
                 albumView.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,albumView).commit();*/
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CustomAlbumsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CustomAlbumsFragment()).addToBackStack(null).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
