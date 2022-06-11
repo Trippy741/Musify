@@ -1,0 +1,556 @@
+@startuml
+class com.example.loginpage.Notification.NotificationReciever {
++ void onReceive(Context,Intent)
++ void Pause()
++ void Prev(Context)
++ void Next(Context)
+}
+class com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter {
+- {static} String TAG
+- ArrayList<Object> searches
+- Context mContext
+- FragmentManager fragmentManager
+- ViewHolder selectedHolder
++ <<Create>> Search_RecyclerViewAdapter(Context,FragmentManager,ArrayList<Object>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
+}
+class com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter.ViewHolder {
+~ ImageView image
+~ TextView mainTitle
+~ TextView subTitle
+~ RelativeLayout parentLayout
++ <<Create>> ViewHolder(View)
+}
+class com.example.loginpage.Fragments.LikedSongsFragment {
++ ArrayList<Song> songs
+~ RecyclerView recyclerView
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void initSongs()
+}
+class com.example.loginpage.Fragments.PlaylistsFragment {
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.CustomDialogs.loading_custom_dialog {
+# <<Create>> loading_custom_dialog(Context,boolean,OnCancelListener)
++ void show()
++ void dismiss()
+}
+class com.example.loginpage.CustomServices.MusicService {
+- {static} Context mContext
+- {static} SimpleExoPlayer player
++ {static} Boolean isPlaying
+- PlayerView playerView
+- ArrayList<Song> songs
+- DefaultTrackSelector trackSelector
+- ArrayList<MediaSource> mediaSources
+- int currentSourceIndex
+- DefaultHttpDataSource.Factory dataSource
+- {static} MediaSessionCompat mediaSessionCompat
++ <<Create>> MusicService(Context,PlayerView,ArrayList<Song>)
++ {static} SimpleExoPlayer getPlayer()
++ {static} void resumePlayer()
++ {static} void pausePlayer()
++ MediaSessionCompat getMediaSessionCompat()
++ {static} MediaSessionCompat.Token getMediaCompatToken()
++ void playAlbumFromURL()
++ void playSongFromURL(String)
++ {static} void Destroy()
+}
+class com.example.loginpage.Fragments.CurrentSongPlayingFragment {
+- MusicService musicService
+- View contextView
+- boolean isPlaying
+- int pos
+- Song songPlaying
+- ArrayList<Song> songQueue
+- Notification notification
+- Bitmap songBitmap
+- ImageView songImage
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.Fragments.GetImageFromUrlToImg {
+~ ImageView imageView
+~ Bitmap bitmap
++ <<Create>> GetImageFromUrlToImg(ImageView)
+# Bitmap doInBackground(String)
+# void onPostExecute(Bitmap)
+}
+class com.example.loginpage.CustomDataTypes.local_user {
++ String displayName
++ String uid
++ String profile_pic_index
++ String email
++ ArrayList<local_user> friends
++ <<Create>> local_user(String,String,String,String)
++ void addFriend(local_user)
++ void addFriends(ArrayList<local_user>)
++ void setFriends(ArrayList<local_user>)
++ String getDisplayName()
++ void setDisplayName(String)
++ String getUid()
++ void setUid(String)
++ String getProfile_pic_index()
++ void setProfile_pic_index(String)
+}
+abstract class com.example.loginpage.GestureControl.OnSwipeTouchListener {
+- GestureDetector gestureDetector
++ <<Create>> OnSwipeTouchListener(Context)
++ boolean onTouch(View,MotionEvent)
++ {abstract}void onSwipeRight()
++ {abstract}void onSwipeLeft()
++ {abstract}void onSwipeTop()
++ {abstract}void onSwipeBottom()
+}
+class com.example.loginpage.GestureControl.OnSwipeTouchListener.GestureListener {
+- {static} int SWIPE_THRESHOLD
+- {static} int SWIPE_VELOCITY_THRESHOLD
++ boolean onDown(MotionEvent)
++ boolean onFling(MotionEvent,MotionEvent,float,float)
+}
+class com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter {
+- {static} String TAG
+- ArrayList<String> songImages
+- ArrayList<String> bandNames
+- ArrayList<String> songNames
+- Context mContext
+- Boolean liked
+- Animation Liked_pop
+- Animation Disliked_pop
++ <<Create>> LikedSongs_RecyclerViewAdapter(Context,ArrayList<String>,ArrayList<String>,ArrayList<String>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ void UnfavoriteSong(ImageView)
++ void FavoriteSong(ImageView)
++ void Share(String,String)
++ int getItemCount()
+}
+class com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter.ViewHolder {
+~ ImageView songImage
+~ ImageView likeButton
+~ TextView songName
+~ TextView bandName
+~ RelativeLayout parentLayout
++ <<Create>> ViewHolder(View)
+}
+class com.example.loginpage.CustomXML_elements.Custom2ChoiceAlertDialog {
+- Layout DialogLayout
+- String customString
+- TextView textView
+- ImageView confirmButton
+- ImageView denyButton
+- ProgressBar loadingBar
++ <<Create>> Custom2ChoiceAlertDialog(Context,String)
++ <<Create>> Custom2ChoiceAlertDialog(Context,String,int)
+# <<Create>> Custom2ChoiceAlertDialog(Context,String,boolean,OnCancelListener)
++ void Init()
++ void startLoading()
++ void setListeners(View.OnClickListener,View.OnClickListener)
+}
+class com.example.loginpage.Activities.LoginPage {
+- {static} int RC_SIGN_IN
+- GoogleSignInClient mGoogleSignInClient
+- FirebaseAuth mAuth
+- FirebaseUser currentUser
+- TextView signupText
+- ImageButton googleLoginButton
+- Context context
+- TextView introText1
+- TextView introText2
+- TextView introText3
+- TextView introText4
+- CheckBox rememberMe
+~ Button animButton
+# void onCreate(Bundle)
++ void onStart()
+- void animateGradient()
+- void firebaseAuthWithGoogle(String)
+- void resetButton(View)
++ void backToMain()
+- void LoginClick(View)
++ void onClick(View)
+- void showCustomFailedDialog()
++ void signIn()
++ void onActivityResult(int,int,Intent)
+- void introTextAnimation()
+}
+class com.example.loginpage.Fragments.ArtistView {
+- TextView artistTitleTextView
+- TextView artistQuoteTextView
+- ImageView artistImageView
+- ProgressBar progressBar
+- FirebaseFirestore db
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.CustomDataTypes.Album {
++ String albumTitle
++ String artistTitle
++ String albumImage
++ String albumDuration
++ String albumReleaseDate
++ String album_id
++ String database_path
++ String imageURI
++ Bitmap imgBitmap
++ Image image
++ ArrayList<Song> songs
++ {static} Creator<Album> CREATOR
++ <<Create>> Album(String,String,String,String,String,ArrayList<Song>,String,String)
++ <<Create>> Album(String,String,String,String,String,String,String)
++ <<Create>> Album()
+# <<Create>> Album(Parcel)
++ void setImageURI(String)
++ void setImage(Image)
++ String getImageURI()
++ Image getImage()
++ void setAlbumTitle(String)
++ void setArtistTitle(String)
++ void setAlbumImage(String)
++ void setAlbumDuration(String)
++ void setAlbumReleaseDate(String)
++ void setAlbum_id(String)
++ void setDatabase_path(String)
++ void addSong(Song)
++ void setSongs(ArrayList<Song>)
++ int describeContents()
++ void writeToParcel(Parcel,int)
+}
+class com.example.loginpage.Fragments.SearchFragment {
+- View view
+- RecyclerView recyclerView
+- ArrayList<Object> queries
+- Search_RecyclerViewAdapter adapter
+- ProgressBar progressBar
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void searchDatabase(String)
++ void onCreateOptionsMenu(Menu,MenuInflater)
+}
+class com.example.loginpage.Fragments.AlbumView {
+- RecyclerView recyclerView
+- ArrayList<Song> Songs
+- ProgressBar loadingBar
+- ImageView albumImg
+- TextView albumNameTextView
+- TextView artistNameTextView
+- TextView albumDurationTextView
+- boolean editMode
+- Album album
+- String artist_id
+- String album_id
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.Fragments.HomeFragment {
+- View v
+- FirebaseFirestore db
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void initAlbumCarouselRecyclerView()
+}
+class com.example.loginpage.CustomDataTypes.Song {
++ Bitmap song_bitmap
++ String image_URL
++ String artist_title
++ String song_title
++ String song_URL
++ String image_uri
++ {static} Creator<Song> CREATOR
++ <<Create>> Song(String,String,String,String)
+# <<Create>> Song(Parcel)
++ <<Create>> Song()
++ int describeContents()
++ void writeToParcel(Parcel,int)
+}
+class com.example.loginpage.Fragments.SettingsFragment {
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.Activities.sign_up {
+- FirebaseAuth firebaseAuth
+- Button testButton
+- TextInputLayout displayTIL
+- TextInputLayout emailTIL
+- TextInputLayout passwordTIL
+- TextInputLayout confirmPasswordTIL
+# void onCreate(Bundle)
+- void showIntroDialog()
+- void gradientAnimation()
+- void textListeners()
+- boolean containsUpperOrSpecialChars(String)
++ void signupButtonClick(View)
+- String generateDisplayName()
+- void showCustomFailedDialog()
++ void onBackPressed()
+}
+class com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter {
+- {static} String TAG
+- ArrayList<Album> albums
+- Context mContext
+- ViewHolder selectedHolder
+- FragmentManager fragmentManager
+- Boolean liked
++ <<Create>> CustomAlbum_RecyclerViewAdapter(Context,FragmentManager,ArrayList<Album>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ void addNewAlbums(ArrayList<Album>)
++ int getItemCount()
+}
+class com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter.ViewHolder {
+~ TextView albumTitle
+~ TextView artistTitle
+~ RelativeLayout parentLayout
+~ ImageView albumImage
+~ ImageView editButton
+~ ProgressBar progressBar
++ <<Create>> ViewHolder(View)
+}
+class com.example.loginpage.Fragments.AboutFragment {
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.Fragments.ProfileFragment {
+- FirebaseFirestore db
+- CarouselRecyclerview profilePicRecyclerView
+- ImageView profilePicImgView
+- TextView mainTitle
+- TextView subTitle
+- ProgressButton confirmButton
+- ProgressBar progressBar
+- View view
+- String UpdatedEmail
+- String UpdatedName
+- String updatedProfileIndex
+- ArrayList<Integer> profileResources
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void updateUI()
+- void openChangeMainTitleDialog()
+- void openChangeSubTitleDialog()
+- void openProfileChangeDialog()
+- void openConfirmPasswordDialog()
+- String fromPositionToIndexProfile(int)
++ void onStart()
+- void updateProfile()
+- void updateProfileDialog(FirebaseUser,UserProfileChangeRequest)
+}
+class com.example.loginpage.RecyclerViewAdapters.Custom_AlbumView {
+- RecyclerView recyclerView
+- ArrayList<Song> Songs
+- ProgressBar loadingBar
+- ImageView albumImg
+- TextView albumNameTextView
+- TextView artistNameTextView
+- TextView albumDurationTextView
+- FloatingActionButton addSong_fab
+- Album album
+- View view
+- AlbumView_RecyclerViewAdapter adapter
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ boolean onBackPressed()
++ void onCreateOptionsMenu(Menu,MenuInflater)
+- Song openAddSongDialog(View,Song)
+- String getYouTubeId(String)
+- void openTextChangeDialog(View,TextView)
+}
+class com.example.loginpage.CustomXML_elements.ProgressButton {
+- CardView cardView
+- ProgressBar progressBar
+- TextView textView
+- ConstraintLayout constraintLayout
+~ Animation fade_in
++ <<Create>> ProgressButton(Context,View)
++ void changeButtonText(String)
++ void onButtonClick(boolean,String)
+~ void onButtonFinishedLoading(int)
+}
+class com.example.loginpage.Activities.EmailVerification {
+- FirebaseAuth auth
+- FirebaseUser user
+# void onCreate(Bundle)
+- void sendMail()
+}
+interface com.example.loginpage.GestureControl.IOnBackPressed {
+~ boolean onBackPressed()
+}
+class com.example.loginpage.Fragments.CustomAlbumsFragment {
+- ArrayList<Album> albums
+- RecyclerView albumRecycler
+- FloatingActionButton fab
+- Context mContext
+- ArrayList<Album> newAlbums
+- Dialog d
+- CustomAlbum_RecyclerViewAdapter adapter
+- Uri tempURI
+- Album tempAlbum
+- StorageReference storageReference
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onCreateOptionsMenu(Menu,MenuInflater)
+- void openPlaylistCreationDialog()
++ void onActivityResult(int,int,Intent)
+- void showDismissAlertDialog(Dialog)
+- void addAlbumToFirebase(ArrayList<Album>)
+}
+class com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter {
+- {static} String TAG
+- ArrayList<Integer> resourceIDs
+- Context mContext
++ <<Create>> Profile_RecyclerViewAdapter(Context,ArrayList<Integer>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
++ void vibrate()
+}
+class com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter.ViewHolder {
+~ ImageView imageView
++ <<Create>> ViewHolder(View)
+}
+class com.example.loginpage.Fragments.BugReportFragment {
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.Activities.createCustomProfile {
+- Context context
+- ImageView[][] profilesPics
+- String selectedImageIndex
+# void onCreate(Bundle)
+- void clickListeners()
++ void onBackPressed()
+- void insertUser_db(FirebaseUser,String)
+}
+class com.example.loginpage.Notification.MediaNotificationHandler {
++ {static} NotificationManager notificationManagerForClass
++ {static} NotificationCompat.Builder builderForClass
++ {static} PendingIntent pendingIntentForPause
++ {static} PendingIntent pendingIntentForPrev
++ {static} PendingIntent pendingIntentForNext
++ {static} void CreateNotification(Context,Song,NotificationManager)
++ {static} void Notify()
++ {static} void resumeNotif()
++ {static} void pauseNotif()
++ {static} void prevNotif()
++ {static} void nextNotif()
+}
+class com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter {
+- {static} String TAG
+- ArrayList<Album> albums
+- FragmentManager fragmentManager
+- Context mContext
++ <<Create>> MainActivityAlbums_RecyclerViewAdapter(Context,FragmentManager,ArrayList<Album>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ void loadAlbumImageFrom_URI(Album,ImageView,ProgressBar)
++ int getItemCount()
+}
+class com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter.ViewHolder {
+~ LinearLayout layout
+~ ImageView imageView
+~ TextView albumText
+~ TextView artistText
+~ ProgressBar progressBar
++ <<Create>> ViewHolder(View)
+}
+class com.example.loginpage.CustomDataTypes.Artist {
++ ArrayList<Song> popularSongs
++ String artistTitle
++ String artistQuote
++ String artistImage
++ ArrayList<Album> albums
++ <<Create>> Artist(String,String,String,ArrayList<Song>,ArrayList<Album>)
++ <<Create>> Artist()
++ <<Create>> Artist(String,String,String)
++ void addAlbum(Album)
+}
+class com.example.loginpage.Activities.MainActivity {
+- Toolbar toolbar
+- DrawerLayout drawer
+- NavigationView navigationView
+- String profilePicIndex
+- String displayName
+- String email
+- TextView usernameText
+- ArrayList<Album> likedAlbums
+- FirebaseFirestore db
++ {static} Context contextOfApplication
++ {static} Context getContextOfApplication()
+# void onDestroy()
+# void onCreate(Bundle)
++ void onBackPressed()
+- void showDismissAlertDialog()
++ void updateProfileUI()
++ boolean onNavigationItemSelected(MenuItem)
+}
+class com.example.loginpage.Fragments.deviceMusicPlayerFragment {
+- SimpleExoPlayer simpleExoPlayer
+- boolean isPlaying
+- Button playButton
+- View thisView
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter {
+- {static} String TAG
+- Album album
+- ArrayList<Song> songs
+- String albumTitle
+- Context mContext
+- ViewHolder selectedHolder
+- FragmentManager fragmentManager
+- Boolean editMode
++ <<Create>> AlbumView_RecyclerViewAdapter(Context,FragmentManager,Album)
++ <<Create>> AlbumView_RecyclerViewAdapter(Context,FragmentManager,Album,boolean,String)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
+}
+class com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter.ViewHolder {
+~ TextView songName
+~ TextView artistName
+~ RelativeLayout parentLayout
++ <<Create>> ViewHolder(View)
+}
+
+
+android.content.BroadcastReceiver <|-- com.example.loginpage.Notification.NotificationReciever
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.Search_RecyclerViewAdapter.ViewHolder
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.LikedSongsFragment
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.PlaylistsFragment
+android.app.Dialog <|-- com.example.loginpage.CustomDialogs.loading_custom_dialog
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.CurrentSongPlayingFragment
+android.os.AsyncTask <|-- com.example.loginpage.Fragments.GetImageFromUrlToImg
+android.view.View.OnTouchListener <|.. com.example.loginpage.GestureControl.OnSwipeTouchListener
+com.example.loginpage.GestureControl.OnSwipeTouchListener +.. com.example.loginpage.GestureControl.OnSwipeTouchListener.GestureListener
+com.example.loginpage.GestureControl.SimpleOnGestureListener <|-- com.example.loginpage.GestureControl.OnSwipeTouchListener.GestureListener
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.LikedSongs_RecyclerViewAdapter.ViewHolder
+android.app.Dialog <|-- com.example.loginpage.CustomXML_elements.Custom2ChoiceAlertDialog
+com.example.loginpage.Activities.OnClickListener <|.. com.example.loginpage.Activities.LoginPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.loginpage.Activities.LoginPage
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.ArtistView
+android.os.Parcelable <|.. com.example.loginpage.CustomDataTypes.Album
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.SearchFragment
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.AlbumView
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.HomeFragment
+android.os.Parcelable <|.. com.example.loginpage.CustomDataTypes.Song
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.SettingsFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.loginpage.Activities.sign_up
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter.ViewHolder
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.AboutFragment
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.ProfileFragment
+com.example.loginpage.GestureControl.IOnBackPressed <|.. com.example.loginpage.RecyclerViewAdapters.Custom_AlbumView
+androidx.fragment.app.Fragment <|-- com.example.loginpage.RecyclerViewAdapters.Custom_AlbumView
+androidx.appcompat.app.AppCompatActivity <|-- com.example.loginpage.Activities.EmailVerification
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.CustomAlbumsFragment
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.Profile_RecyclerViewAdapter.ViewHolder
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.BugReportFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.loginpage.Activities.createCustomProfile
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.MainActivityAlbums_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.Activities.OnNavigationItemSelectedListener <|.. com.example.loginpage.Activities.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.loginpage.Activities.MainActivity
+androidx.fragment.app.Fragment <|-- com.example.loginpage.Fragments.deviceMusicPlayerFragment
+com.example.loginpage.RecyclerViewAdapters.Adapter <|-- com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter
+com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter +.. com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter.ViewHolder
+com.example.loginpage.RecyclerViewAdapters.ViewHolder <|-- com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter.ViewHolder
+@enduml

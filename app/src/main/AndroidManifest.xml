@@ -21,22 +21,23 @@
         android:theme="@style/Theme.LoginPage.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".EmailVerification"
+            android:name=".Activities.EmailVerification"
             android:exported="true"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".createCustomProfile"
+            android:name=".Activities.createCustomProfile"
             android:exported="true"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".sign_up"
+            android:name=".Activities.sign_up"
             android:exported="true"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".LoginPage"
-            android:exported="true" />
+            android:name=".Activities.LoginPage"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -45,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".NotificationReciever"/>
+        <receiver android:name=".Notification.NotificationReciever"/>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/darkest_grey"
     android:orientation="vertical"
-    tools:context=".createCustomProfile">
+    tools:context=".Activities.createCustomProfile">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,19 +143,6 @@
 
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="100sp"
-            android:layout_height="50sp"
-            android:id="@+id/signup_skip_textView"
-            android:clickable="true"
-
-            android:text="Skip"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/raleway_medium"
-            android:textColor="@color/black"
-            android:layout_gravity="bottom"
-            android:textSize="30dp"/>
 
     </LinearLayout>
 
