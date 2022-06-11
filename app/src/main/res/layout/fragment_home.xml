@@ -5,42 +5,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black">
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:id="@+id/home_customPlaylists_linearLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-
-            android:id="@+id/home_usernameTextView"
-
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/purple"
-            android:text="How's it hangin' {Username}?"
-            android:fontFamily="@font/raleway_bold"
-            android:textSize="30sp"/>
-
-        <HorizontalScrollView
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/home_customPlaylists_linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_customPlaylists_recyclerView"
+            <TextView
+
+                android:id="@+id/home_usernameTextView"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple"
+                android:text="How's it hangin' {Username}?"
+                android:fontFamily="@font/raleway_bold"
+                android:textSize="50sp"/>
+
+            <TextView
+
+                android:id="@+id/home_customPlaylists_textView"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple"
+                android:text="Your Custom Playlists: "
+                android:fontFamily="@font/raleway_bold"
+                android:textSize="20sp"/>
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_customPlaylists_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-        </HorizontalScrollView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-    </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+
+                android:id="@+id/home_available_playlists_textView"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple"
+                android:text="Available Playlists: "
+                android:fontFamily="@font/raleway_bold"
+                android:textSize="20sp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_available_playlists_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

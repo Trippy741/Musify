@@ -234,43 +234,47 @@ public class CustomAlbumsFragment extends Fragment{
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tempAlbum.albumTitle = albumTitle.getEditableText().toString();
-                tempAlbum.artistTitle = artistTitle.getEditableText().toString();
-                tempAlbum.albumReleaseDate = dateTIL.getEditText().getEditableText().toString();
+                if(albumTitle.getEditableText().toString() != "" && artistTitle.getEditableText().toString() != "" && dateTIL.getEditText().getEditableText().toString() != "" && albumTitle.getEditableText().toString().length() > 5)
+                {
+                    tempAlbum.albumTitle = albumTitle.getEditableText().toString();
+                    tempAlbum.artistTitle = artistTitle.getEditableText().toString();
+                    tempAlbum.albumReleaseDate = dateTIL.getEditText().getEditableText().toString();
 
-                newAlbums.add(tempAlbum);
+                    newAlbums.add(tempAlbum);
 
-                adapter.addNewAlbums(newAlbums);
-                adapter.notifyDataSetChanged();
-                adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
-                albumRecycler.setAdapter(adapter);
+                    adapter.addNewAlbums(newAlbums);
+                    adapter.notifyDataSetChanged();
+                    adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
+                    albumRecycler.setAdapter(adapter);
 
-                loading_custom_dialog loadingD = new loading_custom_dialog(mContext,false,null);
-                loadingD.show();
+                    loading_custom_dialog loadingD = new loading_custom_dialog(mContext,false,null);
+                    loadingD.show();
 
-                storageReference = FirebaseStorage.getInstance().getReference("images/user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/custom_playlists/"+tempAlbum.albumTitle);
+                    storageReference = FirebaseStorage.getInstance().getReference("images/user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/custom_playlists/"+tempAlbum.albumTitle);
 
-                storageReference.putFile(tempURI)
-                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                if(task.isSuccessful())
-                                {
-                                    Toast.makeText(mContext, "Successfully Uploaded Image to database!", Toast.LENGTH_SHORT).show();
-                                    try {
-                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), tempURI);
-                                        tempAlbum.imgBitmap = bitmap;
-                                    } catch (IOException e) {
-                                        Toast.makeText(mContext, "Error storing image Bitmap: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    storageReference.putFile(tempURI)
+                            .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(mContext, "Successfully Uploaded Image to database!", Toast.LENGTH_SHORT).show();
+                                        try {
+                                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), tempURI);
+                                            tempAlbum.imgBitmap = bitmap;
+                                        } catch (IOException e) {
+                                            Toast.makeText(mContext, "Error storing image Bitmap: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
+                                    else
+                                        Toast.makeText(mContext, "Failed Uploading Image to database: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                    loadingD.dismiss();
                                 }
-                                else
-                                    Toast.makeText(mContext, "Failed Uploading Image to database: " + task.getException(), Toast.LENGTH_SHORT).show();
-                                loadingD.dismiss();
-                            }
-                        });
+                            });
 
-                d.dismiss();
+                    d.dismiss();
+                }else
+                    Toast.makeText(mContext, "All 3 Input fields MUST be filled out, And the title has to consist of 5 or more letters!", Toast.LENGTH_LONG).show();
             }
         });
         d.setOnDismissListener(new DialogInterface.OnDismissListener() {

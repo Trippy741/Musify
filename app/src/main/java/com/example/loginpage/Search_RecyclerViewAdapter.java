@@ -91,7 +91,7 @@ public class Search_RecyclerViewAdapter extends RecyclerView.Adapter<Search_Recy
 
                     AlbumView frag = new AlbumView();
                     frag.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).addToBackStack(null).commit();
                 }
             });
         }

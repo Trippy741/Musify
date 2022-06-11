@@ -23,6 +23,10 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.upstream.cache.Cache;
+import com.google.android.exoplayer2.upstream.cache.CacheEvictor;
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
+import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 
 
 import java.util.ArrayList;
@@ -40,15 +44,11 @@ public class MusicService {
 
     private ArrayList<Song> songs = new ArrayList<Song>();
 
-    /*private SimpleCache simpleCache;*/
     private DefaultTrackSelector trackSelector = new DefaultTrackSelector();
 
     private ArrayList<MediaSource> mediaSources = new ArrayList<MediaSource>();
     private int currentSourceIndex;
-    /*private File cacheFolder;
-    private CacheEvictor evictor;*/
     private DefaultHttpDataSource.Factory dataSource;
-    /*private CacheDataSourceFactory cacheDataSourceFactory;*/
 
     private static MediaSessionCompat mediaSessionCompat;
 
@@ -63,16 +63,12 @@ public class MusicService {
 
         mediaSessionCompat = new MediaSessionCompat(mContext,"tag");
 
-        /*cacheFolder = new File(mContext.getCacheDir(),"audio_cache");
-        evictor = new LeastRecentlyUsedCacheEvictor(1920*1920);*/
-        /*simpleCache = new SimpleCache(cacheFolder,evictor);*/
         dataSource = new DefaultHttpDataSource.Factory();
-
-        /*cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,dataSource);*/
 
         MediaSessionConnector mediaSessionConnector =
                 new MediaSessionConnector(mediaSessionCompat);
         mediaSessionConnector.setPlayer(player);
+
     }
     public static SimpleExoPlayer getPlayer()
     {
