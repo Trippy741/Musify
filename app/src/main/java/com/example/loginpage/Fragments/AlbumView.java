@@ -40,7 +40,7 @@ public class AlbumView extends Fragment {
     /*private String artistName;
     private String albumName;*/
 
-    private ProgressBar loadingBar;
+    //private ProgressBar loadingBar;
     private ImageView albumImg;
     private TextView albumNameTextView;
     private TextView artistNameTextView;
@@ -67,15 +67,10 @@ public class AlbumView extends Fragment {
         artistNameTextView = view.findViewById(R.id.album_view_artistName);
         albumNameTextView = view.findViewById(R.id.album_view_albumName);
         albumImg = view.findViewById(R.id.album_view_albumImgView);
-        loadingBar = view.findViewById(R.id.album_view_loadingBar);
+        //loadingBar = view.findViewById(R.id.album_view_loadingBar);
         albumDurationTextView = view.findViewById(R.id.album_view_durationTextView);
 
-        loadingBar.setVisibility(View.VISIBLE);
-
-        albumImg.setVisibility(View.INVISIBLE);
-        albumNameTextView.setVisibility(View.INVISIBLE);
-        artistNameTextView.setVisibility(View.INVISIBLE);
-        albumDurationTextView.setVisibility(View.INVISIBLE);
+        //loadingBar.setVisibility(View.VISIBLE);
 
         /*if(getArguments() != null)
         {
@@ -86,8 +81,12 @@ public class AlbumView extends Fragment {
         if(getArguments() != null)
         {
             Bundle bundle = getArguments();
-            artist_id = bundle.getString("artist_id");
-            album_id = bundle.getString("album_id");
+            if(bundle.getParcelable("album_obj") != null)
+            {
+                album = bundle.getParcelable("album_obj");
+                artist_id = album.artistTitle;
+                album_id = album.album_id;
+            }
         }
 
 
@@ -103,6 +102,17 @@ public class AlbumView extends Fragment {
             }
         });
 
+        Picasso.with(view.getContext()).load(album.albumImage).into(albumImg);
+        albumNameTextView.setText(album.albumTitle);
+        artistNameTextView.setText(album.artistTitle);
+        albumDurationTextView.setText(album.albumDuration);
+
+        recyclerView = view.findViewById(R.id.album_view_songRecyclerView);
+        recyclerView.setHasFixedSize(false);
+        AlbumView_RecyclerViewAdapter adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         /*String albumIMG_url = album.albumImage;
         Picasso.with(view.getContext()).load(albumIMG_url).into(albumImg);
 
@@ -112,7 +122,7 @@ public class AlbumView extends Fragment {
         String albumDuration = album.albumDuration;
         albumDurationTextView.setText(albumDuration);*/
 
-        Album album = new Album();
+        /*Album album = new Album();
 
         db.collection("artists")
                 .document(artist_id)
@@ -167,7 +177,7 @@ public class AlbumView extends Fragment {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                });*/
         return view;
     }
 }

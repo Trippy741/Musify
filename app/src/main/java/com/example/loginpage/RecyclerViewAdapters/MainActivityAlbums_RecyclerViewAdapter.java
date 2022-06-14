@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.loginpage.CustomDataTypes.Album;
+import com.example.loginpage.Fragments.Custom_AlbumView;
 import com.example.loginpage.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,7 +83,7 @@ public class MainActivityAlbums_RecyclerViewAdapter extends RecyclerView.Adapter
 
                 Custom_AlbumView frag = new Custom_AlbumView();
                 frag.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container,frag).addToBackStack(null).commit();
 
             }
         });

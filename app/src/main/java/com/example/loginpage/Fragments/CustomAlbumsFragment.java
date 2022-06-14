@@ -28,10 +28,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.loginpage.CustomDataTypes.Album;
+import com.example.loginpage.CustomDialogs.LoadingAlertDialog;
 import com.example.loginpage.RecyclerViewAdapters.CustomAlbum_RecyclerViewAdapter;
 import com.example.loginpage.R;
 import com.example.loginpage.CustomDataTypes.Song;
-import com.example.loginpage.CustomDialogs.loading_custom_dialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -250,7 +250,7 @@ public class CustomAlbumsFragment extends Fragment{
                     adapter = new CustomAlbum_RecyclerViewAdapter(view.getContext(),getFragmentManager(),albums);
                     albumRecycler.setAdapter(adapter);
 
-                    loading_custom_dialog loadingD = new loading_custom_dialog(mContext,false,null);
+                    LoadingAlertDialog loadingD = new LoadingAlertDialog(mContext);
                     loadingD.show();
 
                     storageReference = FirebaseStorage.getInstance().getReference("images/user_"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/custom_playlists/"+tempAlbum.albumTitle);
@@ -331,7 +331,7 @@ public class CustomAlbumsFragment extends Fragment{
     {
         for(Album album : albumsToSave)
         {
-            loading_custom_dialog loadingDialog = new loading_custom_dialog(mContext,false,null);
+            LoadingAlertDialog loadingDialog = new LoadingAlertDialog(mContext);
 
             loadingDialog.show();
 

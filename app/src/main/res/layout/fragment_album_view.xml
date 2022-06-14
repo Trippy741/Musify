@@ -78,14 +78,14 @@
 
 
 
-    <ProgressBar
+    <!--<ProgressBar
         style="?android:attr/progressBarStyle"
         android:id="@+id/album_view_loadingBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
         android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/purple"/>
+        android:indeterminateTint="@color/purple"/>-->
 
 
 </RelativeLayout>

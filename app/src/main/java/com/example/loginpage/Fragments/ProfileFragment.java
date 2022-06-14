@@ -402,9 +402,10 @@ public class ProfileFragment extends Fragment{
             updateProfilePic();
             ((MainActivity)getActivity()).updateProfileUI();
         }
-        if(UpdatedEmail == FirebaseAuth.getInstance().getCurrentUser().getEmail() || UpdatedEmail == null && UpdatedName != FirebaseAuth.getInstance().getCurrentUser().getDisplayName() || UpdatedName != null )
+        if(UpdatedEmail == FirebaseAuth.getInstance().getCurrentUser().getEmail() || UpdatedEmail == null && UpdatedName != FirebaseAuth.getInstance().getCurrentUser().getDisplayName() || UpdatedName != null)
         {
             updateDisplayName();
+            updateProfilePic();
             ((MainActivity)getActivity()).updateProfileUI();
         }
         else

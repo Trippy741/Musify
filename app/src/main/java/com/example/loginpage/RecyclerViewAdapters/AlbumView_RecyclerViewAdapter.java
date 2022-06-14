@@ -109,7 +109,7 @@ public class AlbumView_RecyclerViewAdapter extends RecyclerView.Adapter<AlbumVie
                     fragmentManager.beginTransaction().setCustomAnimations(
                             R.anim.slide_in_right,
                             R.anim.slide_in_left
-                    ).replace(R.id.fragment_container,frag).commit(); 
+                    ).replace(R.id.fragment_container,frag).addToBackStack(null).commit();
                 }catch (Exception e)
                 {
                     Toast.makeText(mContext, "Error starting song playback: " + e.toString(), Toast.LENGTH_SHORT).show();

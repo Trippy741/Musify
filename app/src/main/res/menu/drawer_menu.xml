@@ -25,16 +25,6 @@
                 android:icon="@drawable/ic_my_songs"
             />
 
-        <item android:id="@+id/nav_playlists"
-            android:title="Playlists"
-            android:icon="@drawable/ic_playlisticon"
-            />
-
-        <item android:id="@+id/nav_settings"
-            android:title="Settings"
-            android:icon="@drawable/ic_settingsicon"
-            />
-
         <item android:id="@+id/nav_signOut"
             android:title="Sign out"
             android:icon="@drawable/ic_signout"

@@ -8,13 +8,13 @@ import com.google.firebase.firestore.Exclude;
 
 public class Song implements Parcelable {
 
+
+    public String song_title;
+    public String artist_title;
+    public String song_URL = "";
+    public String image_URL = "";
     @Exclude
     public Bitmap song_bitmap;
-
-    public String image_URL = "";
-    public String artist_title;
-    public String song_title;
-    public String song_URL = "";
 
     public String image_uri = "";
 

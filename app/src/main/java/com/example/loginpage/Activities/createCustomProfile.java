@@ -67,18 +67,6 @@ public class createCustomProfile extends AppCompatActivity {
             }
         }
 
-
-        TextView skipText = findViewById(R.id.signup_skip_textView);
-        skipText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Moves to different activity
-                insertUser_db(FirebaseAuth.getInstance().getCurrentUser(),"00");
-                startActivity(new Intent(context, MainActivity.class));
-                finish();
-            }
-        });
-
         Button setProfileButton = findViewById(R.id.signup_setProfilePic_button);
         setProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override

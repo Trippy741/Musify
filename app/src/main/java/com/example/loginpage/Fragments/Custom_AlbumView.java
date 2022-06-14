@@ -1,4 +1,4 @@
-package com.example.loginpage.RecyclerViewAdapters;
+package com.example.loginpage.Fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -22,13 +22,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.loginpage.CustomDataTypes.Album;
-import com.example.loginpage.GestureControl.IOnBackPressed;
 import com.example.loginpage.R;
 import com.example.loginpage.CustomDataTypes.Song;
+import com.example.loginpage.RecyclerViewAdapters.AlbumView_RecyclerViewAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -37,7 +42,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Custom_AlbumView extends Fragment implements IOnBackPressed {
+public class Custom_AlbumView extends Fragment {
 
     private RecyclerView recyclerView;
     private final ArrayList<Song> Songs = new ArrayList<Song>();
@@ -54,6 +59,7 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed {
 
     private View view;
     private AlbumView_RecyclerViewAdapter adapter;
+    private ArrayList<Song> pendingSongs = new ArrayList<Song>(); //Songs which are yet to be saved, maybe add like a dialog showing what songs the user will dismiss?
 
     @Nullable
     @Override
@@ -146,12 +152,6 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed {
 
         return view;
     }
-
-    @Override
-    public boolean onBackPressed() {
-        getFragmentManager().popBackStackImmediate();
-        return false;
-    }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.custom_album_save_menu_button,menu);
@@ -161,12 +161,48 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 //SAVE
                 Toast.makeText(view.getContext(), "Saving Custom Album...", Toast.LENGTH_SHORT).show();
-                //saveAlbumToFirebase(album);
-                getFragmentManager().popBackStackImmediate();
+                saveSongsToFirebase();
                 return true;
             }
         });
         super.onCreateOptionsMenu(menu,inflater);
+    }
+    private void saveSongsToFirebase()
+    {
+        FirebaseFirestore.getInstance().collection("users")
+                .document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .collection("user_custom_playlists")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    ArrayList<Album> tempAlbums = new ArrayList<Album>();
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        tempAlbums.add(doc.toObject(Album.class));
+                    }
+                    if(tempAlbums.contains(album))
+                    {
+                        Toast.makeText(view.getContext(), "Album Already Exists!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                    {
+                        CollectionReference collection = FirebaseFirestore.getInstance().collection("users")
+                                .document("user_"+FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .collection("user_custom_playlists");
+                        for (Song pendSong : pendingSongs) {
+                            collection.add(pendSong);
+                        }
+                        Toast.makeText(view.getContext(), pendingSongs.stream().count() + " Songs were successfully uploaded!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                    Toast.makeText(view.getContext(), "Failed Uploading songs: " + task.getException(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
     private Song openAddSongDialog(View view,Song tempSong)
     {
@@ -198,7 +234,10 @@ public class Custom_AlbumView extends Fragment implements IOnBackPressed {
                         tempSong.image_uri = album.imageURI;
 
                     tempSong.artist_title = artistTitle_TIL.getEditText().getText().toString();
-                    album.addSong(tempSong);
+
+                    album.addSong(tempSong);//Adding song to local album object
+                    pendingSongs.add(tempSong);//Adding song to pending songs array lists
+
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     adapter = new AlbumView_RecyclerViewAdapter(view.getContext(),getFragmentManager(),album);

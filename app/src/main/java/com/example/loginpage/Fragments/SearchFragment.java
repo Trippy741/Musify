@@ -59,74 +59,79 @@ public class SearchFragment extends Fragment {
     }
     private void searchDatabase(String searchText)
     {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("artists").orderBy("artist_title").startAt(searchText).endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot doc : task.getResult())
+            db.collection("artists").orderBy("artist_title").startAt(searchText).endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful())
                     {
-                        Artist tmpArtist = new Artist(doc.get("artist_title").toString(),doc.get("artist_quote").toString(),doc.get("artist_image_url").toString());
-                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
-                            queries.add(tmpArtist);//TODO: ARTISTS
-                        String artistID = doc.get("artist_title").toString();
+                        for(QueryDocumentSnapshot doc : task.getResult())
+                        {
+                            Artist tmpArtist = new Artist(doc.get("artist_title").toString(),doc.get("artist_quote").toString(),doc.get("artist_image_url").toString());
+                            if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                                queries.add(tmpArtist);//TODO: ARTISTS
+                            String artistID = doc.get("artist_title").toString();
 
-                        db.collection("artists").document(doc.getId()).collection("albums").orderBy("album_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful())
-                                {
-                                    for(QueryDocumentSnapshot doc : task.getResult())
+                            db.collection("artists").document(doc.getId()).collection("albums").orderBy("album_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful())
                                     {
-                                        Album tmpAlbum = new Album("artists/"+tmpArtist.artistTitle+"/albums/"+doc.getId(),doc.getId(),doc.get("album_title").toString()
-                                                ,tmpArtist.artistTitle
-                                                ,doc.get("album_img_url").toString(),doc.get("album_release_date").toString(),doc.get("album_duration").toString());
+                                        for(QueryDocumentSnapshot doc : task.getResult())
+                                        {
+                                            Album tmpAlbum = new Album("artists/"+tmpArtist.artistTitle+"/albums/"+doc.getId(),doc.getId(),doc.get("album_title").toString()
+                                                    ,tmpArtist.artistTitle
+                                                    ,doc.get("album_img_url").toString(),doc.get("album_release_date").toString(),doc.get("album_duration").toString());
 
-                                        tmpArtist.addAlbum(tmpAlbum);
-                                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
-                                            queries.add(tmpAlbum);
+                                            tmpArtist.addAlbum(tmpAlbum);
+                                            if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                                                queries.add(tmpAlbum);
 
-                                        db.collection("artists").document(artistID).collection("albums").document(doc.getId()).collection("songs").orderBy("song_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful())
-                                                {
-                                                    for(QueryDocumentSnapshot doc : task.getResult())
+                                            db.collection("artists").document(artistID).collection("albums").document(doc.getId()).collection("songs").orderBy("song_title").endAt(searchText+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful())
                                                     {
-                                                        Song tmpSong = new Song(doc.get("song_URL").toString(),tmpAlbum.albumImage,tmpArtist.artistTitle,doc.get("song_title").toString());
-                                                        tmpAlbum.addSong(tmpSong);
-                                                        if(queries.size() <= 20 && !queries.contains(tmpArtist))
-                                                            queries.add(tmpSong);
+                                                        for(QueryDocumentSnapshot doc : task.getResult())
+                                                        {
+                                                            Song tmpSong = new Song(doc.get("song_URL").toString(),tmpAlbum.albumImage,tmpArtist.artistTitle,doc.get("song_title").toString());
+                                                            tmpAlbum.addSong(tmpSong);
+                                                            if(queries.size() <= 20 && !queries.contains(tmpArtist))
+                                                                queries.add(tmpSong);
+                                                        }
+
+                                                        progressBar.setVisibility(View.INVISIBLE);
+                                                        FragmentManager manager = getParentFragmentManager();
+                                                        adapter = new Search_RecyclerViewAdapter(view.getContext(),manager,queries);
+
+                                                        recyclerView.setAdapter(adapter);
+                                                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext()); //TODO: USE THESE 2 LINES IF YOU'RE HAVING TROUBLE MAKING THINGS APPEAR IN YOUR RECYCLERVIEW
+                                                        recyclerView.setLayoutManager(linearLayoutManager);
                                                     }
-
-                                                    progressBar.setVisibility(View.INVISIBLE);
-                                                    FragmentManager manager = getParentFragmentManager();
-                                                    adapter = new Search_RecyclerViewAdapter(view.getContext(),manager,queries);
-
-                                                    recyclerView.setAdapter(adapter);
-                                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext()); //TODO: USE THESE 2 LINES IF YOU'RE HAVING TROUBLE MAKING THINGS APPEAR IN YOUR RECYCLERVIEW
-                                                    recyclerView.setLayoutManager(linearLayoutManager);
+                                                    else
+                                                        Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
                                                 }
-                                                else
-                                                    Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
+                                    else
+                                        Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
+
                                 }
-                                else
-                                    Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
+                            });
+                        }
 
-                            }
-                        });
                     }
-
+                    else
+                        Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
                 }
-                else
-                    Toast.makeText(view.getContext(), "Error fetching search data: "+task.getException(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        }   catch (Exception e)
+        {
+            Toast.makeText(view.getContext(), "Failed Searching for song, Please try again later: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

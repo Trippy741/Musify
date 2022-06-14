@@ -12,7 +12,7 @@ public class local_user {
 
     public String email = "";
 
-    public ArrayList<local_user> friends = new ArrayList<local_user>();
+    //public ArrayList<local_user> friends = new ArrayList<local_user>();
 
     public boolean isUsingGoogle = false;
 
@@ -22,10 +22,10 @@ public class local_user {
         this.email = email;
         this.profile_pic_index = profile_pic_index;
     }
-    public void addFriend(local_user friend)
+    /*public void addFriend(local_user friend)
     {
         friends.add(friend);
-    }
+    }*/
 
     public void addFriends(ArrayList<local_user> friends)
     {

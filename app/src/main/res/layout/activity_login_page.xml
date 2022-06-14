@@ -108,9 +108,9 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/purple"
                     android:fontFamily="@font/raleway_thin"
                     />
 
@@ -122,7 +122,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-
 
                 android:hint="Password"
 
@@ -138,8 +137,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:inputType="textPassword"
-
                     android:layout_width="match_parent"
+                    android:textColor="@color/purple"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/raleway_thin"/>
 

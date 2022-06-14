@@ -21,12 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import com.example.loginpage.CustomDataTypes.Album;
 import com.example.loginpage.Fragments.CustomAlbumsFragment;
 import com.example.loginpage.Fragments.HomeFragment;
-import com.example.loginpage.GestureControl.IOnBackPressed;
 import com.example.loginpage.CustomServices.MusicService;
 import com.example.loginpage.GestureControl.OnSwipeTouchListener;
 import com.example.loginpage.Fragments.ProfileFragment;
@@ -182,14 +180,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             drawer.closeDrawer(GravityCompat.START);
         }
-        else
-        {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
             showDismissAlertDialog();
-        }
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
     private void showDismissAlertDialog()
@@ -337,22 +333,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 d.show();
                 break;
             case R.id.navmenu_search:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment(), null).addToBackStack(null).commit();
                 break;
-            case R.id.nav_playlists:
 
-                break;
-            case R.id.nav_settings:
-
-                break;
             case R.id.nav_mySongs:
-                /*Bundle args = new Bundle();
-                args.putString("artist_id","my_songs");
-                args.putString("album_id","welcome_album");
-                AlbumView albumView = new AlbumView();
-                albumView.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,albumView).commit();*/
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CustomAlbumsFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CustomAlbumsFragment(), null).addToBackStack(null).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

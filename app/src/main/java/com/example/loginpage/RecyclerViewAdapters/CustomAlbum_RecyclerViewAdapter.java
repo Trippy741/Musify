@@ -1,6 +1,8 @@
 package com.example.loginpage.RecyclerViewAdapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,8 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.loginpage.Activities.MainActivity;
+import com.example.loginpage.CustomDialogs.LoadingAlertDialog;
 import com.example.loginpage.CustomXML_elements.Custom2ChoiceAlertDialog;
 import com.example.loginpage.CustomDataTypes.Album;
+import com.example.loginpage.Fragments.Custom_AlbumView;
 import com.example.loginpage.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -99,12 +104,6 @@ public class CustomAlbum_RecyclerViewAdapter extends RecyclerView.Adapter<Custom
         }else if(!albums.get(position).imageURI.isEmpty() && albums.get(position).imageURI != null && albums.get(position).imgBitmap != null)
             holder.albumImage.setImageBitmap(albums.get(position).imgBitmap);
 
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "Edit Mode", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,13 +143,17 @@ public class CustomAlbum_RecyclerViewAdapter extends RecyclerView.Adapter<Custom
         holder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Custom2ChoiceAlertDialog d = new Custom2ChoiceAlertDialog(mContext,"Are you sure you want to remove " + albums.get(position).albumTitle
-                        + " By " + albums.get(position).artistTitle + "?");
+                LoadingAlertDialog alertDialog = new LoadingAlertDialog(mContext);
 
-                View.OnClickListener confirmListener = new View.OnClickListener() {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                alert.setTitle("Halt!");
+                alert.setMessage("Are you sure you want to remove " + albums.get(position).albumTitle
+                        + " By " + albums.get(position).artistTitle + "?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        d.startLoading();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alertDialog.show();
 
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("users")
@@ -164,21 +167,19 @@ public class CustomAlbum_RecyclerViewAdapter extends RecyclerView.Adapter<Custom
                                 Toast.makeText(mContext, "Removed: " + albums.get(position).albumTitle, Toast.LENGTH_SHORT).show();
                                 albums.remove(albums.get(position));
                                 notifyDataSetChanged();
-                                d.dismiss();
+                                alertDialog.dismiss();
                             }
                         });
-
                     }
-                };
+                });
 
-                View.OnClickListener denyListener = new View.OnClickListener() {
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        d.dismiss();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Exists alert dialog
                     }
-                };
-
-                d.setListeners(confirmListener,denyListener);
+                });
+                alert.create().show();
                 return true;
             }
         });
@@ -202,7 +203,6 @@ public class CustomAlbum_RecyclerViewAdapter extends RecyclerView.Adapter<Custom
         TextView artistTitle;
         RelativeLayout parentLayout;
         ImageView albumImage;
-        ImageView editButton;
         ProgressBar progressBar;
 
         public ViewHolder(@NonNull View itemView) {
@@ -211,7 +211,6 @@ public class CustomAlbum_RecyclerViewAdapter extends RecyclerView.Adapter<Custom
             artistTitle = itemView.findViewById(R.id.custom_album_adapter_item_artistTitle);
             parentLayout = itemView.findViewById(R.id.custom_album_adapter_item_bg);
             albumImage = itemView.findViewById(R.id.custom_album_adapter_item_albumImageView);
-            editButton = itemView.findViewById(R.id.custom_album_adapter_item_editImgV);
             progressBar = itemView.findViewById(R.id.custom_album_adapter_item_progressBar);
         }
     }
